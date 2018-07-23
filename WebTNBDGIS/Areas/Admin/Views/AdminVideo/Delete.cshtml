@@ -1,0 +1,39 @@
+﻿@model  WebTNBDGIS.Models.Videos
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h3 class="page-header">Xóa link youtube</h3>
+
+<fieldset>
+    <legend></legend>
+    <div>
+        <h4>Bạn có muốn xóa link youtube này không ?</h4>
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.link)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.link)
+    </div>
+
+    <div class="editor-label">
+        @Html.DisplayNameFor(model => model.mota)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.mota)
+    </div>
+
+</fieldset>
+
+@using (Html.BeginForm())
+{
+    <p>
+        <input type="submit" value="Xóa" />
+        |
+        @Html.ActionLink("Quay lại danh sách", "Index")
+    </p>
+}

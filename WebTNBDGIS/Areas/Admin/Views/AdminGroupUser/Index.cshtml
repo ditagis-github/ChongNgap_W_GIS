@@ -1,0 +1,229 @@
+﻿@model WebTNBDGIS.Areas.Admin.Models.AdminGroupUserModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h3 class="page-header">Quản lý nhóm người dùng</h3>
+
+<div class="table-responsive">
+    @using (Html.BeginForm())
+    {
+        <div id="fillter">
+            <div id="fillter_left">
+                Tìm theo tên : @Html.TextBox("SearchString", Model.strSearch as string)
+                <input type="submit" value="Tìm" />
+            </div>
+            <div id="fillter_right">
+                <select id="FillterID" name="FillterID" onchange="this.form.submit();">
+                    <option value="0" @(Model.fillterID == 0 ? "selected=\"selected\"" : "")>Lọc theo nhóm cha</option>
+                    @foreach (var fill in ViewBag.FillterID)
+                    {
+                        <option value="@fill.Value" @(Model.fillterID.ToString() == fill.Value.ToString() ? "selected=\"selected\"" : "")>
+                            @fill.Text
+                        </option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.ActionLink("Nhóm người dùng", "Index", new
+                       {
+                           FillterID = Model.fillterID,
+                           SearchString = Model.strSearch,
+                           sortBy = 1,
+                           isAsc = (Model.isAsc ? false : true),
+                           PageSize = Model.PagingInfo.ItemsPerPage,
+                           page = 1
+                       })
+                        @if (Model.isAsc && Model.sort == 1)
+                        {
+                            <span>
+                                <img src="/Content/images/arrow_down.png" alt="" /></span>
+                        }
+                        @if (!Model.isAsc && Model.sort == 1)
+                        {
+                            <span>
+                                <img src="/Content/images/arrow_up.png" alt="" /></span>
+                        }
+                    </th>
+                    <th>
+                        @Html.ActionLink("Nhóm cha", "Index", new
+                       {
+                           FillterID = Model.fillterID,
+                           SearchString = Model.strSearch,
+                           sortBy = 2,
+                           isAsc = (Model.isAsc ? false : true),
+                           PageSize = Model.PagingInfo.ItemsPerPage,
+                           page = 1
+                       })
+                        @if (Model.isAsc && Model.sort == 2)
+                        {
+                            <span>
+                                <img src="/Content/images/arrow_down.png" alt="" /></span>
+                        }
+                        @if (!Model.isAsc && Model.sort == 2)
+                        {
+                            <span>
+                                <img src="/Content/images/arrow_up.png" alt="" /></span>
+                        }
+                    </th>
+                    <th>
+                        @Html.ActionLink("Trạng thái", "Index", new
+                       {
+                           FillterID = Model.fillterID,
+                           SearchString = Model.strSearch,
+                           sortBy = 3,
+                           isAsc = (Model.isAsc ? false : true),
+                           PageSize = Model.PagingInfo.ItemsPerPage,
+                           page = 1
+                       })
+                        @if (Model.isAsc && Model.sort == 3)
+                        {
+                            <span>
+                                <img src="/Content/images/arrow_down.png" alt="" /></span>
+                        }
+                        @if (!Model.isAsc && Model.sort == 3)
+                        {
+                            <span>
+                                <img src="/Content/images/arrow_up.png" alt="" /></span>
+                        }
+                    </th>
+                    <th>
+                        @{
+                        WebTNBDGIS.Models.UserAccess userAccess = new WebTNBDGIS.Models.UserAccess();
+                        }
+                        @if (Request.IsAuthenticated && userAccess.canAccessData(User.Identity.Name, "QuanTriNguoiDung"))
+                        {
+                            @Html.ImageLinks("/Content/images/add.png", "Thêm mới nhóm người dùng",
+                 "action_button", x => Url.Action("Create"))
+                        }
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @{
+                        List<WebTNBDGIS.Models.GroupUser> GroupUser = Model.groupUser.ToList();
+        
+                }
+
+                @foreach (var item in GroupUser.Where(p => p.parent == null))
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(item.name, "Edit", new { id = item.id }, null)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GroupUserParent.name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.status)
+                        </td>
+                        <td class="col20">
+                            @if (Request.IsAuthenticated && userAccess.canAccessData(User.Identity.Name, "QuanTriNguoiDung"))
+                            {
+                                @Html.ImageLinks("/Content/images/BO_Role.png", "Phân quyền", "action_button",
+                                x => Url.Action("Create", "AdminGroupRole", new { GroupID = item.id })) 
+                            }
+                            @if (Request.IsAuthenticated && userAccess.canAccessData(User.Identity.Name, "QuanTriNguoiDung"))
+                            {
+                                @Html.ImageLinks("/Content/images/pencil.png", "Chỉnh sửa", "action_button", x => Url.Action("Edit", new { id = item.id }))
+                            }
+                            @if (Request.IsAuthenticated && userAccess.canAccessData(User.Identity.Name, "QuanTriNguoiDung"))
+                            { 
+                                @Html.ImageLinks("/Content/images/cross.png", "Xóa", "action_button", x => Url.Action("Delete", new { id = item.id }))
+                            }
+                        </td>
+                    </tr>
+                    
+                            if (GroupUser.Count(p => p.parent == item.id) > 0)
+                            {
+                    @RenderMenuItem(GroupUser, item);
+                            }
+
+                }
+            </tbody>
+        </table>
+
+        <div id="pagination">
+            <div id="pager">
+                @if (Model.groupUser.Count() > 0)
+                {
+                    <ul>
+                        @Html.Paging(Model.PagingInfo, x => Url.Action("Index", new
+                   {
+                       FillterID = Model.fillterID,
+                       SearchString = Model.strSearch,
+                       sortBy = Model.sort,
+                       isAsc = Model.isAsc,
+                       PageSize = Model.PagingInfo.ItemsPerPage,
+                       page = x
+                   }))
+                    </ul>
+                }
+            </div>
+            <div id="pageList">
+                <select id="PageSize" name="PageSize" onchange="this.form.submit();">
+                    <option value="10" @(Model.PagingInfo.ItemsPerPage == 10 ? "selected=\"selected\"" : "")>10 dòng dữ liệu</option>
+                    <option value="15" @(Model.PagingInfo.ItemsPerPage == 15 ? "selected=\"selected\"" : "")>15 dòng dữ liệu</option>
+                    <option value="20" @(Model.PagingInfo.ItemsPerPage == 20 ? "selected=\"selected\"" : "")>20 dòng dữ liệu</option>
+                    <option value="50" @(Model.PagingInfo.ItemsPerPage == 50 ? "selected=\"selected\"" : "")>50 dòng dữ liệu</option>
+                    <option value="100" @(Model.PagingInfo.ItemsPerPage == 100 ? "selected=\"selected\"" : "")>100 dòng dữ liệu</option>
+                </select>
+            </div>
+        </div>
+    }
+</div>
+
+
+@helper RenderMenuItem(List<WebTNBDGIS.Models.GroupUser> groupList, WebTNBDGIS.Models.GroupUser group, int index = 1)
+{
+    string classCss = "child";
+    classCss += index;
+    WebTNBDGIS.Models.UserAccess userAccess = new WebTNBDGIS.Models.UserAccess();
+
+    foreach (var item in groupList.Where(p => p.parent == group.id))
+    {
+       
+    <tr>
+        <td>
+            @Html.ActionLink(item.name, "Edit", new { id = item.id }, null)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GroupUserParent.name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.status)
+        </td>
+        <td class="col20">
+            @if (Request.IsAuthenticated && userAccess.canAccessData(User.Identity.Name, "QuanTriNguoiDung"))
+            {
+                @Html.ImageLinks("/Content/images/BO_Role.png", "Phân quyền", "action_button",
+                                x => Url.Action("Create", "AdminGroupRole", new { GroupID = item.id })) 
+            }
+            @if (Request.IsAuthenticated && userAccess.canAccessData(User.Identity.Name, "QuanTriNguoiDung"))
+            {
+                @Html.ImageLinks("/Content/images/pencil.png", "Chỉnh sửa", "action_button", x => Url.Action("Edit", new { id = item.id }))
+            }
+            @if (Request.IsAuthenticated && userAccess.canAccessData(User.Identity.Name, "QuanTriNguoiDung"))
+            { 
+                @Html.ImageLinks("/Content/images/cross.png", "Xóa", "action_button", x => Url.Action("Delete", new { id = item.id }))
+            }
+        </td>
+    </tr>
+    
+            if (groupList.Count(p => p.parent == item.id) > 0)
+            {
+                index += 1;
+    @RenderMenuItem(groupList, item, index);
+            }
+
+    }
+}

@@ -1,0 +1,24 @@
+﻿@model WebTNBDGIS.Models.Users
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h3 class="page-header">Xóa người dùng</h3>
+
+
+<fieldset>
+    <legend></legend>
+    <div>
+        <h4>Chương trình sẽ xóa người dùng : <strong style="color: #0026ff">@Model.username</strong> . Bạn có muốn xóa không?</h4>
+    </div>
+</fieldset>
+@using (Html.BeginForm())
+{
+    <p>
+        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.username)
+        <input type="submit" value="Xóa" />&nbsp|&nbsp @Html.ActionLink("Quay lại danh sách", "Index")
+    </p>
+}

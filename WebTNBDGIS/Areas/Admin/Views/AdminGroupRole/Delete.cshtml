@@ -1,0 +1,81 @@
+﻿@model WebTNBDGIS.Models.GroupRole
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    
+    WebTNBDGIS.Models.GroupUser groupUser  = ViewBag.Group;
+    
+}
+
+<h3 class="page-header">Xóa quyền của nhóm người dùng @groupUser.name</h3>
+
+<fieldset>
+    <legend></legend>
+
+    <div>
+        <h4>Bạn có muốn xóa quyền này không ?</h4>
+    </div>
+
+
+    @if (Model != null)
+    {
+        List<SelectListItem> list = new List<SelectListItem>();
+        list = (List<SelectListItem>)@ViewBag.ListData;
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TableData)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ViewData)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.InsertData)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DeleteData)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UpdateData)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @{
+        var str = (from li in list.Where(l => l.Value.Trim() == Model.TableData.Trim()) select li.Text).FirstOrDefault();
+        string strData = "";
+        if (str != null)
+        {
+            strData = str.ToString();
+        }
+                        }
+                        @strData
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.ViewData)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.InsertData)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.DeleteData)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.UpdateData)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }
+</fieldset>
+@using (Html.BeginForm())
+{
+    <p>
+        <input type="submit" value="Xóa" />&nbsp|&nbsp @Html.ActionLink("Quay lại danh sách", "Create", new { GroupID = groupUser.id })
+    </p>
+}

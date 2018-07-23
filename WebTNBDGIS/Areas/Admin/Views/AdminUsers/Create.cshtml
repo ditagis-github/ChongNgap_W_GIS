@@ -1,0 +1,114 @@
+﻿@model WebTNBDGIS.Models.Users
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h3 class="page-header">Thêm mới người dùng</h3>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend></legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.username)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.username)
+            @Html.ValidationMessageFor(model => model.username)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.NameDisplay)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.NameDisplay)
+            @Html.ValidationMessageFor(model => model.NameDisplay)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.pass)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.pass)
+            @Html.ValidationMessageFor(model => model.pass)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.c_pass)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.c_pass)
+            @Html.ValidationMessageFor(model => model.c_pass)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.email)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.email)
+            @Html.ValidationMessageFor(model => model.email)
+        </div>
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Avartar)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Avartar, new { @readonly = true })
+            <input type="button" value="..." onclick="BrowseServer();" /><br />
+            @Html.ValidationMessageFor(model => model.Avartar)
+            <br />              
+            <img id="imgReview" src="@Model.Avartar" />
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.active)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.active)
+            @Html.ValidationMessageFor(model => model.active)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Status)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Status)
+            @Html.ValidationMessageFor(model => model.Status)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DateCreate)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.DateCreate, new {@readonly = true })
+            @Html.ValidationMessageFor(model => model.DateCreate)
+        </div>
+ <p>
+            <input type="submit" value="Thêm mới" />
+            &nbsp |  @Html.ActionLink("Quay lại danh sách", "Index")
+        </p>
+    </fieldset>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script src="~/ckfinder/ckfinder.js"></script>
+<script type="text/javascript">
+
+    function BrowseServer() {
+        var finder = new CKFinder();
+        finder.selectActionFunction = SetFileField;
+        finder.popup();
+    }
+    function SetFileField(fileUrl) {
+        document.getElementById('Avartar').value = fileUrl;
+        document.getElementById('imgReview').src = fileUrl;
+    }
+</script>

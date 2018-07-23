@@ -1,0 +1,65 @@
+﻿@model WebTNBDGIS.Models.Users
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h3 class="page-header">Chi tiết người dùng</h3>
+
+<fieldset>
+    <legend></legend>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.username)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.username)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.NameDisplay)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.NameDisplay)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.email)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.email)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.active)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.active)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Status)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Status)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.DateCreate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DateCreate)
+    </div>
+    <p>
+        @Html.ActionLink("Cập nhật", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Quay lại danh sách", "Index")
+    </p>
+</fieldset>
+
+@if (ViewBag.GroupRole != null)
+{
+    <h1>Quyền của người dùng trong hệ thống</h1>
+    
+    @Html.Partial("roleInGroup", (IEnumerable<WebTNBDGIS.Models.GroupRole>)ViewBag.GroupRole)
+}

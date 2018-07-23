@@ -1,0 +1,73 @@
+﻿@model IEnumerable<WebTNBDGIS.Models.GroupRole>
+
+@if (Model != null && Model.Count() > 0)
+{
+    List<SelectListItem> list = new List<SelectListItem>();
+    list = (List<SelectListItem>)@ViewBag.ListData;
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TableData)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ViewData)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.InsertData)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeleteData)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UpdateData)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+
+                        @{
+                var str = (from li in list.Where(l => l.Value.Trim() == item.TableData.Trim()) select li.Text).FirstOrDefault();
+                string strData = "";
+                if (str != null)
+                {
+                    strData = str.ToString();
+                }
+                        }
+                        @strData
+
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ViewData)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InsertData)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeleteData)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UpdateData)
+                    </td>
+                    <td>
+                        @{
+                WebTNBDGIS.Models.UserAccess userAccess = new WebTNBDGIS.Models.UserAccess();
+                        }
+                        @if (Request.IsAuthenticated && userAccess.canAccessData(User.Identity.Name, "QuanTriNguoiDung"))
+                        {
+                            @Html.ImageLinks("/Content/images/cross.png", "Xóa", "action_button ", x => Url.Action("Delete", new { id = item.id, GroupID = item.GroupID }))
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

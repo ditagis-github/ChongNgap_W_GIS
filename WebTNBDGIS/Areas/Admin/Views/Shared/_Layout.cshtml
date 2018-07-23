@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/default.css" rel="stylesheet" />
+    <link href="~/Content/admin.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div id="web_head">
+        <img src="~/Content/images/logo.png" style="width: 80px; margin-top: 2px;" />
+        <span>HỆ THỐNG THÔNG TIN ĐỊA LÝ (GIS) PHỤC VỤ CÔNG TÁC PHÒNG CHỐNG NGẬP LỤT <br /> TỈNH BÌNH DƯƠNG</span>
+    </div>
+    @{
+        WebTNBDGIS.Models.UserAccess userAccess = new WebTNBDGIS.Models.UserAccess();
+
+        WebTNBDGIS.Models.userInfor user = userAccess.getInfor(User.Identity.Name);
+
+        string name = " người dùng ";
+    }
+
+    <div id="web_bot">
+        <div class="has" style="padding:10px;">
+            @if (user != null)
+            {
+                name = user.NameDisplay;
+            }
+            Xin chào : @name >>
+
+            <a href="/" title="Xem bản đồ"> Xem bản đồ </a> |
+            @Html.ActionLink("Quản trị", "Index", "AdminHome", null, null)
+        </div>
+    </div>
+
+    @if (TempData["message"] != null)
+    {
+        if (TempData["messageType"] == "inf")
+        {
+            <div style="margin-top: 10px;">
+                <div class="message_info">
+                    <div class="info">
+                        @Html.Raw(@HttpUtility.HtmlDecode((string)@TempData["message"]))
+                    </div>
+
+                </div>
+            </div>
+        }
+        else
+        {
+            <div style="margin-top: 10px;">
+                <div class="message_error">
+                    <div class="error">
+                        @Html.Raw(@HttpUtility.HtmlDecode((string)@TempData["message"]))
+                    </div>
+
+                </div>
+            </div>
+        }
+
+    }
+
+    <div class="content_page">
+        @RenderBody()
+    </div>
+
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

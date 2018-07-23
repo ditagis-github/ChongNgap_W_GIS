@@ -1,0 +1,116 @@
+﻿@model WebTNBDGIS.Areas.Admin.Models.AdminVideosModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h3 class="page-header">Quản lý link youtube</h3>
+
+<div class="table-responsive">
+    @using (Html.BeginForm())
+    {
+        <div id="fillter">
+            <div id="fillter_left">
+                Tìm theo link : @Html.TextBox("SearchString", Model.strSearch as string)
+                <input type="submit" value="Tìm" />
+            </div>
+            <div id="fillter_right">
+
+            </div>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.ActionLink("Link youtube", "Index", new
+                       {
+                           SearchString = Model.strSearch,
+                           sortBy = 1,
+                           isAsc = (Model.isAsc ? false : true),
+                           PageSize = Model.PagingInfo.ItemsPerPage,
+                           page = 1
+                       })
+                        @if (Model.isAsc && Model.sort == 1)
+                        {
+                            <span>
+                                <img src="/Content/images/arrow_down.png" alt="" />
+                            </span>
+                        }
+                        @if (!Model.isAsc && Model.sort == 1)
+                        {
+                            <span>
+                                <img src="/Content/images/arrow_up.png" alt="" />
+                            </span>
+                        }
+                    </th>
+                    <th>
+                        Mô tả
+                    </th>
+                    <th>
+                        @{
+        WebTNBDGIS.Models.UserAccess userAccess = new WebTNBDGIS.Models.UserAccess();
+                    }
+                    @if (Request.IsAuthenticated && userAccess.canAccessData(User.Identity.Name, "ViewFile"))
+                    {
+                        @Html.ImageLinks("/Content/images/add.png", "Thêm mới Link youtube", "action_button", x => Url.Action("Create"))
+                    }
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.Videos)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(item.link, "Edit", new { id = item.id })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.mota)
+                    </td>
+                    <td>
+                        @if (Request.IsAuthenticated && userAccess.canAccessData(User.Identity.Name, "ViewFile"))
+                        {
+                            @Html.ImageLinks("/Content/images/pencil.png", "Chỉnh sửa", "action_button", x => Url.Action("Edit", new { id = item.id }))
+                        }
+                        @if (Request.IsAuthenticated && userAccess.canAccessData(User.Identity.Name, "ViewFile"))
+                        {
+                            @Html.ImageLinks("/Content/images/cross.png", "Xóa", "action_button", x => Url.Action("Delete", new { id = item.id }))
+                        }
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+        <div id="pagination">
+            <div id="pager">
+                @if (Model.Videos.Count() > 0)
+                {
+                    <ul>
+                        @Html.Paging(Model.PagingInfo, x => Url.Action("Index", new
+                   {
+                       SearchString = Model.strSearch,
+                       sortBy = Model.sort,
+                       isAsc = Model.isAsc,
+                       PageSize = Model.PagingInfo.ItemsPerPage,
+                       page = x
+                   }))
+                    </ul>
+                }
+            </div>
+            <div id="pageList">
+                <select id="PageSize" name="PageSize" onchange="this.form.submit();">
+                    <option value="10" @(Model.PagingInfo.ItemsPerPage == 10 ? "selected=\"selected\"" : "")>10 dòng dữ liệu</option>
+                    <option value="15" @(Model.PagingInfo.ItemsPerPage == 15 ? "selected=\"selected\"" : "")>15 dòng dữ liệu</option>
+                    <option value="20" @(Model.PagingInfo.ItemsPerPage == 20 ? "selected=\"selected\"" : "")>20 dòng dữ liệu</option>
+                    <option value="50" @(Model.PagingInfo.ItemsPerPage == 50 ? "selected=\"selected\"" : "")>50 dòng dữ liệu</option>
+                    <option value="100" @(Model.PagingInfo.ItemsPerPage == 100 ? "selected=\"selected\"" : "")>100 dòng dữ liệu</option>
+                </select>
+            </div>
+        </div>
+    }
+</div>

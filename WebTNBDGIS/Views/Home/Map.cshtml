@@ -1,0 +1,244 @@
+﻿
+@{
+    ViewBag.Title = "Bản đồ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="//js.arcgis.com/3.20/esri/css/esri.css">
+<link rel="stylesheet" href="//js.arcgis.com/3.20/dijit/themes/claro/claro.css" />
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="@Url.Action("Index")">Trang chủ</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="#" id="home"><i class="fa fa-home"></i>&nbsp; Mặc định</a></li>
+                <li><a href="#" id="listLayerButton"><i class="fa fa-reorder"></i>&nbsp;Lớp dữ liệu</a></li>
+                <li><a href="#" id="legendLayerButton"><i class="fa fa-map-signs"></i>&nbsp;Chú giải</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search-plus"></i>&nbsp;Tìm kiếm <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a title="LuuVucThoatNuoc" class="searchData">Lưu vực thoát nước</a></li>
+                        <li><a title="KhuVucNgap" class="searchData">Khu vực ngập</a></li>
+                        <li><a title="TramBom" class="searchData">Trạm bơm</a></li>
+                        <li><a title="TramXLNT" class="searchData">Trạm xử lý nước thải</a></li>
+                        <li><a title="BeChua" class="searchData">Bể chứa</a></li>
+                        <li><a title="CongThoatNuoc" class="searchData">Cống thoát nước</a></li>
+                        <li><a title="MoiNoiCong" class="searchData">Mối nối</a></li>
+                        <li><a title="MiengXa" class="searchData">Miệng xả</a></li>
+                        <li><a title="HoGa" class="searchData">Hố ga</a></li>
+                        <li><a title="Gieng" class="searchData">Giếng</a></li>
+                    </ul>
+                </li>
+                @*<li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bar-chart"></i>&nbsp;Thống kê <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">One more separated link</a></li>
+                    </ul>
+                </li>*@
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-edge"></i>&nbsp;Website liên kết <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="http://www.binhduong.gov.vn/" target="_blank">UBND Tỉnh Bình Dương</a></li>
+                        <li><a href="http://stnmt.binhduong.gov.vn/3cms/" target="_blank">Sở Tài nguyên và Môi trường Bình Dương</a></li>
+                        <li><a href="http://sgtvt.binhduong.gov.vn/ " target="_blank">Sở Giao thông vận tải Bình Dương</a></li>
+                        <li><a href="http://sonongnghiep.binhduong.gov.vn/" target="_blank">Sở Nông nghiệp và phát triển nông thôn Bình Dương</a></li>
+                        <li><a href="http://binhduongsmartcity.vn/" target="_blank">Bình Dương SmartCity</a></li>
+                        <li><a href="http://atlas.binhduong.gov.vn/MAP/BDT/Atlas/index.php" target="_blank">Atlas Bình Dương</a></li>
+                        <li><a href="http://sokhcn.binhduong.gov.vn/" target="_blank">Sở Khoa học và Công nghệ Bình Dương</a></li>
+                        <li><a href="http://lhhkhktbinhduong.vn/" target="_blank">Liên hiệp các hội Khoa học và Kỹ thuật Bình Dương</a></li>
+         
+                    </ul>
+                </li>
+
+                <li><a href="#" id="locationButton"><i class="fa fa-street-view"></i>&nbsp;Định vị</a></li>
+                <li><a href="#" id="printButton"><i class="fa fa-print"></i>&nbsp;In ấn</a></li>
+                <li><a href="#" id="distanceButton"><i class="fa fa-magic"></i>&nbsp;Đo đạc</a></li>
+            </ul>
+            @*<ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Minh Tuấn <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                    </ul>
+                </li>
+            </ul>*@
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+<div id="mapDiv">
+    <div id="navToolbar" data-dojo-type="dijit/Toolbar">
+        <div data-dojo-type="dijit/form/Button" id="zoomfullext" data-dojo-props="iconClass:'zoomfullextIcon'"></div>
+        <div data-dojo-type="dijit/form/Button" id="zoomin" data-dojo-props="iconClass:'zoominIcon'"></div>
+        <div data-dojo-type="dijit/form/Button" id="zoomout" data-dojo-props="iconClass:'zoomoutIcon'"></div>
+        <div data-dojo-type="dijit/form/Button" id="zoomprev" data-dojo-props="iconClass:'zoomprevIcon'"></div>
+        <div data-dojo-type="dijit/form/Button" id="zoomnext" data-dojo-props="iconClass:'zoomnextIcon'"></div>
+        <div data-dojo-type="dijit/form/Button" id="pan" data-dojo-props="iconClass:'panIcon'"></div>
+        <div data-dojo-type="dijit/form/Button" id="deactivate" data-dojo-props="iconClass:'deactivateIcon'">
+        </div>
+    </div>
+
+    <div id="homeButton"></div>
+
+    <div id="LayerList" class="left_panel">
+        <div class="headerLeftPanel">
+            Lớp dữ liệu
+        </div>
+        <div id="LayerList_Content"></div>
+    </div>
+   
+     <div id="LayerLegend" class="left_panel">
+        <div class="headerLeftPanel">
+            Chú giải lớp dữ liệu
+        </div>
+        <div id="LayerLegend_Content"></div>
+    </div>
+   
+     <div id="SearchPanel" class="left_panel">
+        <div class="headerLeftPanel" id="titleSearchHeader">
+            Tìm kiếm
+        </div>
+        <div id="SearchPanel_Content">
+            <div id="SearchPanel_LuuVucThoatNuoc_Content" class="SearchPanel_Content">
+                <label>Đơn vị quản lý</label>
+                <select id="cbb_DVQuanLy_LuuVucThoatNuoc" class="form-control"></select>
+                <label>Quận / Huyện</label>
+                <select id="cbb_QuanHuyen_LuuVucThoatNuoc" class="form-control"></select>
+                <label>Phường / Xã</label>
+                <select id="cbb_PhuongXa_LuuVucThoatNuoc" class="form-control"></select>
+            </div>
+            <div id="SearchPanel_KhuVucNgap_Content" class="undisplay SearchPanel_Content">
+                <label>Quận / Huyện</label>
+                <select id="cbb_QuanHuyen_KhuVucNgap" class="form-control"></select>
+                <label>Phường / Xã</label>
+                <select id="cbb_PhuongXa_KhuVucNgap" class="form-control"></select>
+            </div>
+            <div id="SearchPanel_TramBom_Content" class="undisplay SearchPanel_Content">
+                <label>Đơn vị quản lý</label>
+                <select id="cbb_DVQuanLy_TramBom" class="form-control"></select>
+                <label>Quận / Huyện</label>
+                <select id="cbb_QuanHuyen_TramBom" class="form-control"></select>
+                <label>Phường / Xã</label>
+                <select id="cbb_PhuongXa_TramBom" class="form-control"></select>
+            </div>
+            <div id="SearchPanel_TramXLNT_Content" class="undisplay SearchPanel_Content">
+                <label>Đơn vị quản lý</label>
+                <select id="cbb_DVQuanLy_TramXLNT" class="form-control"></select>
+                <label>Quận / Huyện</label>
+                <select id="cbb_QuanHuyen_TramXLNT" class="form-control"></select>
+                <label>Phường / Xã</label>
+                <select id="cbb_PhuongXa_TramXLNT" class="form-control"></select>
+            </div>
+            <div id="SearchPanel_BeChua_Content" class="undisplay SearchPanel_Content">
+                <label>Đơn vị quản lý</label>
+                <select id="cbb_DVQuanLy_BeChua" class="form-control"></select>
+                <label>Quận / Huyện</label>
+                <select id="cbb_QuanHuyen_BeChua" class="form-control"></select>
+                <label>Phường / Xã</label>
+                <select id="cbb_PhuongXa_BeChua" class="form-control"></select>
+            </div>
+            <div id="SearchPanel_CongThoatNuoc_Content" class="undisplay SearchPanel_Content">
+                <label>Đơn vị quản lý</label>
+                <select id="cbb_DVQuanLy_CongThoatNuoc" class="form-control"></select>
+                <label>Quận / Huyện</label>
+                <select id="cbb_QuanHuyen_CongThoatNuoc" class="form-control"></select>
+                <label>Phường / Xã</label>
+                <select id="cbb_PhuongXa_CongThoatNuoc" class="form-control"></select>
+            </div>
+            <div id="SearchPanel_MoiNoiCong_Content" class="undisplay SearchPanel_Content">
+                <label>Đơn vị quản lý</label>
+                <select id="cbb_DVQuanLy_MoiNoiCong" class="form-control"></select>
+                <label>Quận / Huyện</label>
+                <select id="cbb_QuanHuyen_MoiNoiCong" class="form-control"></select>
+                <label>Phường / Xã</label>
+                <select id="cbb_PhuongXa_MoiNoiCong" class="form-control"></select>
+            </div>
+            <div id="SearchPanel_MiengXa_Content" class="undisplay SearchPanel_Content">
+                <label>Đơn vị quản lý</label>
+                <select id="cbb_DVQuanLy_MiengXa" class="form-control"></select>
+                <label>Quận / Huyện</label>
+                <select id="cbb_QuanHuyen_MiengXa" class="form-control"></select>
+                <label>Phường / Xã</label>
+                <select id="cbb_PhuongXa_MiengXa" class="form-control"></select>
+            </div>
+            <div id="SearchPanel_HoGa_Content" class="undisplay SearchPanel_Content">
+                <label>Đơn vị quản lý</label>
+                <select id="cbb_DVQuanLy_HoGa" class="form-control"></select>
+                <label>Quận / Huyện</label>
+                <select id="cbb_QuanHuyen_HoGa" class="form-control"></select>
+                <label>Phường / Xã</label>
+                <select id="cbb_PhuongXa_HoGa" class="form-control"></select>
+            </div>
+            <div id="SearchPanel_Gieng_Content" class="undisplay SearchPanel_Content">
+                <label>Đơn vị quản lý</label>
+                <select id="cbb_DVQuanLy_Gieng" class="form-control"></select>
+                <label>Quận / Huyện</label>
+                <select id="cbb_QuanHuyen_Gieng" class="form-control"></select>
+                <label>Phường / Xã</label>
+                <select id="cbb_PhuongXa_Gieng" class="form-control"></select>
+            </div>
+        </div>
+
+        <div id="result_SearchData" style="">
+            <div style="text-align:center;" class="row">
+                <div class="col-xs-4"><button id="btSearch" class="btn btn-danger">Tìm kiếm</button></div>
+                @*<div class="col-xs-4"><button id="btExportExcel" class="btn btn-info">Xuất Excel</button></div>*@
+                <div class="col-xs-4"><span id="loading" class="undisplay"><i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i></span></div>
+            </div>
+            <div class="clearfix" id="resultCount">
+
+            </div>
+            <div id="result_SearchData_Content" class="clearfix">
+
+            </div>
+        </div>
+
+    </div>
+ 
+       <div id="DistancePanel" class="left_panel">
+        <div class="headerLeftPanel">
+            Đo khoảng cách
+        </div>
+        <div id="DistancePanel_Content">
+
+        </div>
+    </div>
+    <div id="PrintPanel" class="left_panel">
+        <div class="headerLeftPanel">
+            In ấn dữ liệu bản đồ
+        </div>
+        <div id="PrintPanel_Content">
+            <div id="print_button"></div>
+        </div>
+    </div>
+
+
+</div>
+
+@section scripts
+{   
+    <script src="https://js.arcgis.com/3.20/"></script>
+    <script src="~/Content/map.js"></script>
+}

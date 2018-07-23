@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+</head>
+<body class="claro">
+    <div id="header">
+        <h1>HỆ THỐNG THÔNG TIN ĐỊA LÝ (GIS) PHỤC VỤ CÔNG TÁC PHÒNG CHỐNG NGẬP LỤT </h1>
+        <h3>Tỉnh Bình Dương</h3>
+    </div>
+    @RenderBody()
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script>
+
+        $(document).ready(function () {
+            var height = $(document).height();
+
+            var headerHeight = $("#header").height();
+
+            headerHeight = (headerHeight + 50);
+
+            height = height - headerHeight;
+
+            //alert(height);
+
+            $("#mapDiv").css("height", height + "px");
+           // $(".left_panel").css("height", (height - 20) + "px");
+            $(".left_panel").css("max-height", (height - 40) + "px");
+            $(".left_panel").slideUp();
+            $("#DistancePanel").slideUp();
+            $("#PrintPanel").slideUp();
+            $("#LayerLegend").slideUp();
+            $("#LayerList").slideDown();
+        });
+
+    </script>
+
+
+</body>
+</html>

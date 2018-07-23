@@ -1,0 +1,160 @@
+﻿@model WebTNBDGIS.Models.GroupRole
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h3 class="page-header">Phân quyền cho nhóm người dùng</h3>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend></legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.GroupID)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("GroupID", null, new { @disabled = true })
+            @Html.ValidationMessageFor(model => model.GroupID)
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Tên chức năng
+                    </th>
+                    <th>
+                        Phân quyền
+                    </th>
+                    <th>
+                        Tên chức năng
+                    </th>
+                    <th>
+                        Phân quyền
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.QuanTriNguoiDung)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.QuanTriNguoiDung)
+                        @Html.ValidationMessageFor(model => model.QuanTriNguoiDung)
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => model.TimKiem)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.TimKiem)
+                        @Html.ValidationMessageFor(model => model.TimKiem)
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.ThongKe)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.ThongKe)
+                        @Html.ValidationMessageFor(model => model.ThongKe)
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => model.XuatExcel)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.XuatExcel)
+                        @Html.ValidationMessageFor(model => model.XuatExcel)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.XuatFileHinh)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.XuatFileHinh)
+                        @Html.ValidationMessageFor(model => model.XuatFileHinh)
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => model.XuatBieuDo)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.XuatBieuDo)
+                        @Html.ValidationMessageFor(model => model.XuatBieuDo)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.BaoCaoSuCo)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.BaoCaoSuCo)
+                        @Html.ValidationMessageFor(model => model.BaoCaoSuCo)
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => model.BaoCaoDuyTu)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.BaoCaoDuyTu)
+                        @Html.ValidationMessageFor(model => model.BaoCaoDuyTu)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.ViewKML)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.ViewKML)
+                        @Html.ValidationMessageFor(model => model.ViewKML)
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => model.ViewRelationLink)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.ViewRelationLink)
+                        @Html.ValidationMessageFor(model => model.ViewRelationLink)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.ViewFile)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.ViewFile)
+                        @Html.ValidationMessageFor(model => model.ViewFile)
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => model.AddFile)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.AddFile)
+                        @Html.ValidationMessageFor(model => model.AddFile)
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <p>
+            <input type="submit" value="Phân quyền" />
+            &nbsp |  @Html.ActionLink("Quay lại danh sách", "Index", "AdminGroupUser")
+        </p>
+    </fieldset>
+}
+
+@*@Html.Partial("index", (IEnumerable<WebTNBDGIS.Models.GroupRole>)ViewBag.GroupRole)*@
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

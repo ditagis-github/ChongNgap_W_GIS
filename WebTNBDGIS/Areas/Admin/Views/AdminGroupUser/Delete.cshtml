@@ -1,0 +1,22 @@
+﻿@model WebTNBDGIS.Models.GroupUser
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h3 class="page-header">Xóa nhóm người dùng</h3>
+
+
+<fieldset>
+    <legend></legend>
+    <div>
+        <h4> Khi xóa nhóm người dùng này : <strong style="color:#0026ff"> @Model.name </strong> , tất cả các người dùng trong nhóm sẽ bị khóa . Bạn có chắc muốn xóa không ?</h4>
+    </div>
+</fieldset>
+@using (Html.BeginForm())
+{
+    <p>
+        <input type="submit" value="Xóa" />&nbsp|&nbsp @Html.ActionLink("Quay lại danh sách", "Index")
+    </p>
+}

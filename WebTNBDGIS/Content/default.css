@@ -1,0 +1,522 @@
+﻿/* General Demo Style */
+
+
+body, html
+{
+    font-size: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+/* Reset */
+*,
+*:after,
+*:before
+{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+#web_head
+{
+    height: 85px;
+    color: #AFDEFA;
+    font-size: 1.8em;
+    position: relative;
+    margin: 0px;
+    font-weight: 300;
+    background: #7fc5ef  none repeat scroll 0% 0%;
+    text-align: center;
+    background-image: url(../img/1024X100pixcel.jpg);
+}
+
+    #web_head img
+    {
+        margin-left: 10px;
+        float: left;
+        border-radius: 25px;
+        -moz-border-radius: 25px;
+        -webkit-border-radius: 25px;
+        -ms-border-radius: 25px;
+        -o-border-radius: 25px;
+        border: 1px solid #7fc5ef ;
+    }
+
+    #web_head img, #web_head span
+    {
+        top: 50%;
+        vertical-align: middle;
+    }
+
+    #web_head span
+    {
+        font-size: 22px;
+        font-family: 'Times New Roman';
+        color: #b90505;
+    }
+
+#web_bot
+{
+    color: #AFDEFA;
+    bottom: 0;
+    font-weight: 300;
+    background: #0D77B6 none repeat scroll 0% 0%;
+    overflow: hidden;
+}
+
+    #web_bot input
+    {
+        cursor: pointer;
+        margin: 2px 2px 2px;
+    }
+
+.closePanel
+{
+    height: 25px;
+    line-height: 25px;
+    color: #f1f1f1;
+    cursor: pointer;
+    font-size: 30px;
+    font-weight: 500;
+    padding-left: 10px;
+    background: #0D77B6 none repeat scroll 0% 0%;
+}
+
+    .closePanel:hover
+    {
+        color: #fff;
+    }
+
+/* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
+.clearfix:before,
+.clearfix:after
+{
+    content: " ";
+    display: table;
+}
+
+.clearfix:after
+{
+    clear: both;
+}
+
+body
+{
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+    color: #47a3da;
+}
+
+a
+{
+    color: #f0f0f0;
+    text-decoration: none;
+}
+
+    a:hover
+    {
+        color: #000;
+    }
+
+#map
+{
+    width: 100%;
+    background-color: #f1f1f1;
+}
+
+.HomeButton
+{
+    display: none !important;
+}
+
+
+.timkiem input, .timkiem select
+{
+    width: 94%;
+    margin: 3px 3%;
+    padding: 5px 2px;
+}
+
+.timkiem button
+{
+    margin: 3px 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.timkiem a
+{
+    margin: 0px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.dgrid-row-table td
+{
+    border-collapse: collapse;
+    border: medium none;
+    table-layout: fixed;
+    empty-cells: show;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+}
+
+.field-OBJECTID, .dgrid-column-0
+{
+    width: 40px !important;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 480px)
+{
+    #web_head span
+    {
+        font-size: 10px;
+    }
+
+    button
+    {
+        padding: 0px;
+    }
+}
+
+
+@media screen and (max-width: 360px)
+{
+    #web_head span
+    {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 800px)
+{
+    #web_head span
+    {
+        font-size: 18px;
+    }
+}
+
+
+#legendDiv, #ListLayerdDiv
+{
+    padding: 5px;
+}
+
+
+
+.dijitButtonNode
+{
+    border: none;
+}
+
+.dijitInline
+{
+    vertical-align: inherit;
+}
+
+.dijitToggleButton, .dijitButton, .dijitDropDownButton, .dijitComboButton
+{
+    margin: 0;
+}
+
+.dijitTextBox
+{
+    border: 1px solid #A9A9A9;
+    padding: 2px;
+    width: 180px;
+    float: left;
+}
+
+.saveButton
+{
+    margin-left: 60px !important;
+}
+
+    .saveButton .dijitButtonText
+    {
+        border: 1px solid #A9A9A9;
+        padding: 5px;
+        font-weight: bold;
+    }
+
+        .saveButton .dijitButtonText:hover
+        {
+            background-color: #0d3194;
+            padding: 5px;
+            color: #fff;
+        }
+
+.atiDeleteButton
+{
+    margin-right: 60px;
+}
+
+    .atiDeleteButton .dijitButtonText
+    {
+        border: 1px solid #A9A9A9;
+        padding: 5px;
+        font-weight: bold;
+        overflow: hidden;
+    }
+
+        .atiDeleteButton .dijitButtonText:hover
+        {
+            background-color: #0d3194;
+            padding: 5px;
+            color: #fff;
+        }
+
+.esriAttributeInspector .atiLayerName
+{
+    display: none;
+}
+
+/*.dijitArrowButtonInner
+{
+    background-image: url("../Images/Action_Sorting_Descending.png") !important;
+}*/
+
+.esriPopup .titlePane
+{
+    background: #4C9ED9 !important;
+    font-weight: bold;
+}
+
+.ui-widget-header
+{
+    background: #4C9ED9 !important;
+    color: #fff !important;
+}
+
+.esriPopup .pointer.top
+{
+    background: #4C9ED9 none repeat scroll 0% 0% !important;
+    display: block;
+    left: 50%;
+    top: -8px;
+    margin-left: -8px;
+}
+
+.khData hr
+{
+    clear: both;
+}
+
+.khData div
+{
+    float: left;
+    width: 100%;
+    padding: 5px;
+}
+
+.tableData div
+{
+    float: left;
+    width: 20%;
+    padding: 5px 2px;
+}
+
+.tableDalData div
+{
+    padding: 5px 0px;
+}
+
+.tableDalData span.importantview
+{
+    color: #c63131;
+}
+
+#searchpanelControl input
+{
+    cursor: pointer;
+}
+
+.has
+{
+}
+
+.haschild, .has
+{
+    float: left;
+    width: auto;
+}
+
+.child
+{
+    position: absolute;
+    max-height: 250px;
+    height: auto;
+    width: 300px;
+    border: 1px solid;
+    background-color: #47a3da;
+    z-index: 9;
+    padding: 5px;
+}
+
+
+.display
+{
+    display: block;
+}
+
+.nodisplay
+{
+    display: none;
+}
+
+.resultPanel
+{
+    padding: 10px;
+    color: #073956;
+    background-color: #AFDEFA;
+    border-bottom: 1px solid #0d3194;
+}
+
+.zoomdata , .zoomdataTrieu , .zoomdataMua
+{
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #0d3194;
+    cursor: pointer;
+}
+
+    .zoomdata:hover , .zoomdataTrieu:hover , .zoomdataMua:hover
+    {
+        font-size: 0.8em;
+        font-weight: bold;
+        color: #004e96;
+        cursor: pointer;
+    }
+
+.result
+{
+    font-weight: bold;
+    color: #c63131;
+}
+
+.control_item
+{
+    width: 100px;
+    height: 100px;
+    border: 1px solid #47a3da;
+    float: left;
+    margin: 10px;
+    cursor: pointer;
+    padding: 5px;
+    text-align: center;
+}
+
+    .control_item:hover
+    {
+        border: 1px solid #0D77B6;
+        background-color: #f1f1f1;
+    }
+
+#print_button
+{
+    color: #c63131;
+    padding: 5px;
+}
+
+.esriSimpleSlider div
+{
+    width: 25px;
+    height: 25px;
+    font-size: 20px;
+    font-family: verdana,helvetica;
+    line-height: 18px;
+    -moz-user-select: none;
+    cursor: pointer;
+}
+
+    .esriSimpleSlider div:hover
+    {
+        background-color: #AFDEFA;
+        color: #c63131;
+    }
+
+.esriSimpleSliderTL
+{
+    top: 10px;
+    left: 10px;
+}
+
+#layerpanel
+{
+    width: 300px;
+    height: 320px;
+    z-index: 999;
+    /*top: 50%;
+    left: 50%;
+    width: 30em;
+    height: 18em;
+    margin-top: -9em; /*set to a negative number 1/2 of your height*/
+    /*margin-left: -15em; /*set to a negative number 1/2 of your width*/
+    background-color: blue;
+}
+
+
+#overlay
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background-color: #000;
+    filter: alpha(opacity=50);
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+    z-index: 1;
+}
+
+    #overlay span
+    {
+        margin: 30% auto;
+        padding: 5px;
+        border-radius: 5px;
+        color: #000;
+        background-color: #fff;
+    }
+
+.itemSearch
+{
+    color: #fff;
+    padding: 12px 8px;
+    border-bottom: 1px solid #cdcdcd;
+}
+
+table .tableatri td
+{
+    border-bottom:1px solid #f9f9f9;
+}
+table .atri 
+{
+    padding:5px;
+    background-color:#d6effe;
+}
+
+
+#ViewHaLưu, #ViewThuongLưu
+{
+    cursor:pointer;
+    color:#0d3194;
+    font-weight:600;
+}
+
+
+#ViewHaLưu:hover, #ViewThuongLưu:hover
+{
+    cursor:pointer;
+    color:#AFDEFA;
+    font-weight:600;
+}
+
+.esriMeasurement .esriMeasurementResultTable
+{
+    color:#fff;
+}

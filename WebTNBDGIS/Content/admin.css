@@ -1,0 +1,401 @@
+﻿
+.has a {
+color: #083A65;
+}
+a
+{
+    color: #071460;
+}
+
+.content_page
+{
+    margin: 10px;
+}
+
+.page-header
+{
+    background-color: #0094ff;
+    color: #071460;
+    padding: 10px;
+}
+
+
+#imgReview
+{
+    width: 150px;
+    /*position:absolute;
+    left:450px;
+    margin-top:-120px;*/
+    /*height:150px;*/
+}
+
+.img_avatar img
+{
+    width: 30px;
+    height: 30px;
+    border-radius: 45%;
+    margin: -5px 10px 0px 0px;
+    position: absolute;
+    float: left;
+}
+
+.img_avatar span
+{
+    margin-left: 40px;
+}
+
+/*/////*/
+
+#pagination
+{
+    width: 100%;
+    margin: 15px auto;
+    overflow: hidden;
+}
+
+
+#pager
+{
+    text-align: left;
+    overflow: hidden;
+    float: left;
+    background-color: #F5F5F5;
+}
+
+#pageList
+{
+    text-align: right;
+    width: 35%;
+    overflow: hidden;
+    float: right;
+}
+
+#pager ul
+{
+    color: #00B9F1;
+    border: none;
+    overflow: hidden;
+    width: auto;
+    padding: 0px;
+    margin: 0;
+}
+
+
+
+#pager a
+{
+    color: #00B9F1;
+    text-decoration: none;
+    padding: 5px;
+    font-weight: bold;
+}
+
+#pager li:hover
+{
+    background-color: #507CD1;
+    color: White;
+}
+
+#pager li > span
+{
+    padding: 10px;
+}
+
+#pager li.selected a
+{
+    background-color: #507CD1;
+    color: #fff;
+}
+
+
+#pager li:first-child
+{
+    margin-left: 0;
+}
+
+#pager li:last-child
+{
+}
+
+#pager li
+{
+    color: #00B9F1;
+    width: auto;
+    float: left;
+    list-style: none;
+    font-weight: bold;
+    padding: 5px;
+}
+
+    #pager li a
+    {
+        color: #00B9F1;
+        text-align: center;
+    }
+
+    #pager li.selected, li.selected
+    {
+        background-color: #507CD1 !important;
+        color: #fff !important;
+    }
+
+
+
+#fillter
+{
+    width: 100%;
+    overflow: hidden;
+}
+
+#fillter_left
+{
+    width: 50%;
+    float: left;
+}
+
+#fillter_right
+{
+    width: 50%;
+    float: left;
+    text-align: right;
+}
+
+
+.message_info
+{
+    background: none repeat scroll 0 0 #F0FFFF;
+    overflow: hidden;
+    min-width: 1000px;
+    width: 100%;
+    border-top: 3px solid #00B9F1;
+    border-bottom: 3px solid #00B9F1;
+}
+
+.info
+{
+    font-weight: bold;
+    margin: 3px auto;
+    padding: 5px 0 5px 10px;
+    border-top: 1px solid #00B9F1;
+    border-bottom: 1px solid #00B9F1;
+    color: #000080;
+}
+
+.message_error
+{
+    background: none repeat scroll 0 0 #FFDEAD;
+    overflow: hidden;
+    min-width: 1000px;
+    width: 100%;
+    border-top: 3px solid #ff3333;
+    border-bottom: 3px solid #ff3333;
+}
+
+.error
+{
+    font-weight: bold;
+    margin: 3px auto;
+    padding: 5px 0 5px 10px;
+    border-top: 1px solid #ff3333;
+    border-bottom: 1px solid #ff3333;
+    color: #FF1111;
+}
+
+
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error
+{
+    color: #f00;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid #f00;
+    background-color: #fee;
+}
+
+.validation-summary-errors
+{
+    font-weight: bold;
+    color: #f00;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}
+
+/* Styles for basic forms
+-----------------------------------------------------------*/
+fieldset
+{
+    border: 1px solid #ddd !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: -18px 0 1.5em 0 !important;
+}
+
+legend
+{
+    display: none !important;
+}
+
+textarea, #Alias
+{
+    min-height: 60px;
+    padding: 5px;
+    /*max-width:300px;*/
+    width: 100%;
+}
+
+input[type="date"]
+{
+    color: #000066;
+    max-width: 300px;
+    width: 100%;
+}
+
+input[type="text"], input[type="password"], input[type="email"], input[type="number"]
+{
+    color: #000066;
+    padding: 5px;
+    max-width: 300px;
+    width: 100%;
+}
+
+input[type="checkbox"]
+{
+    color: #000066;
+    padding: 5px;
+    background-color: red;
+}
+
+
+select
+{
+    color: #000066;
+    padding: 5px;
+    max-width: 300px;
+    width: 100%;
+}
+
+
+input[type="submit"], input[type="button"]
+{
+    background-color: #D42B1E;
+    border: 0px solid #CDCDCD;
+    color: white;
+    padding: 7px 20px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+    input[type="submit"]:hover, input[type="button"]:hover
+    {
+        background-color: #FF3333;
+    }
+
+
+.button
+{
+    background-color: #1577BE;
+    border: 0px solid #CDCDCD;
+    color: white;
+    padding: 10px 25px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+    display: block;
+}
+
+    .button:hover
+    {
+        background-color: #FF3333;
+        text-decoration: none;
+        color: #fff;
+    }
+
+
+.editor-label
+{
+    margin: 5px 0 ;
+}
+
+.editor-field
+{
+    margin: 5px 0;
+}
+
+.display-field
+{
+    font-size: 1.2em;
+    color: #000066;
+}
+
+
+.table
+{
+    margin: 10px 0px;
+    width: 100%;
+    border: 0px;
+}
+
+    .table a
+    {
+        color: #071460;
+    }
+
+.table th,.table td
+{
+    padding: 5px 8px;
+    border: 0px;
+    color: #000080;
+}
+
+    .table td a
+    {
+        padding: 5px 8px;
+    }
+
+.table tr:nth-child(even)
+{
+    background: #f9f9f9;
+}
+/*f1f1f1*/
+.table tr:nth-child(odd)
+{
+    background: #F0FFFF;
+}
+
+.table thead th
+{
+    text-align: left;
+    background-color: #00B9F1;
+}
+
+.table thead a
+{
+    color: #000080;
+}
+
+.inner
+{
+    width: 320px;
+    margin: 50px auto;
+}
+
+.cover-heading
+{
+    text-align: center;
+    color: #000080;
+}
