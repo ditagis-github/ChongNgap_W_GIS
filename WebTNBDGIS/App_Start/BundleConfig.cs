@@ -26,7 +26,7 @@ namespace WebTNBDGIS
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap/css/bootstrap.min.css",
                       "~/Content/font-awesome-4.7.0/css/font-awesome.min.css",
-                      "~/Content/site.css"));
+                      "~/Content/css/site.css"));
         }
     }
 }
