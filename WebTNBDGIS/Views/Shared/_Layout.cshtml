@@ -17,6 +17,10 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script>
+    var URL_SCRIPTS = "@Url.Content("~/Scripts")";
+    </script>
+    <script src="~/Scripts/dojoConfig.js"></script>
     @RenderSection("scripts", required: false)
 
     <script>

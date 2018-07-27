@@ -1,9 +1,8 @@
 ﻿require([
 
-
+    "ditagis/configs",
     "esri/toolbars/navigation", "dijit/registry", "dojo/on",
     "esri/map", "esri/graphic",
-    "esri/SpatialReference",
     "esri/request", "esri/config", "esri/Color",
     "esri/layers/FeatureLayer", "esri/layers/ArcGISDynamicMapServiceLayer", "esri/layers/ImageParameters",
     "esri/geometry/Point", "esri/geometry/Extent",
@@ -16,10 +15,9 @@
     "dojo/_base/array", "dojo/dom", "dojo/parser",
     "dijit/Toolbar",
     "dojo/domReady!"
-], function (
+], function (configs,
     Navigation, registry, on,
     Map, Graphic,
-    SpatialReference,
     esriRequest, esriConfig, Color,
     FeatureLayer, ArcGISDynamicMapServiceLayer, ImageParameters,
     Point, Extent,
@@ -41,12 +39,6 @@
         //This service is for development and testing purposes only. We recommend that you create your own geometry service for use within your applications
         esriConfig.defaults.geometryService = new GeometryService("http://112.78.4.175:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
 
-        var spatialReference = new SpatialReference({
-            "wkt": 'PROJCS["HCM-vn2000",GEOGCS["GCS_VN_2000",DATUM["D_Vietnam_2000",SPHEROID["WGS_1984",6378137.0,298.257223563]],' +
-                'PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Transverse_Mercator"],PARAMETER["False_Easting",500000.0],' +
-                'PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",105.75],PARAMETER["Scale_Factor",0.9999],PARAMETER["Latitude_Of_Origin",0.0],UNIT["Meter",1.0]]'
-        });
-
         var urlLocation = "";
 
         var imageParameters = new ImageParameters();
@@ -59,6 +51,8 @@
         var linkHanhChinhHuyen = "http://112.78.4.175:6080/arcgis/rest/services/BaseMap_ChongNgapBD/MapServer/5";
         var linkHanhChinhXa = "http://112.78.4.175:6080/arcgis/rest/services/BaseMap_ChongNgapBD/MapServer/4";
         var linkChuyenDeGISMap = "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer";
+
+
 
         varLinkTramBom = "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/0";
         varLinkMoiNoiCongTN = "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/1";
@@ -146,10 +140,17 @@
                 outFields: ["*"]
             });
 
+
         // Get a reference to the ArcGIS Map class
         var map = new Map("mapDiv", {
             logo: false,
         });
+        map.on('load', loadedMap);
+        function loadedMap() {
+            var centerStart = new esri.geometry.Point(602626.795, 1228203.586, map.spatialReference);
+            map.centerAt(centerStart);
+            map.setScale(500000);
+        }
 
 
         var style_point = new SimpleMarkerSymbol({
@@ -177,15 +178,33 @@
 
         map.addLayer(baseMapServiceLayer);
 
-        map.addLayers([LuuVucThoatNuocFeatureLayer, KhuVucNgapFeatureLayer, TramBomFeatureLayer, TramXLNTFeatureLayer,
-            BeChuaFeatureLayer, CongThoatNuocFeatureLayer,
-            MoiNoiCongTNFeatureLayer, MiengXaFeatureLayer, HoGaFeatureLayer, GiengFeatureLayer]);
+        // map.addLayers([LuuVucThoatNuocFeatureLayer,
+        //      KhuVucNgapFeatureLayer,
+        //      TramBomFeatureLayer, TramXLNTFeatureLayer,
+        //     BeChuaFeatureLayer, CongThoatNuocFeatureLayer,
+        //     MoiNoiCongTNFeatureLayer, MiengXaFeatureLayer,
+        //      HoGaFeatureLayer, GiengFeatureLayer]);
+        for (const key in configs.layers) {
+            var layercf = configs.layers[key];
+            var layer = new FeatureLayer(layercf.url, {
+                mode: FeatureLayer.MODE_ONEDEMAND,
+                outFields: ["*"],
+                id: layercf.id
+            });
+
+            if (layercf.id == "CongThoatNuoc") {
+                layer.setSelectionSymbol(selectionSymbol);
+            }
+            else {
+                layer.setSelectionSymbol(layer.geometryType === "esriGeometryPoint" ? style_point :
+                    layer.geometryType === "esriGeometryPolygon" ? style_polygon : null);
+            }
+            map.addLayer(layer);
+        }
 
         map.on("layers-add-result", initEditor);
 
-        var centerStart = new esri.geometry.Point(602626.795, 1228203.586, map.SpatialReference);
-        map.centerAt(centerStart);
-        map.setScale(500000);
+
 
 
         var homeButton = new HomeButton({
@@ -312,7 +331,7 @@
         }
 
         function handleError(err) {
-            console.log("Something broke: ", err);
+            // console.log("Something broke: ", err);
         }
 
         // end print
@@ -343,10 +362,7 @@
 
             var PrjParams = new ProjectParameters();
             PrjParams.geometries = [inputpoint];
-            PrjParams.outSR = spatialReference;
-            console.log(location.coords.accuracy);
-            console.log(location.coords.altitude);
-            console.log(location.coords.heading);
+            PrjParams.outSR = map.spatialReference;
 
             geometryService.project(PrjParams, function (outputpoint) {
                 y = outputpoint[0].y + 112.01;
@@ -399,21 +415,6 @@
         //end location
 
         function initEditor(evt) {
-
-            //var html = "";
-            //html += "<option value='LuuVucThoatNuoc'>" + LuuVucThoatNuocFeatureLayer.name + "</option>";
-            //html += "<option value='KhuVucNgap'>" + KhuVucNgapFeatureLayer.name + "</option>";
-            //html += "<option value='TramBom'>" + TramBomFeatureLayer.name + "</option>";
-            //html += "<option value='TramXLNT'>" + TramXLNTFeatureLayer.name + "</option>";
-            //html += "<option value='BeChua'>" + BeChuaFeatureLayer.name + "</option>";
-            //html += "<option value='CongThoatNuoc'>" + CongThoatNuocFeatureLayer.name + "</option>";
-            //html += "<option value='MoiNoiCong'>" + MoiNoiCongTNFeatureLayer.name + "</option>";
-            //html += "<option value='MiengXa'>" + MiengXaFeatureLayer.name + "</option>";
-            //html += "<option value='HoGa'>" + HoGaFeatureLayer.name + "</option>";
-            //html += "<option value='Gieng'>" + GiengFeatureLayer.name + "</option>";
-
-            //$("#classDataLayer").html(html);
-
             var domainData;
             var valueDomain;
             // lấy value dommain
@@ -436,7 +437,7 @@
 
             getHanhChinhHuyen();
 
-            var map = this;
+            // var map = this;
 
             var layerInfo = array.map(evt.layers, function (layer, index) {
                 return { layer: layer.layer, title: layer.layer.name };
@@ -501,27 +502,6 @@
                             map.infoWindow.hide();
                         }
                     });
-
-                    //add a save button next to the delete button
-                    //var saveButton = new Button({ label: "Lưu", "class": "saveButton" }, domConstruct.create("div"));
-                    //domConstruct.place(saveButton.domNode, attInspector.deleteBtn.domNode, "after");
-
-                    //var featUpdate;
-
-                    //saveButton.on("click", function () {
-                    //    featUpdate.getLayer().applyEdits(null, [featUpdate], null);
-                    //    featUpdate.getLayer().refresh();
-                    //});
-
-                    //dojo.connect(attInspector, "onAttributeChange", function (feature, fieldName, newFieldValue) {
-                    //    //store the updates to apply when the save button is clicked 
-                    //    featUpdate.attributes[fieldName] = newFieldValue;
-                    //});
-
-                    //dojo.connect(attInspector, "onDelete", function (feature) {
-                    //    feature.getLayer().applyEdits(null, null, [feature]);
-                    //    map.infoWindow.hide();
-                    //});
 
                 });
             });
