@@ -1,6 +1,7 @@
 ﻿require([
 
     "ditagis/configs",
+    "ditagis/maptools/SearchLayer",
     "esri/toolbars/navigation", "dijit/registry", "dojo/on",
     "esri/map", "esri/graphic",
     "esri/request", "esri/config", "esri/Color",
@@ -15,7 +16,7 @@
     "dojo/_base/array", "dojo/dom", "dojo/parser",
     "dijit/Toolbar",
     "dojo/domReady!"
-], function (configs,
+], function (configs, SearchLayer,
     Navigation, registry, on,
     Map, Graphic,
     esriRequest, esriConfig, Color,
@@ -79,7 +80,8 @@
         var HanhChinhHuyenFeatureLayer = new FeatureLayer(linkHanhChinhHuyen,
             {
                 mode: FeatureLayer.MODE_ONEDEMAND,
-                outFields: ["*"]
+                outFields: ["*"],
+                id: "HanhChinhHuyen"
             });
 
         var HanhChinhXaFeatureLayer = new FeatureLayer(linkHanhChinhXa,
@@ -88,52 +90,7 @@
                 outFields: ["*"]
             });
 
-        var TramBomFeatureLayer = new FeatureLayer(varLinkTramBom,
-            {
-                mode: FeatureLayer.MODE_ONEDEMAND,
-                outFields: ["*"]
-            });
-
-        var MoiNoiCongTNFeatureLayer = new FeatureLayer(varLinkMoiNoiCongTN,
-            {
-                mode: FeatureLayer.MODE_ONEDEMAND,
-                outFields: ["*"]
-            });
-        var MiengXaFeatureLayer = new FeatureLayer(varLinkMiengXa,
-            {
-                mode: FeatureLayer.MODE_ONEDEMAND,
-                outFields: ["*"]
-            });
-        var HoGaFeatureLayer = new FeatureLayer(varLinkHoGa,
-            {
-                mode: FeatureLayer.MODE_ONEDEMAND,
-                outFields: ["*"]
-            });
-        var GiengFeatureLayer = new FeatureLayer(varLinkGieng,
-            {
-                mode: FeatureLayer.MODE_ONEDEMAND,
-                outFields: ["*"]
-            });
-        var BeChuaFeatureLayer = new FeatureLayer(varLinkBeChua,
-            {
-                mode: FeatureLayer.MODE_ONEDEMAND,
-                outFields: ["*"]
-            });
-        var CongThoatNuocFeatureLayer = new FeatureLayer(varLinkCongThoatNuoc,
-            {
-                mode: FeatureLayer.MODE_ONEDEMAND,
-                outFields: ["*"]
-            });
-        var KhuVucNgapFeatureLayer = new FeatureLayer(varLinkKhuVucNgap,
-            {
-                mode: FeatureLayer.MODE_ONEDEMAND,
-                outFields: ["*"]
-            });
-        var TramXLNTFeatureLayer = new FeatureLayer(varLinkTramXLNT,
-            {
-                mode: FeatureLayer.MODE_ONEDEMAND,
-                outFields: ["*"]
-            });
+        
         var LuuVucThoatNuocFeatureLayer = new FeatureLayer(varLinkLuuVucThoatNuoc,
             {
                 mode: FeatureLayer.MODE_ONEDEMAND,
@@ -165,47 +122,121 @@
 
         var style_polygon = new SimpleFillSymbol().setColor(new Color([174, 12, 229, 0.5]));
 
-        LuuVucThoatNuocFeatureLayer.setSelectionSymbol(style_polygon);
-        KhuVucNgapFeatureLayer.setSelectionSymbol(style_polygon);
-        TramBomFeatureLayer.setSelectionSymbol(style_point);
-        TramXLNTFeatureLayer.setSelectionSymbol(style_polygon);
-        BeChuaFeatureLayer.setSelectionSymbol(style_point);
-        CongThoatNuocFeatureLayer.setSelectionSymbol(selectionSymbol);
-        MoiNoiCongTNFeatureLayer.setSelectionSymbol(style_point);
-        MiengXaFeatureLayer.setSelectionSymbol(style_point);
-        HoGaFeatureLayer.setSelectionSymbol(style_point);
-        GiengFeatureLayer.setSelectionSymbol(style_point);
 
         map.addLayer(baseMapServiceLayer);
-
-        // map.addLayers([LuuVucThoatNuocFeatureLayer,
-        //      KhuVucNgapFeatureLayer,
-        //      TramBomFeatureLayer, TramXLNTFeatureLayer,
-        //     BeChuaFeatureLayer, CongThoatNuocFeatureLayer,
-        //     MoiNoiCongTNFeatureLayer, MiengXaFeatureLayer,
-        //      HoGaFeatureLayer, GiengFeatureLayer]);
         for (const key in configs.layers) {
-            var layercf = configs.layers[key];
-            var layer = new FeatureLayer(layercf.url, {
+            let layercf = configs.layers[key];
+            let layer = new FeatureLayer(layercf.url, {
                 mode: FeatureLayer.MODE_ONEDEMAND,
                 outFields: ["*"],
-                id: layercf.id
+                id: layercf.id,
+            });
+            layer.searchFields = layercf.searchFields;
+            map.addLayer(layer);
+            layer.on('load', (result) => {
+                const layer = result.layer;
+                if (layer.id == "CongThoatNuoc") {
+                    layer.setSelectionSymbol(selectionSymbol);
+                }
+                else {
+                    layer.setSelectionSymbol(layer.geometryType === "esriGeometryPoint" ? style_point :
+                        layer.geometryType === "esriGeometryPolygon" ? style_polygon : null);
+                }
+            });
+        }
+        // map.on("layers-add-result", initEditor);
+        on(map, "layer-add-result", initEditor);
+        function initEditor(evt) {
+
+            getHanhChinhHuyen();
+
+            // var map = this;
+
+            var layerInfo = array.map(evt.layers, function (layer, index) {
+                return { layer: layer.layer, title: layer.layer.name };
+            });
+            if (layerInfo.length > 0) {
+                var legendDijit = new Legend({
+                    map: map,
+                    layerInfos: layerInfo
+                }, "LayerLegend_Content");
+                legendDijit.startup();
+            }
+
+            var layers = array.map(evt.layers, function (result) {
+                return result.layer;
             });
 
-            if (layercf.id == "CongThoatNuoc") {
-                layer.setSelectionSymbol(selectionSymbol);
-            }
-            else {
-                layer.setSelectionSymbol(layer.geometryType === "esriGeometryPoint" ? style_point :
-                    layer.geometryType === "esriGeometryPolygon" ? style_polygon : null);
-            }
-            map.addLayer(layer);
+
+            //display read-only info window when user clicks on feature 
+            var query = new esri.tasks.Query();
+
+            dojo.forEach(layers, function (layer) {
+                dojo.connect(layer, "onClick", function (evt) {
+                    if (map.infoWindow.isShowing) {
+                        map.infoWindow.hide();
+                    }
+
+                    var layerInfos = [{
+                        'featureLayer': layer,
+                        'isEditable': false,
+                        'showDeleteButton': false
+                    }];
+
+                    var attInspector = new esri.dijit.AttributeInspector({
+                        layerInfos: layerInfos
+                    }, dojo.create("div"));
+
+                    if (evt.graphic) {
+                        query.objectIds = [evt.graphic.attributes["OBJECTID"]];
+                    }
+                    else {
+                        return;
+                    }
+                    layer.selectFeatures(query, esri.layers.FeatureLayer.SELECTION_NEW, function (features) {
+                        if (features.length > 0) {
+                            featUpdate = features[0];
+                            map.infoWindow.setTitle(layer.name);
+                            map.infoWindow.setContent(attInspector.domNode);
+                            map.infoWindow.resize(310, 350);
+
+                            var typeGeo = layer.geometryType;
+                            // alert(typeGeo);
+                            if (typeGeo == 'esriGeometryPoint') {
+                                map.infoWindow.show(featUpdate.geometry, map.getInfoWindowAnchor(featUpdate.geometry));
+                            }
+                            else {
+                                var myPolygonCenterLatLon = featUpdate.geometry.getExtent().getCenter();
+                                map.infoWindow.show(myPolygonCenterLatLon, map.getInfoWindowAnchor(myPolygonCenterLatLon));
+                            }
+
+                        }
+                        else {
+                            map.infoWindow.hide();
+                        }
+                    });
+
+                });
+            });
+
+            map.on("click", function (evt) {
+                map.graphics.clear();
+            });
+            map.infoWindow.on("hide", function () {
+                /*tam cmt*/
+                // LuuVucThoatNuocFeatureLayer.clearSelection();
+                // KhuVucNgapFeatureLayer.clearSelection();
+                // TramBomFeatureLayer.clearSelection();
+                // TramXLNTFeatureLayer.clearSelection();
+                // BeChuaFeatureLayer.clearSelection();
+                // CongThoatNuocFeatureLayer.clearSelection();
+                // MoiNoiCongTNFeatureLayer.clearSelection();
+                // MiengXaFeatureLayer.clearSelection();
+                // HoGaFeatureLayer.clearSelection();
+                // GiengFeatureLayer.clearSelection();
+            });
+
         }
-
-        map.on("layers-add-result", initEditor);
-
-
-
 
         var homeButton = new HomeButton({
             theme: "HomeButton",
@@ -414,116 +445,7 @@
         }
         //end location
 
-        function initEditor(evt) {
-            var domainData;
-            var valueDomain;
-            // lấy value dommain
-            domainData = LuuVucThoatNuocFeatureLayer.getDomain("DonViQuanLy");
-            valueDomain = domainData.codedValues;
-            var DonViQL = "<option value=''> Chọn đơn vị quản lý </option>";
-            for (var x = 0; x < valueDomain.length; x++) {
-                DonViQL += "<option value='" + valueDomain[x].code + "'>" + valueDomain[x].name + "</option>";
-            }
-            $("#cbb_DVQuanLy_LuuVucThoatNuoc").html(DonViQL);
-            $("#cbb_DVQuanLy_KhuVucNgap").html(DonViQL);
-            $("#cbb_DVQuanLy_TramBom").html(DonViQL);
-            $("#cbb_DVQuanLy_TramXLNT").html(DonViQL);
-            $("#cbb_DVQuanLy_BeChua").html(DonViQL);
-            $("#cbb_DVQuanLy_CongThoatNuoc").html(DonViQL);
-            $("#cbb_DVQuanLy_MoiNoiCong").html(DonViQL);
-            $("#cbb_DVQuanLy_MiengXa").html(DonViQL);
-            $("#cbb_DVQuanLy_HoGa").html(DonViQL);
-            $("#cbb_DVQuanLy_Gieng").html(DonViQL);
 
-            getHanhChinhHuyen();
-
-            // var map = this;
-
-            var layerInfo = array.map(evt.layers, function (layer, index) {
-                return { layer: layer.layer, title: layer.layer.name };
-            });
-            if (layerInfo.length > 0) {
-                var legendDijit = new Legend({
-                    map: map,
-                    layerInfos: layerInfo
-                }, "LayerLegend_Content");
-                legendDijit.startup();
-            }
-
-            var layers = array.map(evt.layers, function (result) {
-                return result.layer;
-            });
-
-
-            //display read-only info window when user clicks on feature 
-            var query = new esri.tasks.Query();
-
-            dojo.forEach(layers, function (layer) {
-                dojo.connect(layer, "onClick", function (evt) {
-                    if (map.infoWindow.isShowing) {
-                        map.infoWindow.hide();
-                    }
-
-                    var layerInfos = [{
-                        'featureLayer': layer,
-                        'isEditable': false,
-                        'showDeleteButton': false
-                    }];
-
-                    var attInspector = new esri.dijit.AttributeInspector({
-                        layerInfos: layerInfos
-                    }, dojo.create("div"));
-
-                    if (evt.graphic) {
-                        query.objectIds = [evt.graphic.attributes["OBJECTID"]];
-                    }
-                    else {
-                        return;
-                    }
-                    layer.selectFeatures(query, esri.layers.FeatureLayer.SELECTION_NEW, function (features) {
-                        if (features.length > 0) {
-                            featUpdate = features[0];
-                            map.infoWindow.setTitle(layer.name);
-                            map.infoWindow.setContent(attInspector.domNode);
-                            map.infoWindow.resize(310, 350);
-
-                            var typeGeo = layer.geometryType;
-                            // alert(typeGeo);
-                            if (typeGeo == 'esriGeometryPoint') {
-                                map.infoWindow.show(featUpdate.geometry, map.getInfoWindowAnchor(featUpdate.geometry));
-                            }
-                            else {
-                                var myPolygonCenterLatLon = featUpdate.geometry.getExtent().getCenter();
-                                map.infoWindow.show(myPolygonCenterLatLon, map.getInfoWindowAnchor(myPolygonCenterLatLon));
-                            }
-
-                        }
-                        else {
-                            map.infoWindow.hide();
-                        }
-                    });
-
-                });
-            });
-
-            map.on("click", function (evt) {
-                map.graphics.clear();
-            });
-
-            map.infoWindow.on("hide", function () {
-                LuuVucThoatNuocFeatureLayer.clearSelection();
-                KhuVucNgapFeatureLayer.clearSelection();
-                TramBomFeatureLayer.clearSelection();
-                TramXLNTFeatureLayer.clearSelection();
-                BeChuaFeatureLayer.clearSelection();
-                CongThoatNuocFeatureLayer.clearSelection();
-                MoiNoiCongTNFeatureLayer.clearSelection();
-                MiengXaFeatureLayer.clearSelection();
-                HoGaFeatureLayer.clearSelection();
-                GiengFeatureLayer.clearSelection();
-            });
-
-        }
 
         function getHanhChinhHuyen() {
             var query = new Query();
@@ -621,40 +543,10 @@
 
             HanhChinhXaFeatureLayer.clearSelection();
         }
-
+        new SearchLayer(map);
         var classDataLayer = "";
 
-        $(".searchData").click(function () {
-            var dID = $(this).attr('title');
 
-            var title = $(this).text();
-
-            $("#titleSearchHeader").html("Tìm kiếm " + title);
-
-            //alert(dID);
-            classDataLayer = dID;
-
-            $(".SearchPanel_Content").removeClass("display");
-            $(".SearchPanel_Content").addClass("undisplay");
-            $("#SearchPanel_" + dID + "_Content").removeClass("undisplay");
-            $("#SearchPanel_" + dID + "_Content").addClass("display");
-
-            $("#result_SearchData_Content").html("");
-            $("#resultCount").html("");
-            //var height = $(document).height();
-            //var hesub = $("#SearchPanel_" + dID + "_Content").height();
-            //height = height - hesub - 100;
-            //if (height < 200) {
-            //    height = 200;
-            //}
-            //$("#result_SearchData").css("height", height + "px");
-
-
-            $(".left_panel").slideUp();
-            $("#SearchPanel").slideDown();
-
-
-        });
 
         $("#distanceButton").click(function (evt) {
             $("#SearchPanel").slideUp();
@@ -710,685 +602,8 @@
 
         });
 
-        $("#btSearch").click(function (evt) {
-            var url;
+        
 
-            $("#result_SearchData_Content").html("");
-            $("#resultCount").html("Vui lòng đợi trong giây lát....");
-
-            $("#loading").removeClass("undisplay");
-            $("#loading").addClass("display");
-
-            var dID = classDataLayer;
-            if (dID == "BeChua") {
-                var cbb_DVQuanLy_BeChua = $("#cbb_DVQuanLy_BeChua").val();
-                var cbb_QuanHuyen_BeChua = $("#cbb_QuanHuyen_BeChua").val();
-                var cbb_PhuongXa_BeChua = $("#cbb_PhuongXa_BeChua").val();
-                url = urlLocation + "/Home/getHIENTRANG_BECHUA";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { DVQuanLy: cbb_DVQuanLy_BeChua, QuanHuyen: cbb_QuanHuyen_BeChua, PhuongXa: cbb_PhuongXa_BeChua },
-                    cache: false,
-                    success: function (data) {
-
-                        var html = "";
-                        for (var x = 0; x < data.length; x++) {
-                            html += "<div alt=" + data[x].OBJECTID + " class='item'>" + data[x].OBJECTID + " - " + data[x].MaDoiTuong + "</div>";
-                        }
-                        $("#result_SearchData_Content").html(html);
-                        $("#resultCount").html(" Có " + data.length + " đối tượng được tìm thấy.");
-
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse.responseText);
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    }
-
-                });
-            }
-            if (dID == "Gieng") {
-                var cbb_DVQuanLy_BeChua = $("#cbb_DVQuanLy_Gieng").val();
-                var cbb_QuanHuyen_BeChua = $("#cbb_QuanHuyen_Gieng").val();
-                var cbb_PhuongXa_BeChua = $("#cbb_PhuongXa_Gieng").val();
-                url = urlLocation + "/Home/getHIENTRANG_GIENG";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { DVQuanLy: cbb_DVQuanLy_BeChua, QuanHuyen: cbb_QuanHuyen_BeChua, PhuongXa: cbb_PhuongXa_BeChua },
-                    cache: false,
-                    success: function (data) {
-
-                        var html = "";
-                        for (var x = 0; x < data.length; x++) {
-                            html += "<div alt=" + data[x].OBJECTID + " class='item'>" + data[x].OBJECTID + " - " + data[x].MaDoiTuong + "</div>";
-                        }
-                        $("#result_SearchData_Content").html(html);
-                        $("#resultCount").html(" Có " + data.length + " đối tượng được tìm thấy.");
-
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse.responseText);
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    }
-                });
-            }
-            if (dID == "LuuVucThoatNuoc") {
-                var cbb_DVQuanLy_BeChua = $("#cbb_DVQuanLy_LuuVucThoatNuoc").val();
-                var cbb_QuanHuyen_BeChua = $("#cbb_QuanHuyen_LuuVucThoatNuoc").val();
-                var cbb_PhuongXa_BeChua = $("#cbb_PhuongXa_LuuVucThoatNuoc").val();
-                url = urlLocation + "/Home/getHIENTRANG_LUUVUCTHOATNUOC";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { DVQuanLy: cbb_DVQuanLy_BeChua, QuanHuyen: cbb_QuanHuyen_BeChua, PhuongXa: cbb_PhuongXa_BeChua },
-                    cache: false,
-                    success: function (data) {
-
-                        var html = "";
-                        for (var x = 0; x < data.length; x++) {
-                            html += "<div alt=" + data[x].OBJECTID + " class='item'>" + data[x].OBJECTID + " - " + data[x].MaDoiTuong + "</div>";
-                        }
-                        $("#result_SearchData_Content").html(html);
-                        $("#resultCount").html(" Có " + data.length + " đối tượng được tìm thấy.");
-
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse.responseText);
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    }
-                });
-            }
-            if (dID == "KhuVucNgap") {
-                var cbb_QuanHuyen_BeChua = $("#cbb_QuanHuyen_KhuVucNgap").val();
-                var cbb_PhuongXa_BeChua = $("#cbb_PhuongXa_KhuVucNgap").val();
-                url = urlLocation + "/Home/getHIENTRANG_KHUVUCNGAP";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { QuanHuyen: cbb_QuanHuyen_BeChua, PhuongXa: cbb_PhuongXa_BeChua },
-                    cache: false,
-                    success: function (data) {
-
-                        var html = "";
-                        for (var x = 0; x < data.length; x++) {
-                            html += "<div alt=" + data[x].OBJECTID + " class='item'>" + data[x].OBJECTID + " - " + data[x].MaDoiTuong + "</div>";
-                        }
-                        $("#result_SearchData_Content").html(html);
-                        $("#resultCount").html(" Có " + data.length + " đối tượng được tìm thấy.");
-
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse.responseText);
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    }
-                });
-            }
-            if (dID == "TramBom") {
-                var cbb_DVQuanLy_BeChua = $("#cbb_DVQuanLy_TramBom").val();
-                var cbb_QuanHuyen_BeChua = $("#cbb_QuanHuyen_TramBom").val();
-                var cbb_PhuongXa_BeChua = $("#cbb_PhuongXa_TramBom").val();
-                url = urlLocation + "/Home/getHIENTRANG_TRAMBOM";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { DVQuanLy: cbb_DVQuanLy_BeChua, QuanHuyen: cbb_QuanHuyen_BeChua, PhuongXa: cbb_PhuongXa_BeChua },
-                    cache: false,
-                    success: function (data) {
-
-                        var html = "";
-                        for (var x = 0; x < data.length; x++) {
-                            html += "<div alt=" + data[x].OBJECTID + " class='item'>" + data[x].OBJECTID + " - " + data[x].MaDoiTuong + "</div>";
-                        }
-                        $("#result_SearchData_Content").html(html);
-                        $("#resultCount").html(" Có " + data.length + " đối tượng được tìm thấy.");
-
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse.responseText);
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    }
-                });
-            }
-            if (dID == "TramXLNT") {
-                var cbb_DVQuanLy_BeChua = $("#cbb_DVQuanLy_TramXLNT").val();
-                var cbb_QuanHuyen_BeChua = $("#cbb_QuanHuyen_TramXLNT").val();
-                var cbb_PhuongXa_BeChua = $("#cbb_PhuongXa_TramXLNT").val();
-                url = urlLocation + "/Home/getHIENTRANG_TRAMXLNT";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { DVQuanLy: cbb_DVQuanLy_BeChua, QuanHuyen: cbb_QuanHuyen_BeChua, PhuongXa: cbb_PhuongXa_BeChua },
-                    cache: false,
-                    success: function (data) {
-
-                        var html = "";
-                        for (var x = 0; x < data.length; x++) {
-                            html += "<div alt=" + data[x].OBJECTID + " class='item'>" + data[x].OBJECTID + " - " + data[x].MaDoiTuong + "</div>";
-                        }
-                        $("#result_SearchData_Content").html(html);
-                        $("#resultCount").html(" Có " + data.length + " đối tượng được tìm thấy.");
-
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse.responseText);
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    }
-                });
-            }
-            if (dID == "CongThoatNuoc") {
-                var cbb_DVQuanLy_BeChua = $("#cbb_DVQuanLy_CongThoatNuoc").val();
-                var cbb_QuanHuyen_BeChua = $("#cbb_QuanHuyen_CongThoatNuoc").val();
-                var cbb_PhuongXa_BeChua = $("#cbb_PhuongXa_CongThoatNuoc").val();
-                url = urlLocation + "/Home/getHIENTRANG_CONGTHOATNUOC";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { DVQuanLy: cbb_DVQuanLy_BeChua, QuanHuyen: cbb_QuanHuyen_BeChua, PhuongXa: cbb_PhuongXa_BeChua },
-                    cache: false,
-                    success: function (data) {
-
-                        var html = "";
-                        for (var x = 0; x < data.length; x++) {
-                            html += "<div alt=" + data[x].OBJECTID + " class='item'>" + data[x].OBJECTID + " - " + data[x].MaDoiTuong + "</div>";
-                        }
-                        $("#result_SearchData_Content").html(html);
-                        $("#resultCount").html(" Có " + data.length + " đối tượng được tìm thấy.");
-
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse.responseText);
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    }
-                });
-            }
-            if (dID == "MoiNoiCong") {
-                var cbb_DVQuanLy_BeChua = $("#cbb_DVQuanLy_MoiNoiCong").val();
-                var cbb_QuanHuyen_BeChua = $("#cbb_QuanHuyen_MoiNoiCong").val();
-                var cbb_PhuongXa_BeChua = $("#cbb_PhuongXa_MoiNoiCong").val();
-                url = urlLocation + "/Home/getHIENTRANG_MOINOITHOATNUOC";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { DVQuanLy: cbb_DVQuanLy_BeChua, QuanHuyen: cbb_QuanHuyen_BeChua, PhuongXa: cbb_PhuongXa_BeChua },
-                    cache: false,
-                    success: function (data) {
-
-                        var html = "";
-                        for (var x = 0; x < data.length; x++) {
-                            html += "<div alt=" + data[x].OBJECTID + " class='item'>" + data[x].OBJECTID + " - " + data[x].MaDoiTuong + "</div>";
-                        }
-                        $("#result_SearchData_Content").html(html);
-                        $("#resultCount").html(" Có " + data.length + " đối tượng được tìm thấy.");
-
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse.responseText);
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    }
-                });
-            }
-            if (dID == "MiengXa") {
-                var cbb_DVQuanLy_BeChua = $("#cbb_DVQuanLy_MiengXa").val();
-                var cbb_QuanHuyen_BeChua = $("#cbb_QuanHuyen_MiengXa").val();
-                var cbb_PhuongXa_BeChua = $("#cbb_PhuongXa_MiengXa").val();
-                url = urlLocation + "/Home/getHIENTRANG_MIENGXA";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { DVQuanLy: cbb_DVQuanLy_BeChua, QuanHuyen: cbb_QuanHuyen_BeChua, PhuongXa: cbb_PhuongXa_BeChua },
-                    cache: false,
-                    success: function (data) {
-
-                        var html = "";
-                        for (var x = 0; x < data.length; x++) {
-                            html += "<div alt=" + data[x].OBJECTID + " class='item'>" + data[x].OBJECTID + " - " + data[x].MaDoiTuong + "</div>";
-                        }
-                        $("#result_SearchData_Content").html(html);
-                        $("#resultCount").html(" Có " + data.length + " đối tượng được tìm thấy.");
-
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse.responseText);
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    }
-                });
-            }
-            if (dID == "HoGa") {
-                var cbb_DVQuanLy_BeChua = $("#cbb_DVQuanLy_HoGa").val();
-                var cbb_QuanHuyen_BeChua = $("#cbb_QuanHuyen_HoGa").val();
-                var cbb_PhuongXa_BeChua = $("#cbb_PhuongXa_HoGa").val();
-                url = urlLocation + "/Home/getHIENTRANG_HOGA";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { DVQuanLy: cbb_DVQuanLy_BeChua, QuanHuyen: cbb_QuanHuyen_BeChua, PhuongXa: cbb_PhuongXa_BeChua },
-                    cache: false,
-                    success: function (data) {
-
-                        var html = "";
-                        for (var x = 0; x < data.length; x++) {
-                            html += "<div alt=" + data[x].OBJECTID + " class='item'>" + data[x].OBJECTID + " - " + data[x].MaDoiTuong + "</div>";
-                        }
-                        $("#result_SearchData_Content").html(html);
-                        $("#resultCount").html(" Có " + data.length + " đối tượng được tìm thấy.");
-
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse.responseText);
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    }
-                });
-            }
-        });
-
-        $("#btExportExcel").click(function (evt) {
-            var url;
-
-            $("#result_SearchData_Content").html("");
-            $("#resultCount").html("Vui lòng đợi trong giây lát....");
-
-            $("#loading").removeClass("undisplay");
-            $("#loading").addClass("display");
-
-            var dID = $("#classDataLayer").val();
-            if (dID == "BeChua") {
-                var cbb_DVQuanLy_BeChua = $("#cbb_DVQuanLy_BeChua").val();
-                var cbb_QuanHuyen_BeChua = $("#cbb_QuanHuyen_BeChua").val();
-                var cbb_PhuongXa_BeChua = $("#cbb_PhuongXa_BeChua").val();
-                url = urlLocation + "/Home/getHIENTRANG_BECHUA";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { DVQuanLy: cbb_DVQuanLy_BeChua, QuanHuyen: cbb_QuanHuyen_BeChua, PhuongXa: cbb_PhuongXa_BeChua },
-                    cache: false,
-                    success: function (data) {
-
-                        var html = "";
-                        for (var x = 0; x < data.length; x++) {
-                            html += "<div alt=" + data[x].OBJECTID + " class='item'>" + data[x].OBJECTID + " - " + data[x].MaDoiTuong + "</div>";
-                        }
-                        $("#result_SearchData_Content").html(html);
-                        $("#resultCount").html(" Có " + data.length + " đối tượng được tìm thấy.");
-
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse.responseText);
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    }
-
-                });
-            }
-            if (dID == "Gieng") {
-                var cbb_DVQuanLy_BeChua = $("#cbb_DVQuanLy_Gieng").val();
-                var cbb_QuanHuyen_BeChua = $("#cbb_QuanHuyen_Gieng").val();
-                var cbb_PhuongXa_BeChua = $("#cbb_PhuongXa_Gieng").val();
-                url = urlLocation + "/Home/getHIENTRANG_GIENG";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { DVQuanLy: cbb_DVQuanLy_BeChua, QuanHuyen: cbb_QuanHuyen_BeChua, PhuongXa: cbb_PhuongXa_BeChua },
-                    cache: false,
-                    success: function (data) {
-
-                        var html = "";
-                        for (var x = 0; x < data.length; x++) {
-                            html += "<div alt=" + data[x].OBJECTID + " class='item'>" + data[x].OBJECTID + " - " + data[x].MaDoiTuong + "</div>";
-                        }
-                        $("#result_SearchData_Content").html(html);
-                        $("#resultCount").html(" Có " + data.length + " đối tượng được tìm thấy.");
-
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse.responseText);
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    }
-                });
-            }
-            if (dID == "LuuVucThoatNuoc") {
-                var cbb_DVQuanLy_BeChua = $("#cbb_DVQuanLy_LuuVucThoatNuoc").val();
-                var cbb_QuanHuyen_BeChua = $("#cbb_QuanHuyen_LuuVucThoatNuoc").val();
-                var cbb_PhuongXa_BeChua = $("#cbb_PhuongXa_LuuVucThoatNuoc").val();
-                url = urlLocation + "/Home/getHIENTRANG_LUUVUCTHOATNUOC";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { DVQuanLy: cbb_DVQuanLy_BeChua, QuanHuyen: cbb_QuanHuyen_BeChua, PhuongXa: cbb_PhuongXa_BeChua },
-                    cache: false,
-                    success: function (data) {
-
-                        var html = "";
-                        for (var x = 0; x < data.length; x++) {
-                            html += "<div alt=" + data[x].OBJECTID + " class='item'>" + data[x].OBJECTID + " - " + data[x].MaDoiTuong + "</div>";
-                        }
-                        $("#result_SearchData_Content").html(html);
-                        $("#resultCount").html(" Có " + data.length + " đối tượng được tìm thấy.");
-
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse.responseText);
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    }
-                });
-            }
-            if (dID == "KhuVucNgap") {
-                var cbb_QuanHuyen_BeChua = $("#cbb_QuanHuyen_KhuVucNgap").val();
-                var cbb_PhuongXa_BeChua = $("#cbb_PhuongXa_KhuVucNgap").val();
-                url = urlLocation + "/Home/getHIENTRANG_KHUVUCNGAP";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { QuanHuyen: cbb_QuanHuyen_BeChua, PhuongXa: cbb_PhuongXa_BeChua },
-                    cache: false,
-                    success: function (data) {
-
-                        var html = "";
-                        for (var x = 0; x < data.length; x++) {
-                            html += "<div alt=" + data[x].OBJECTID + " class='item'>" + data[x].OBJECTID + " - " + data[x].MaDoiTuong + "</div>";
-                        }
-                        $("#result_SearchData_Content").html(html);
-                        $("#resultCount").html(" Có " + data.length + " đối tượng được tìm thấy.");
-
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse.responseText);
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    }
-                });
-            }
-            if (dID == "TramBom") {
-                var cbb_DVQuanLy_BeChua = $("#cbb_DVQuanLy_TramBom").val();
-                var cbb_QuanHuyen_BeChua = $("#cbb_QuanHuyen_TramBom").val();
-                var cbb_PhuongXa_BeChua = $("#cbb_PhuongXa_TramBom").val();
-                url = urlLocation + "/Home/getHIENTRANG_TRAMBOM";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { DVQuanLy: cbb_DVQuanLy_BeChua, QuanHuyen: cbb_QuanHuyen_BeChua, PhuongXa: cbb_PhuongXa_BeChua },
-                    cache: false,
-                    success: function (data) {
-
-                        var html = "";
-                        for (var x = 0; x < data.length; x++) {
-                            html += "<div alt=" + data[x].OBJECTID + " class='item'>" + data[x].OBJECTID + " - " + data[x].MaDoiTuong + "</div>";
-                        }
-                        $("#result_SearchData_Content").html(html);
-                        $("#resultCount").html(" Có " + data.length + " đối tượng được tìm thấy.");
-
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse.responseText);
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    }
-                });
-            }
-            if (dID == "TramXLNT") {
-                var cbb_DVQuanLy_BeChua = $("#cbb_DVQuanLy_TramXLNT").val();
-                var cbb_QuanHuyen_BeChua = $("#cbb_QuanHuyen_TramXLNT").val();
-                var cbb_PhuongXa_BeChua = $("#cbb_PhuongXa_TramXLNT").val();
-                url = urlLocation + "/Home/getHIENTRANG_TRAMXLNT";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { DVQuanLy: cbb_DVQuanLy_BeChua, QuanHuyen: cbb_QuanHuyen_BeChua, PhuongXa: cbb_PhuongXa_BeChua },
-                    cache: false,
-                    success: function (data) {
-
-                        var html = "";
-                        for (var x = 0; x < data.length; x++) {
-                            html += "<div alt=" + data[x].OBJECTID + " class='item'>" + data[x].OBJECTID + " - " + data[x].MaDoiTuong + "</div>";
-                        }
-                        $("#result_SearchData_Content").html(html);
-                        $("#resultCount").html(" Có " + data.length + " đối tượng được tìm thấy.");
-
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse.responseText);
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    }
-                });
-            }
-            if (dID == "CongThoatNuoc") {
-                var cbb_DVQuanLy_BeChua = $("#cbb_DVQuanLy_CongThoatNuoc").val();
-                var cbb_QuanHuyen_BeChua = $("#cbb_QuanHuyen_CongThoatNuoc").val();
-                var cbb_PhuongXa_BeChua = $("#cbb_PhuongXa_CongThoatNuoc").val();
-                url = urlLocation + "/Home/getHIENTRANG_CONGTHOATNUOC";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { DVQuanLy: cbb_DVQuanLy_BeChua, QuanHuyen: cbb_QuanHuyen_BeChua, PhuongXa: cbb_PhuongXa_BeChua },
-                    cache: false,
-                    success: function (data) {
-
-                        var html = "";
-                        for (var x = 0; x < data.length; x++) {
-                            html += "<div alt=" + data[x].OBJECTID + " class='item'>" + data[x].OBJECTID + " - " + data[x].MaDoiTuong + "</div>";
-                        }
-                        $("#result_SearchData_Content").html(html);
-                        $("#resultCount").html(" Có " + data.length + " đối tượng được tìm thấy.");
-
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse.responseText);
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    }
-                });
-            }
-            if (dID == "MoiNoiCong") {
-                var cbb_DVQuanLy_BeChua = $("#cbb_DVQuanLy_MoiNoiCong").val();
-                var cbb_QuanHuyen_BeChua = $("#cbb_QuanHuyen_MoiNoiCong").val();
-                var cbb_PhuongXa_BeChua = $("#cbb_PhuongXa_MoiNoiCong").val();
-                url = urlLocation + "/Home/getHIENTRANG_MOINOITHOATNUOC";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { DVQuanLy: cbb_DVQuanLy_BeChua, QuanHuyen: cbb_QuanHuyen_BeChua, PhuongXa: cbb_PhuongXa_BeChua },
-                    cache: false,
-                    success: function (data) {
-
-                        var html = "";
-                        for (var x = 0; x < data.length; x++) {
-                            html += "<div alt=" + data[x].OBJECTID + " class='item'>" + data[x].OBJECTID + " - " + data[x].MaDoiTuong + "</div>";
-                        }
-                        $("#result_SearchData_Content").html(html);
-                        $("#resultCount").html(" Có " + data.length + " đối tượng được tìm thấy.");
-
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse.responseText);
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    }
-                });
-            }
-            if (dID == "MiengXa") {
-                var cbb_DVQuanLy_BeChua = $("#cbb_DVQuanLy_MiengXa").val();
-                var cbb_QuanHuyen_BeChua = $("#cbb_QuanHuyen_MiengXa").val();
-                var cbb_PhuongXa_BeChua = $("#cbb_PhuongXa_MiengXa").val();
-                url = urlLocation + "/Home/getHIENTRANG_MIENGXA";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { DVQuanLy: cbb_DVQuanLy_BeChua, QuanHuyen: cbb_QuanHuyen_BeChua, PhuongXa: cbb_PhuongXa_BeChua },
-                    cache: false,
-                    success: function (data) {
-
-                        var html = "";
-                        for (var x = 0; x < data.length; x++) {
-                            html += "<div alt=" + data[x].OBJECTID + " class='item'>" + data[x].OBJECTID + " - " + data[x].MaDoiTuong + "</div>";
-                        }
-                        $("#result_SearchData_Content").html(html);
-                        $("#resultCount").html(" Có " + data.length + " đối tượng được tìm thấy.");
-
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse.responseText);
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    }
-                });
-            }
-            if (dID == "HoGa") {
-                var cbb_DVQuanLy_BeChua = $("#cbb_DVQuanLy_HoGa").val();
-                var cbb_QuanHuyen_BeChua = $("#cbb_QuanHuyen_HoGa").val();
-                var cbb_PhuongXa_BeChua = $("#cbb_PhuongXa_HoGa").val();
-                url = urlLocation + "/Home/getHIENTRANG_HOGA";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: { DVQuanLy: cbb_DVQuanLy_BeChua, QuanHuyen: cbb_QuanHuyen_BeChua, PhuongXa: cbb_PhuongXa_BeChua },
-                    cache: false,
-                    success: function (data) {
-
-                        var html = "";
-                        for (var x = 0; x < data.length; x++) {
-                            html += "<div alt=" + data[x].OBJECTID + " class='item'>" + data[x].OBJECTID + " - " + data[x].MaDoiTuong + "</div>";
-                        }
-                        $("#result_SearchData_Content").html(html);
-                        $("#resultCount").html(" Có " + data.length + " đối tượng được tìm thấy.");
-
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    },
-                    error: function (reponse) {
-                        alert("error : " + reponse.responseText);
-                        $("#loading").removeClass("display");
-                        $("#loading").addClass("undisplay");
-                    }
-                });
-            }
-        });
-
-        $("#result_SearchData_Content").on("click", "div.item", function () {
-            var dID = classDataLayer;
-            var objectID = $(this).attr('alt');
-            if (dID == "BeChua") {
-                zoomRowPoint(objectID, BeChuaFeatureLayer);
-            }
-            if (dID == "Gieng") {
-                zoomRowPoint(objectID, GiengFeatureLayer);
-            }
-            if (dID == "LuuVucThoatNuoc") {
-                zoomRowPolygon(objectID, LuuVucThoatNuocFeatureLayer);
-            }
-            if (dID == "KhuVucNgap") {
-                zoomRowPolygon(objectID, KhuVucNgapFeatureLayer);
-            }
-            if (dID == "TramBom") {
-                zoomRowPoint(objectID, TramBomFeatureLayer);
-            }
-            if (dID == "TramXLNT") {
-                zoomRowPolygon(objectID, TramXLNTFeatureLayer);
-            }
-            if (dID == "CongThoatNuoc") {
-                zoomRowPolygon(objectID, CongThoatNuocFeatureLayer);
-            }
-            if (dID == "MoiNoiCong") {
-                zoomRowPoint(objectID, MoiNoiCongTNFeatureLayer);
-            }
-            if (dID == "MiengXa") {
-                zoomRowPoint(objectID, MiengXaFeatureLayer);
-            }
-            if (dID == "HoGa") {
-                zoomRowPoint(objectID, HoGaFeatureLayer);
-            }
-        });
-
-        function zoomRowPoint(id, layerClass) {
-            map.graphics.clear();
-            layerClass.clearSelection();
-            var query = new Query();
-            query.objectIds = [id];
-            layerClass.selectFeatures(query, FeatureLayer.SELECTION_NEW, function (features) {
-                if (features.length > 0) {
-                    var point = features[0].geometry;
-                    if (point) {
-                        var pt = new Point(point.x, point.y, map.spatialReference);
-                        if (pt) {
-                            var extent = new Extent((point.x + 10), (point.y + 10), (point.x - 10), (point.y - 10), map.spatialReference);
-                            layerClass.selectFeatures(features[0]);
-                            var stateExtent = extent.expand(5.0);
-                            map.setExtent(stateExtent);
-                        }
-                    }
-                }
-
-            });
-        }
-
-        function zoomRowPolygon(id, layerClass) {
-            layerClass.clearSelection();
-            map.graphics.clear();
-            var query = new Query();
-            query.objectIds = [id];
-            layerClass.selectFeatures(query, FeatureLayer.SELECTION_NEW, function (features) {
-                //zoom to the selected feature
-                layerClass.selectFeatures[features[0]];
-                var stateExtent = features[0].geometry.getExtent().expand(10);
-                map.setExtent(stateExtent);
-
-                //var graphic = features[0]; //Feature is a graphic
-                //graphic.setSymbol(lineSelectionSymbol);
-                //map.graphics.add(graphic);
-
-            });
-        }
-
-        ////////////////////////////////
+        
 
     });

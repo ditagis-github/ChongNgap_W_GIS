@@ -7,6 +7,9 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.material.mobile.min.css" />
 </head>
 <body class="claro">
     <div id="header">
@@ -21,6 +24,10 @@
     var URL_SCRIPTS = "@Url.Content("~/Scripts")";
     </script>
     <script src="~/Scripts/dojoConfig.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2018.2.620/js/jquery.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2018.2.620/js/kendo.all.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.4.0/jszip.js"></script>
     @RenderSection("scripts", required: false)
 
     <script>
@@ -40,9 +47,6 @@
            // $(".left_panel").css("height", (height - 20) + "px");
             $(".left_panel").css("max-height", (height - 40) + "px");
             $(".left_panel").slideUp();
-            $("#DistancePanel").slideUp();
-            $("#PrintPanel").slideUp();
-            $("#LayerLegend").slideUp();
             $("#LayerList").slideDown();
         });
 

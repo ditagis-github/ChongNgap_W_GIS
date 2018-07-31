@@ -34,44 +34,54 @@ define(["require", "exports"], function (require, exports) {
         layers: {
             LuuVucThoatNuoc: {
                 url: "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/9",
-                id: "LuuVucThoatNuoc"
+                id: "LuuVucThoatNuoc",
+                searchFields:["DonViQuanLy","MaQuanHuyen","MaPhuongXa"],
             },
             KhuVucNgap: {
                 url: "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/7",
-                id: "KhuVucNgap"
+                id: "KhuVucNgap",
+                searchFields:["DonViQuanLy","MaQuanHuyen","MaPhuongXa"],
             },
             TramBom: {
                 url: "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/0",
-                id: "TramBom"
+                id: "TramBom",
+                searchFields:["DonViQuanLy","MaQuanHuyen","MaPhuongXa"],
             },
             TramXLNT: {
                 url: "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/8",
-                id: "TramXLNT"
+                id: "TramXLNT",
+                searchFields:["DonViQuanLy","MaQuanHuyen","MaPhuongXa"],
             },
             BeChua: {
                 url: "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/5",
-                id: "BeChua"
+                id: "BeChua",
+                searchFields:["DonViQuanLy","MaQuanHuyen","MaPhuongXa"],
             },
             CongThoatNuoc: {
                 url: "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/6",
-                id: "CongThoatNuoc"
+                id: "CongThoatNuoc",
+                searchFields:["DonViQuanLy","MaQuanHuyen","MaPhuongXa"],
             },
             
-            MoiNoiCongTN: {
+            MoiNoiCong: {
                 url: "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/1",
-                id: "MoiNoiCongTN"
+                id: "MoiNoiCong",
+                searchFields:["DonViQuanLy","MaQuanHuyen","MaPhuongXa"],
             },
             MiengXa: {
                 url: "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/2",
-                id: "MiengXa"
+                id: "MiengXa",
+                searchFields:["DonViQuanLy","MaQuanHuyen","MaPhuongXa"],
             },
             HoGa: {
                 url: "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/3",
-                id: "HoGa"
+                id: "HoGa",
+                searchFields:["DonViQuanLy","MaQuanHuyen","MaPhuongXa"],
             },
             Gieng: {
                 url: "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/4",
-                id: "Gieng"
+                id: "Gieng",
+                searchFields:["DonViQuanLy","MaQuanHuyen","MaPhuongXa"],
             },
             
             

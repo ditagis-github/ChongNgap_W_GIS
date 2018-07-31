@@ -261,7 +261,7 @@ namespace WebTNBDGIS.Controllers
                     where += " AND MaPhuongXa=@MaPhuongXa";
                     list.Add(param);
                 }
-                string query = "SELECT OBJECTID,TenLuuVuc,NgayCapNhat,NguoiCapNhat,DonViCapNhat,DonViQuanLy,GhiChu,DienTich,MaDoiTuong,MaPhuongXa,MaQuanHuyen,GiaiDoanQuyHoach ";
+                string query = "SELECT OBJECTID,TenLuuVuc,CONVERT(VARCHAR,NgayCapNhat,103) as NgayCapNhat,NguoiCapNhat,DonViCapNhat,DonViQuanLy,GhiChu,DienTich,MaDoiTuong,MaPhuongXa,MaQuanHuyen,GiaiDoanQuyHoach ";
                 query += " FROM HIENTRANG_LUUVUCTHOATNUOC " + where;
                 List<HIENTRANG_LUUVUCTHOATNUOC> listResult = this.gisRepository.HIENTRANG_LUUVUCTHOATNUOC(query, list);
                 return new LargeJsonResult { Data = listResult, JsonRequestBehavior = System.Web.Mvc.JsonRequestBehavior.AllowGet };

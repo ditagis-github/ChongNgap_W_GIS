@@ -231,8 +231,24 @@ textarea {
         color: #fff;
     }
 
-#resultCount {
+.loading-label {
     padding: 5px 0;
     color: #b90808;
     font-weight: 700;
+}
+div#report-objects {
+    padding: 0;
+}
+.k-widget.k-window{
+    padding-top: 38px;
+    min-width: 90px;
+    min-height: 50px;
+    display: block;
+    left: -0.5px;
+    top: 96px;
+    z-index: 10003;
+    opacity: 1;
+    height: 594px;
+    position: absolute;
+    width: 574px;
 }
