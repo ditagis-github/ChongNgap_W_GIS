@@ -8,7 +8,7 @@
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-                aria-expanded="false">
+                aria-expanded="false"   >
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -70,32 +70,6 @@
                         </li>
                     </ul>
                 </li>
-                @*
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-bar-chart"></i>&nbsp;Thống kê
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="#">Action</a>
-                        </li>
-                        <li>
-                            <a href="#">Another action</a>
-                        </li>
-                        <li>
-                            <a href="#">Something else here</a>
-                        </li>
-                        <li role="separator" class="divider"></li>
-                        <li>
-                            <a href="#">Separated link</a>
-                        </li>
-                        <li role="separator" class="divider"></li>
-                        <li>
-                            <a href="#">One more separated link</a>
-                        </li>
-                    </ul>
-                </li>*@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-edge"></i>&nbsp;Website liên kết
@@ -159,47 +133,6 @@
         </div>
     </div>
 
-    <div id="homeButton"></div>
-    <!-- hidden -->
-    <div id="LayerList" class="left_panel">
-        <div class="headerLeftPanel">
-            Lớp dữ liệu
-        </div>
-        <div id="LayerList_Content"></div>
-    </div>
-
-    <div id="LayerLegend" class="left_panel">
-        <div class="headerLeftPanel">
-            Chú giải lớp dữ liệu
-        </div>
-        <div id="LayerLegend_Content"></div>
-    </div>
-
-    <div id="SearchPanel" class="left_panel">
-        <div class="headerLeftPanel" id="titleSearchHeader">
-            Tìm kiếm
-        </div>
-        <div id="searchPanel_Content">
-        </div>
-
-        <div id="result_SearchData" style="">
-            <div style="text-align:center;" class="row">
-                <div class="col-xs-4">
-                    <button id="btSearch" class="btn btn-danger">Tìm kiếm</button>
-                </div>
-                <div class="col-xs-4">
-                    <span id="loading" class="undisplay">
-                        <i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i>
-                    </span>
-                </div>
-            </div>
-            <div class="loading-label undisplay">
-                Vui lòng đợi trong giây lát....
-            </div>
-        </div>
-
-    </div>
-
     <div id="DistancePanel" class="left_panel">
         <div class="headerLeftPanel">
             Đo khoảng cách
@@ -208,7 +141,34 @@
 
         </div>
     </div>
-    <div id="PrintPanel" class="left_panel">
+    
+
+
+</div>
+<div class="panel-widget">
+    <div id="homeButton"></div>
+     <div id="LayerList" class="panel-group panel-info left_panel1">
+            <div class="headerLeftPanel">
+                Lớp dữ liệu
+            </div>
+            <div id="LayerList_Content"></div>
+    </div>
+    <div id="LayerLegend" class="panel-group panel-info left_panel1">
+        <div class="headerLeftPanel">
+            Chú giải lớp dữ liệu
+        </div>
+        <div id="legendDiv" class="legend"></div>
+       
+    </div>
+    <div class="panel-group panel-info left_panel1" id="search-tool">
+        <div class="headerLeftPanel" id="title-search">
+            Lớp dữ liệu
+            </div>
+            <div id="query-fields-widget">
+            </div>
+        </div>
+    </div>
+    <div id="PrintPanel" class="panel-group panel-info left_panel1">
         <div class="headerLeftPanel">
             In ấn dữ liệu bản đồ
         </div>
@@ -216,10 +176,10 @@
             <div id="print_button"></div>
         </div>
     </div>
-
-
 </div>
+
 
 @section scripts {
 <script src="https://js.arcgis.com/3.20/"></script>
-<script src="~/Scripts/ditagis/map.js"></script> }
+<script src="~/Scripts/ditagis/map.js"></script> 
+}

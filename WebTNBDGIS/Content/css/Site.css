@@ -182,11 +182,11 @@ textarea {
 .left_panel {
     width: 300px;
     position: absolute;
-    right: 5px;
+    right: 405px;
     top: 130px;
-    background-color: #11c290;
+    background-color: #079309;
     z-index: 999;
-    padding: 5px;
+    padding: 1px 2px 4px 2px;
     color: #fff;
     overflow:hidden;
     overflow-y:auto;
@@ -194,11 +194,9 @@ textarea {
 
 .headerLeftPanel {
     padding: 5px;
-    margin: 5px 0;
-    border-bottom: 1px solid #cdcdcd;
-    color: #effc27;
-    font-weight: 600;
-    font-size: 1.2em;
+    color: #fff;
+    font-weight: 500;
+    padding: 7px 6px;
 }
 
 
@@ -248,7 +246,14 @@ div#report-objects {
     top: 96px;
     z-index: 10003;
     opacity: 1;
-    height: 594px;
     position: absolute;
     width: 574px;
 }
+.k-widget.k-window.k-dialog.k-alert{
+    background-color: #4285F4;
+}
+span.k-window-title.k-dialog-title {
+    color: #fff;
+}
+
+

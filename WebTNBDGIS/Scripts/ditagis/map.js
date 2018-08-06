@@ -2,10 +2,11 @@
 
     "ditagis/configs",
     "ditagis/maptools/SearchLayer",
+    "ditagis/layers/FeatureLayer",
     "esri/toolbars/navigation", "dijit/registry", "dojo/on",
     "esri/map", "esri/graphic",
     "esri/request", "esri/config", "esri/Color",
-    "esri/layers/FeatureLayer", "esri/layers/ArcGISDynamicMapServiceLayer", "esri/layers/ImageParameters",
+    "esri/layers/ArcGISDynamicMapServiceLayer", "esri/layers/ImageParameters",
     "esri/geometry/Point", "esri/geometry/Extent",
     "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleFillSymbol", "esri/symbols/SimpleMarkerSymbol",
     "esri/arcgis/utils",
@@ -17,10 +18,12 @@
     "dijit/Toolbar",
     "dojo/domReady!"
 ], function (configs, SearchLayer,
+    FeatureLayer,
     Navigation, registry, on,
     Map, Graphic,
     esriRequest, esriConfig, Color,
-    FeatureLayer, ArcGISDynamicMapServiceLayer, ImageParameters,
+
+    ArcGISDynamicMapServiceLayer, ImageParameters,
     Point, Extent,
     SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol,
     arcgisUtils,
@@ -90,7 +93,7 @@
                 outFields: ["*"]
             });
 
-        
+
         var LuuVucThoatNuocFeatureLayer = new FeatureLayer(varLinkLuuVucThoatNuoc,
             {
                 mode: FeatureLayer.MODE_ONEDEMAND,
@@ -102,6 +105,7 @@
         var map = new Map("mapDiv", {
             logo: false,
         });
+        // map.on("layers-add-result", initEditor);
         map.on('load', loadedMap);
         function loadedMap() {
             var centerStart = new esri.geometry.Point(602626.795, 1228203.586, map.spatialReference);
@@ -124,16 +128,16 @@
 
 
         map.addLayer(baseMapServiceLayer);
+        var featureLayers = [];
         for (const key in configs.layers) {
             let layercf = configs.layers[key];
-            let layer = new FeatureLayer(layercf.url, {
-                mode: FeatureLayer.MODE_ONEDEMAND,
-                outFields: ["*"],
-                id: layercf.id,
-            });
-            layer.searchFields = layercf.searchFields;
-            map.addLayer(layer);
-            layer.on('load', (result) => {
+            let featureLayer = new FeatureLayer(layercf.url);
+            featureLayer.outFields = ["*"];
+            featureLayer.id = layercf.id;
+            featureLayer.searchFields = layercf.searchFields;
+            // map.addLayer(featureLayer);
+            featureLayers.push(featureLayer);
+            featureLayer.on('load', (result) => {
                 const layer = result.layer;
                 if (layer.id == "CongThoatNuoc") {
                     layer.setSelectionSymbol(selectionSymbol);
@@ -144,8 +148,20 @@
                 }
             });
         }
-        // map.on("layers-add-result", initEditor);
-        on(map, "layer-add-result", initEditor);
+        map.addLayers(featureLayers);
+        // on(map, "layer-add-result", initEditor);
+        map.on("layers-add-result", function (evt) {
+            var layerInfo = array.map(evt.layers, function (layer, index) {
+                return { layer: layer.layer, title: layer.layer.name };
+            });
+            if (layerInfo.length > 0) {
+                var legendDijit = new Legend({
+                    map: map,
+                    layerInfos: layerInfo
+                }, "legendDiv");
+                legendDijit.startup();
+            }
+        });
         function initEditor(evt) {
 
             getHanhChinhHuyen();
@@ -294,7 +310,9 @@
 
         registry.byId("deactivate").on("click", function () {
             navToolbar.deactivate();
-            $(".left_panel").slideUp();
+            $(".left_panel").hide();
+            $(".panel-group").hide();
+
         });
 
         function extentHistoryChangeHandler() {
@@ -357,10 +375,14 @@
                 "map": map,
                 "templates": templates,
                 url: printUrl
-            }, dom.byId("print_button"));
+            }, dom.byId("printButton"));
             printer.startup();
         }
-
+        var printer = new Print({
+            map: map,
+            url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+          }, dom.byId("print_button"));
+          printer.startup();
         function handleError(err) {
             // console.log("Something broke: ", err);
         }
@@ -557,28 +579,19 @@
         });
 
         $("#listLayerButton").click(function (evt) {
-            $("#SearchPanel").slideUp();
-            $("#PrintPanel").slideUp();
-            $("#DistancePanel").slideUp();
-            $("#LayerLegend").slideUp();
-            $("#LayerList").slideDown();
+            $(".panel-group").hide();
+            $("#LayerList").show();
         });
 
 
         $("#legendLayerButton").click(function (evt) {
-            $("#SearchPanel").slideUp();
-            $("#PrintPanel").slideUp();
-            $("#DistancePanel").slideUp();
-            $("#LayerList").slideUp();
-            $("#LayerLegend").slideDown();
+            $(".panel-group").hide();
+            $("#LayerLegend").show();
         });
 
         $("#printButton").click(function (evt) {
-            $("#SearchPanel").slideUp();
-            $("#LayerList").slideUp();
-            $("#DistancePanel").slideUp();
-            $("#LayerLegend").slideUp();
-            $("#PrintPanel").slideDown();
+            $(".panel-group").hide();
+            $("#PrintPanel").show();
         });
 
         $("#searchButton").click(function (evt) {
@@ -602,8 +615,8 @@
 
         });
 
-        
 
-        
+
+
 
     });

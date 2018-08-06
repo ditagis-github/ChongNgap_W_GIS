@@ -1,0 +1,75 @@
+/* begin code - 31.7.2018 */
+#search-tool>div {
+    height: 100%;
+}
+#search-tool > div > span > span > span.k-select, #search-tool > div > span > span > span.k-input{
+    background-color: #079309;
+    color: #fff;
+}
+ul.fieldList {
+    margin: 0;
+    list-style: none;
+    padding: 0;
+}
+label {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 2px;
+    margin-top: 8px;
+    font-weight: bold;
+    font-size: 12px;
+}
+input.input-field.k-textbox, input.input-field {
+    height: 35px;
+    color: #000;
+    border-color: #bcb0b0;
+    border-width: 1px;
+    border-style: solid;
+}
+span.k-widget.k-dropdown.k-header.input-field, span.k-widget.k-datepicker.k-header.input-field {
+    color: #000;
+    border-color: #bcb0b0;
+    border-width: 1px;
+    border-style: solid;
+}
+#query-fields-widget{
+    padding: 0 10px;
+    width: 300px;
+    overflow-y: auto;
+    max-height: 60vh !important;
+    background: #d8faeb;
+}
+.legend{
+    padding: 0 10px;
+    width: 300px;
+    overflow-y: auto;
+    max-height: 60vh !important;
+    background: #d8faeb;
+}
+div#title-search {
+    background-color: #079309;
+    color: #fff;
+    padding: 7px 6px;
+    font-weight: 500;
+}
+#query-fields-widget button.k-primary{
+    margin: 10px 0;
+    width: 100%;
+    background: #079309;
+    border-color: #079309;
+}
+.panel-info {
+    border-color: #079309;
+}
+
+.panel-group {
+    background-color: #079309;
+    margin-bottom: 20px;
+    padding: 1px 2px 4px 2px;
+}
+.left_panel1{
+    position: absolute;
+    right: 5px;
+    top: 130px;
+    width: 300px;
+}
