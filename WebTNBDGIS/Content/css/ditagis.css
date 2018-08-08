@@ -32,16 +32,8 @@ span.k-widget.k-dropdown.k-header.input-field, span.k-widget.k-datepicker.k-head
     border-width: 1px;
     border-style: solid;
 }
-#query-fields-widget{
+.content-panel{
     padding: 0 10px;
-    width: 300px;
-    overflow-y: auto;
-    max-height: 60vh !important;
-    background: #d8faeb;
-}
-.legend{
-    padding: 0 10px;
-    width: 300px;
     overflow-y: auto;
     max-height: 60vh !important;
     background: #d8faeb;
@@ -72,4 +64,11 @@ div#title-search {
     right: 5px;
     top: 130px;
     width: 300px;
+}
+
+.esriToggleButton.esri-icon-right {
+    margin-right: 6px;
+}
+.esriToggleButton.esri-icon-down {
+    margin-right: 6px;
 }

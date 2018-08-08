@@ -43,78 +43,7 @@ define([
                 }
                 this.features(where);
             });
-            $(".searchData1").click((evt) => {
-                $("#searchPanel_Content #searchPanel_Field_Content").remove();
-                this.select_hanhchinhxa.find('option').remove().end().append(this.option_default).val('');
-                let layerID = evt.target.title;
-                var title = evt.target.text;
-                $("#titleSearchHeader").html("Tìm kiếm " + title);
-                this.searchLayer = map.getLayer(layerID);
-                if (this.searchLayer == null) return;
-                let searchFields = this.searchLayer.searchFields;
-                let fields = this.searchLayer.fields;
-                for (const searchField of searchFields) {
-                    for (const field of fields) {
-                        if (searchField == field.name) {
-                            let searchField_Content = $("<div/>", {
-                                id: "searchPanel_Field_Content",
-                                class: "SearchPanel_Content"
-                            });
-                            $("#searchPanel_Content").append(searchField_Content);
-                            let label_Field = $("<label>").text(field.alias);
-                            searchField_Content.append(label_Field);
-                            if (field.domain) {
-                                let domainData = field.domain;
-                                let valueDomain = domainData.codedValues;
-                                let select = $('<select/>', {
-                                    id: "cbb_DVQuanLy",
-                                    class: "form-control"
-                                });
-                                searchField_Content.append(select);
-                                let option = $('<option/>');
-                                option.attr({ 'value': '' }).text('Chọn...');
-                                select.append(option);
-                                for (var x = 0; x < valueDomain.length; x++) {
-                                    let option = $('<option/>');
-                                    option.attr({ 'value': valueDomain[x].code }).text(valueDomain[x].name);
-                                    select.append(option);
-                                }
-                            }
-                            if (field.name == 'MaQuanHuyen') {
-                                let select = $('<select/>', {
-                                    id: "cbb_QuanHuyen",
-                                    class: "form-control"
-                                });
-                                for (const huyen of this.dsHuyen) {
-                                    let option = $('<option/>');
-                                    option.attr({ 'value': huyen.value }).text(huyen.text);
-                                    select.append(option);
-                                }
-                                select.change((evt) => {
-                                    this.select_hanhchinhxa.find('option').remove().end().append(this.option_default).val('');
-                                    var dID = evt.currentTarget.value;
-                                    console.log(dID);
-                                    for (const xa of this.dsXa) {
-                                        if (dID == xa.MaHuyenTP || xa.MaHuyenTP == "default") {
-                                            let option = $('<option/>');
-                                            option.attr({ 'value': xa.value }).text(xa.text);
-                                            this.select_hanhchinhxa.append(option);
-                                        }
-                                    }
-
-                                });
-                                searchField_Content.append(select);
-                            }
-                            if (field.name == 'MaPhuongXa') {
-                                searchField_Content.append(this.select_hanhchinhxa);
-                            }
-                            break;
-                        }
-                    }
-                }
-                $(".left_panel").slideUp();
-                $("#SearchPanel").slideDown();
-            });
+           
             $(".searchData").click((evt) => {
                 $(".panel-group").hide();
                 $("#search-tool").show();
@@ -128,7 +57,7 @@ define([
         selectLayer_change(evt) {
             $("#searchPanel_Content #searchPanel_Field_Content").remove();
             this.select_hanhchinhxa.find('option').remove().end().append(this.option_default).val('');
-            let layerID = evt.target.title;
+            let layerID = evt.target.id;
             var title = evt.target.text;
             $("#title-search").html(title);
             this.searchLayer = this.map.getLayer(layerID);

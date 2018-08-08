@@ -20,16 +20,16 @@ define(["../core/Base",
                 super();
                 this.map = map;
                 this.displayFields = {
-                    CongThoatNuoc: [
-                        { width: 60, title: "STT", field: "STT" },
-                        { width: 60, title: "ChieuDai", field: "ChieuDai" },
-                        { width: 60, title: "DoDoc", field: "DoDoc" },
-                    ],
+                    // CongThoatNuoc: [
+                    //     { width: 60, title: "STT", field: "STT" },
+                    //     { width: 60, title: "ChieuDai", field: "ChieuDai" },
+                    //     { width: 60, title: "DoDoc", field: "DoDoc" },
+                    // ],
                     BeChua: [
                         { width: 60, title: "STT", field: "STT" },
                         { width: 60, title: "DienTich", field: "DienTich" },
                         { width: 60, title: "CongSuat", field: "CongSuat" },
-                    ]
+                    ],
                 };
                 this.initWindowKendo();
 

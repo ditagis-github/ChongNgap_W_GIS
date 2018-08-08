@@ -37,37 +37,19 @@
 
 
         parser.parse();
-
-        // var url = "/DotNet/proxy.ashx";
-        // esriConfig.defaults.io.proxyUrl = url;
-        //This service is for development and testing purposes only. We recommend that you create your own geometry service for use within your applications
         esriConfig.defaults.geometryService = new GeometryService("http://112.78.4.175:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
-
-        var urlLocation = "";
-
+        esriConfig.defaults.io.corsEnabledServers.push({
+            host: "sampleserver6.arcgisonline.com",
+            withCredentials: true
+        })
         var imageParameters = new ImageParameters();
         imageParameters.format = "jpeg";
 
         var geoMetryLink = "http://112.78.4.175:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer";
         var printUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task";
-
         var linkBaseMap = "http://112.78.4.175:6080/arcgis/rest/services/BaseMap_ChongNgapBD/MapServer";
-        var linkHanhChinhHuyen = "http://112.78.4.175:6080/arcgis/rest/services/BaseMap_ChongNgapBD/MapServer/5";
-        var linkHanhChinhXa = "http://112.78.4.175:6080/arcgis/rest/services/BaseMap_ChongNgapBD/MapServer/4";
-        var linkChuyenDeGISMap = "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer";
 
 
-
-        varLinkTramBom = "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/0";
-        varLinkMoiNoiCongTN = "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/1";
-        varLinkMiengXa = "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/2";
-        varLinkHoGa = "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/3";
-        varLinkGieng = "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/4";
-        varLinkBeChua = "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/5";
-        varLinkCongThoatNuoc = "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/6";
-        varLinkKhuVucNgap = "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/7";
-        varLinkTramXLNT = "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/8";
-        varLinkLuuVucThoatNuoc = "http://112.78.4.175:6080/arcgis/rest/services/ChuyenDe_ChongNgapBD/MapServer/9";
 
         var baseMapServiceLayer = new ArcGISDynamicMapServiceLayer(linkBaseMap, {
             "imageParameters": imageParameters,
@@ -75,44 +57,43 @@
             "className": "BaseMapLayer"
         });
 
-        var ChuyenDeGISMapServiceLayer = new ArcGISDynamicMapServiceLayer(linkChuyenDeGISMap, {
-            "imageParameters": imageParameters,
-            "id": "Bản đồ chuyên đề"
-        });
-
-        var HanhChinhHuyenFeatureLayer = new FeatureLayer(linkHanhChinhHuyen,
-            {
-                mode: FeatureLayer.MODE_ONEDEMAND,
-                outFields: ["*"],
-                id: "HanhChinhHuyen"
-            });
-
-        var HanhChinhXaFeatureLayer = new FeatureLayer(linkHanhChinhXa,
-            {
-                mode: FeatureLayer.MODE_ONEDEMAND,
-                outFields: ["*"]
-            });
-
-
-        var LuuVucThoatNuocFeatureLayer = new FeatureLayer(varLinkLuuVucThoatNuoc,
-            {
-                mode: FeatureLayer.MODE_ONEDEMAND,
-                outFields: ["*"]
-            });
-
 
         // Get a reference to the ArcGIS Map class
         var map = new Map("mapDiv", {
             logo: false,
         });
-        // map.on("layers-add-result", initEditor);
+        // // map.on("layers-add-result", initEditor);
         map.on('load', loadedMap);
         function loadedMap() {
             var centerStart = new esri.geometry.Point(602626.795, 1228203.586, map.spatialReference);
             map.centerAt(centerStart);
             map.setScale(500000);
         }
-
+        var printer = new Print({
+            map: map,
+            url: printUrl
+        }, dom.byId("print_button"));
+        print.templates = [{
+            label: "Map",
+            format: "PDF",
+            layout: "MAP_ONLY",
+            exportOptions: {
+                width: 500,
+                height: 400,
+                dpi: 96
+            }
+        }, {
+            label: "Layout",
+            format: "PDF",
+            layout: "A4 Portrait",
+            layoutOptions: {
+                titleText: "My Print",
+                authorText: "esri",
+                copyrightText: "My Company",
+                scalebarUnit: "Miles",
+            }
+        }]
+        printer.startup();
 
         var style_point = new SimpleMarkerSymbol({
             "color": [127, 255, 255, 255], "size": 10, "type": "esriSMS", "style": "esriSMSCircle", "outline": {
@@ -135,7 +116,7 @@
             featureLayer.outFields = ["*"];
             featureLayer.id = layercf.id;
             featureLayer.searchFields = layercf.searchFields;
-            // map.addLayer(featureLayer);
+            featureLayer.title = layercf.title;
             featureLayers.push(featureLayer);
             featureLayer.on('load', (result) => {
                 const layer = result.layer;
@@ -149,111 +130,30 @@
             });
         }
         map.addLayers(featureLayers);
-        // on(map, "layer-add-result", initEditor);
         map.on("layers-add-result", function (evt) {
-            var layerInfo = array.map(evt.layers, function (layer, index) {
+            var layerInfos = array.map(evt.layers, function (layer, index) {
                 return { layer: layer.layer, title: layer.layer.name };
             });
-            if (layerInfo.length > 0) {
+            if (layerInfos.length > 0) {
                 var legendDijit = new Legend({
                     map: map,
-                    layerInfos: layerInfo
+                    layerInfos: layerInfos
                 }, "legendDiv");
                 legendDijit.startup();
+                var ul = $("#search-layers");
+                for (const layerInfo of layerInfos) {
+                    let li = $('<li/>').appendTo(ul);
+                    $('<a/>', {
+                        id: layerInfo.layer.id,
+                        class: "searchData",
+                        text: layerInfo.layer.title
+
+                    }).appendTo(li);
+                }
             }
+            new SearchLayer(map);
         });
-        function initEditor(evt) {
-
-            getHanhChinhHuyen();
-
-            // var map = this;
-
-            var layerInfo = array.map(evt.layers, function (layer, index) {
-                return { layer: layer.layer, title: layer.layer.name };
-            });
-            if (layerInfo.length > 0) {
-                var legendDijit = new Legend({
-                    map: map,
-                    layerInfos: layerInfo
-                }, "LayerLegend_Content");
-                legendDijit.startup();
-            }
-
-            var layers = array.map(evt.layers, function (result) {
-                return result.layer;
-            });
-
-
-            //display read-only info window when user clicks on feature 
-            var query = new esri.tasks.Query();
-
-            dojo.forEach(layers, function (layer) {
-                dojo.connect(layer, "onClick", function (evt) {
-                    if (map.infoWindow.isShowing) {
-                        map.infoWindow.hide();
-                    }
-
-                    var layerInfos = [{
-                        'featureLayer': layer,
-                        'isEditable': false,
-                        'showDeleteButton': false
-                    }];
-
-                    var attInspector = new esri.dijit.AttributeInspector({
-                        layerInfos: layerInfos
-                    }, dojo.create("div"));
-
-                    if (evt.graphic) {
-                        query.objectIds = [evt.graphic.attributes["OBJECTID"]];
-                    }
-                    else {
-                        return;
-                    }
-                    layer.selectFeatures(query, esri.layers.FeatureLayer.SELECTION_NEW, function (features) {
-                        if (features.length > 0) {
-                            featUpdate = features[0];
-                            map.infoWindow.setTitle(layer.name);
-                            map.infoWindow.setContent(attInspector.domNode);
-                            map.infoWindow.resize(310, 350);
-
-                            var typeGeo = layer.geometryType;
-                            // alert(typeGeo);
-                            if (typeGeo == 'esriGeometryPoint') {
-                                map.infoWindow.show(featUpdate.geometry, map.getInfoWindowAnchor(featUpdate.geometry));
-                            }
-                            else {
-                                var myPolygonCenterLatLon = featUpdate.geometry.getExtent().getCenter();
-                                map.infoWindow.show(myPolygonCenterLatLon, map.getInfoWindowAnchor(myPolygonCenterLatLon));
-                            }
-
-                        }
-                        else {
-                            map.infoWindow.hide();
-                        }
-                    });
-
-                });
-            });
-
-            map.on("click", function (evt) {
-                map.graphics.clear();
-            });
-            map.infoWindow.on("hide", function () {
-                /*tam cmt*/
-                // LuuVucThoatNuocFeatureLayer.clearSelection();
-                // KhuVucNgapFeatureLayer.clearSelection();
-                // TramBomFeatureLayer.clearSelection();
-                // TramXLNTFeatureLayer.clearSelection();
-                // BeChuaFeatureLayer.clearSelection();
-                // CongThoatNuocFeatureLayer.clearSelection();
-                // MoiNoiCongTNFeatureLayer.clearSelection();
-                // MiengXaFeatureLayer.clearSelection();
-                // HoGaFeatureLayer.clearSelection();
-                // GiengFeatureLayer.clearSelection();
-            });
-
-        }
-
+        
         var homeButton = new HomeButton({
             theme: "HomeButton",
             map: map,
@@ -329,63 +229,6 @@
 
         ////////////////////Print data//////////////////////////////
         // get print templates from the export web map task
-        var printInfo = esriRequest({
-            "url": printUrl,
-            "content": { "f": "json" }
-        });
-        printInfo.then(handlePrintInfo, handleError);
-
-        function handlePrintInfo(resp) {
-
-            var layoutTemplate, templateNames, mapOnlyIndex, templates;
-
-            layoutTemplate = array.filter(resp.parameters, function (param, idx) {
-                return param.name === "Layout_Template";
-            });
-
-            if (layoutTemplate.length === 0) {
-                return;
-            }
-            templateNames = layoutTemplate[0].choiceList;
-
-            // remove the MAP_ONLY template then add it to the end of the list of templates 
-            mapOnlyIndex = array.indexOf(templateNames, "MAP_ONLY");
-            if (mapOnlyIndex > -1) {
-                var mapOnly = templateNames.splice(mapOnlyIndex, mapOnlyIndex + 1)[0];
-                templateNames.push(mapOnly);
-            }
-
-            // create a print template for each choice
-            templates = array.map(templateNames, function (ch) {
-                var plate = new PrintTemplate();
-                plate.layout = plate.label = ch;
-                plate.format = "PDF";
-                plate.layoutOptions = {
-                    "authorText": "Làm bởi: DITAGIS",
-                    "copyrightText": "",
-                    "legendLayers": [],
-                    "titleText": "Bản đồ chuyên đề chống ngập tỉnh Bình Dương",
-                    "scalebarUnit": "Miles"
-                };
-                return plate;
-            });
-
-            // create the print dijit
-            var printer = new Print({
-                "map": map,
-                "templates": templates,
-                url: printUrl
-            }, dom.byId("printButton"));
-            printer.startup();
-        }
-        var printer = new Print({
-            map: map,
-            url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
-          }, dom.byId("print_button"));
-          printer.startup();
-        function handleError(err) {
-            // console.log("Something broke: ", err);
-        }
 
         // end print
 
@@ -468,105 +311,6 @@
         //end location
 
 
-
-        function getHanhChinhHuyen() {
-            var query = new Query();
-            query.where = "1=1";
-            var htmlHuyen = "<option value=''>Chọn quận / huyện </option>";
-            HanhChinhHuyenFeatureLayer.selectFeatures(query, FeatureLayer.SELECTION_NEW, function (results) {
-
-                if (results.length > 0) {
-                    for (var i = 0; i < results.length; i++) {
-                        var feat = results[i];
-                        var attr = feat.attributes;
-                        htmlHuyen += "<option value='" + attr["MaHuyenTP"] + "'>" + attr["TenHuyen"] + "</option>";
-
-                    }
-                    $("#cbb_QuanHuyen_LuuVucThoatNuoc").html(htmlHuyen);
-                    $("#cbb_QuanHuyen_KhuVucNgap").html(htmlHuyen);
-                    $("#cbb_QuanHuyen_TramBom").html(htmlHuyen);
-                    $("#cbb_QuanHuyen_TramXLNT").html(htmlHuyen);
-                    $("#cbb_QuanHuyen_BeChua").html(htmlHuyen);
-                    $("#cbb_QuanHuyen_CongThoatNuoc").html(htmlHuyen);
-                    $("#cbb_QuanHuyen_MoiNoiCong").html(htmlHuyen);
-                    $("#cbb_QuanHuyen_MiengXa").html(htmlHuyen);
-                    $("#cbb_QuanHuyen_HoGa").html(htmlHuyen);
-                    $("#cbb_QuanHuyen_Gieng").html(htmlHuyen);
-                }
-            });
-
-            HanhChinhHuyenFeatureLayer.clearSelection();
-        }
-        $("#cbb_QuanHuyen_LuuVucThoatNuoc").change(function () {
-
-            var dID = $(this).val();
-            getHanhChinhXa(dID, "cbb_PhuongXa_LuuVucThoatNuoc");
-        });
-        $("#cbb_QuanHuyen_KhuVucNgap").change(function () {
-
-            var dID = $(this).val();
-            getHanhChinhXa(dID, "cbb_PhuongXa_KhuVucNgap");
-        });
-        $("#cbb_QuanHuyen_TramBom").change(function () {
-
-            var dID = $(this).val();
-            getHanhChinhXa(dID, "cbb_PhuongXa_TramBom");
-        });
-        $("#cbb_QuanHuyen_TramXLNT").change(function () {
-
-            var dID = $(this).val();
-            getHanhChinhXa(dID, "cbb_PhuongXa_TramXLNT");
-        });
-        $("#cbb_QuanHuyen_BeChua").change(function () {
-
-            var dID = $(this).val();
-            getHanhChinhXa(dID, "cbb_PhuongXa_BeChua");
-        });
-        $("#cbb_QuanHuyen_CongThoatNuoc").change(function () {
-
-            var dID = $(this).val();
-            getHanhChinhXa(dID, "cbb_PhuongXa_CongThoatNuoc");
-        });
-        $("#cbb_QuanHuyen_MoiNoiCong").change(function () {
-
-            var dID = $(this).val();
-            getHanhChinhXa(dID, "cbb_PhuongXa_MoiNoiCong");
-        });
-        $("#cbb_QuanHuyen_MiengXa").change(function () {
-
-            var dID = $(this).val();
-            getHanhChinhXa(dID, "cbb_PhuongXa_MiengXa");
-        });
-        $("#cbb_QuanHuyen_HoGa").change(function () {
-
-            var dID = $(this).val();
-            getHanhChinhXa(dID, "cbb_PhuongXa_HoGa");
-        });
-        $("#cbb_QuanHuyen_Gieng").change(function () {
-
-            var dID = $(this).val();
-            getHanhChinhXa(dID, "cbb_PhuongXa_Gieng");
-        });
-        function getHanhChinhXa(quanhuyen, cbb) {
-            var query = new Query();
-            query.where = "MaHuyenTP = '" + quanhuyen + "'";
-            var htmlHuyen = "<option value=''>Chọn phường / xã </option>";
-            HanhChinhXaFeatureLayer.selectFeatures(query, FeatureLayer.SELECTION_NEW, function (results) {
-
-                if (results.length > 0) {
-                    for (var i = 0; i < results.length; i++) {
-                        var feat = results[i];
-                        var attr = feat.attributes;
-                        htmlHuyen += "<option value='" + attr["MaPhuongXa"] + "'>" + attr["TenXa"] + "</option>";
-                    }
-                    $("#" + cbb + "").html(htmlHuyen);
-                }
-            });
-
-            HanhChinhXaFeatureLayer.clearSelection();
-        }
-        new SearchLayer(map);
-        var classDataLayer = "";
 
 
 
