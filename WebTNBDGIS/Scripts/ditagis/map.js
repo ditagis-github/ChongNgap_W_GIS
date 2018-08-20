@@ -47,14 +47,14 @@
 
         var geoMetryLink = "http://112.78.4.175:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer";
         var printUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task";
-        var linkBaseMap = "http://112.78.4.175:6080/arcgis/rest/services/BaseMap_ChongNgapBD/MapServer";
 
 
 
-        var baseMapServiceLayer = new ArcGISDynamicMapServiceLayer(linkBaseMap, {
+        var baseMapServiceLayer = new ArcGISDynamicMapServiceLayer(configs.basemap.url, {
             "imageParameters": imageParameters,
-            "id": "Bản đồ nền",
-            "className": "BaseMapLayer"
+            id: configs.basemap.title,
+            className: "BaseMapLayer",
+            title: configs.basemap.title
         });
 
 
