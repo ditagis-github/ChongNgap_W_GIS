@@ -23,7 +23,7 @@ namespace WebTNBDGIS
                       "~/Content/bootstrap/js/bootstrap.min.js",
                       "~/Scripts/libs/respond.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+            bundles.Add(new StyleBundle("~/Content/css/styles").Include(
                       "~/Content/bootstrap/css/bootstrap.min.css",
                       "~/Content/font-awesome-4.7.0/css/font-awesome.min.css",
                       "~/Content/css/site.css",
