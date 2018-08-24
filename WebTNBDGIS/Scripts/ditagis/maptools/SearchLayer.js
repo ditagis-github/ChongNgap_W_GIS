@@ -176,7 +176,7 @@ define([
                 } else
                     value = observable[field.name];
                 if (value) {
-                    if (field.type === 'string') {
+                    if (field.type === 'esriFieldTypeString') {
                         where.push(`${field.name} like N'%${value}%'`);
                     } else
                         where.push(`${field.name} like ${value}`);
