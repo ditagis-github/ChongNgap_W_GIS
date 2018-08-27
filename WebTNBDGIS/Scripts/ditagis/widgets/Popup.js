@@ -1,9 +1,10 @@
 define(["dojo/_base/array",
 "esri/tasks/query",
 "esri/dijit/AttributeInspector", 
-"dijit/form/Button",], function (
+"dijit/form/Button",
+"dojo/dom-construct",], function (
     array,Query,
-    AttributeInspector,Button
+    AttributeInspector,Button,domConstruct
 ) {
     
     "use strict";
@@ -44,7 +45,7 @@ define(["dojo/_base/array",
 
                         var featUpdate;
                         layer.selectFeatures(query, esri.layers.FeatureLayer.SELECTION_NEW, (features) => {
-                            if (features.length > 0) {
+                            if (`features`.length > 0) {
                                 featUpdate = features[0];
                                 this.map.infoWindow.setTitle(layer.title);
                                 this.map.infoWindow.setContent(attInspector.domNode);
