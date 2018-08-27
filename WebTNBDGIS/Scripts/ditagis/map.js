@@ -3,6 +3,7 @@
     "ditagis/configs",
     "ditagis/maptools/SearchLayer",
     "ditagis/layers/FeatureLayer",
+    "ditagis/widgets/Popup",
     "esri/toolbars/navigation", "dijit/registry", "dojo/on",
     "esri/map", "esri/graphic",
     "esri/request", "esri/config", "esri/Color",
@@ -14,13 +15,11 @@
     "esri/tasks/ProjectParameters",
     "esri/dijit/HomeButton", "esri/dijit/Scalebar", "esri/dijit/LayerList", "esri/dijit/Legend",
     "esri/dijit/Measurement", "esri/dijit/Print",
-    "esri/dijit/AttributeInspector",
-    "dijit/form/Button",
     "dojo/_base/array", "dojo/dom", "dojo/parser", "dojo/dom-construct",
     "dijit/Toolbar",
     "dojo/domReady!"
 ], function (configs, SearchLayer,
-    FeatureLayer,
+    FeatureLayer,Popup,
     Navigation, registry, on,
     Map, Graphic,
     esriRequest, esriConfig, Color,
@@ -32,8 +31,6 @@
     Query, GeometryService, PrintTemplate,
     ProjectParameters, HomeButton, Scalebar, LayerList, Legend,
     Measurement, Print,
-    AttributeInspector,
-    Button,
     array, dom, parser, domConstruct
 
 
@@ -116,10 +113,9 @@
         var featureLayers = [];
         for (const key in configs.layers) {
             let layercf = configs.layers[key];
-            var featureLayer = new FeatureLayer(layercf.url,{
-                mode: FeatureLayer.MODE_ONEDEMAND,
-                outFields: ["*"]
-            });
+            var featureLayer = new FeatureLayer(layercf.url);
+            featureLayer.mode = FeatureLayer.MODE_ONEDEMAND;
+            featureLayer._outFields = [ "*" ];
             featureLayer.id = layercf.id;
             featureLayer.searchFields = layercf.searchFields;
             featureLayer.title = layercf.title;
@@ -136,6 +132,7 @@
             });
         }
         map.addLayers(featureLayers);
+        var popup = new Popup(map);
         map.on("layers-add-result", function (evt) {
             var layerInfos = array.map(evt.layers, function (layer, index) {
                 return { layer: layer.layer, title: layer.layer.name };
@@ -157,74 +154,11 @@
                     }).appendTo(li);
                 }
             }
-            new SearchLayer(map);
-            var layers = array.map(evt.layers, function (result) {
-                return result.layer;
-            });
-            let query = new Query();
-            query.returnGeometry = false;
-
-            dojo.forEach(layers, function (layer) {
-                dojo.connect(layer, "onClick", function (evt) {
-                    if (map.infoWindow.isShowing) {
-                        map.infoWindow.hide();
-                    }
-
-                    var layerInfos = [{
-                        'featureLayer': layer,
-                        'isEditable': true,
-                        'showDeleteButton': true
-                    }];
-
-                    var attInspector = new esri.dijit.AttributeInspector({
-                        layerInfos: layerInfos
-                    }, dojo.create("div"));
-
-                    if (evt.graphic) {
-                        query.objectIds = [evt.graphic.attributes["OBJECTID"]];
-                    } else {
-                        return;
-                    }
-    
-                    var featUpdate;
-                    layer.selectFeatures(query, esri.layers.FeatureLayer.SELECTION_NEW, function(features) {
-                        if (features.length > 0) {
-                            featUpdate = features[0];
-                            map.infoWindow.setTitle("Thông tin đối tượng");
-                            map.infoWindow.setContent(attInspector.domNode);
-                            map.infoWindow.resize(320, 420);
-                            map.infoWindow.show(evt.screenPoint, map.getInfoWindowAnchor(evt.screenPoint));
-                        } else {
-                            map.infoWindow.hide();
-                        }
-                    });
-
-                    //add a save button next to the delete button
-                    var saveButton = new Button({ label: "Lưu", "class": "saveButton" }, domConstruct.create("div"));
-                    domConstruct.place(saveButton.domNode, attInspector.deleteBtn.domNode, "after");
-
-
-                    saveButton.on("click", function () {
-                        featUpdate.getLayer().applyEdits(null, [featUpdate], null);
-                        featUpdate.getLayer().refresh();
-                    });
-
-                    dojo.connect(attInspector, "onAttributeChange", function (feature, fieldName, newFieldValue) {
-                        //store the updates to apply when the save button is clicked 
-                        featUpdate.attributes[fieldName] = newFieldValue;
-                    });
-
-                    dojo.connect(attInspector, "onDelete", function (feature) {
-                        feature.getLayer().applyEdits(null, null, [feature]);
-                        map.infoWindow.hide();
-                    });
-
-
-                });
-            });
-
+            new SearchLayer(map);  
+            popup.startup(evt);         
         });
-
+        
+        
         var homeButton = new HomeButton({
             theme: "HomeButton",
             map: map,
