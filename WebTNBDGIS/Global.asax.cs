@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using WebTNBDGIS.Models;
+using WebTNBDGIS.Resource.Repository;
 
 namespace WebTNBDGIS
 {

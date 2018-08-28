@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebTNBDGIS.Models;
-using WebTNBDGIS.Models;
+using WebTNBDGIS.Resource.Model;
 
 namespace WebTNBDGIS.Models
 {
     public class EFGroupUserRepository : IGroupUserRepository
     {
 
-        private GISDataContext context = new GISDataContext();
+        private DBContextRainfall context = new DBContextRainfall();
         public IQueryable<GroupUser> GroupUsers
         {
             get { return context.GroupUsers; }

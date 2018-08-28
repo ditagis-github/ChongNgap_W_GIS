@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "HỆ THỐNG THÔNG TIN ĐỊA LÝ (GIS) PHỤC VỤ CÔNG TÁC PHÒNG CHỐNG NGẬP LỤT TỈNH BÌNH DƯƠNG";
+    ViewBag.Title = "TRUNG TÂM ĐIỀU HÀNH CHƯƠNG TRÌNH CHỐNG NGẬP NƯỚC THÀNH PHỐ HỒ CHÍ MINH";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 @{
@@ -27,42 +27,6 @@
 
         @Html.ActionLink(" Đổi thông tin ", "changeInforUser", "AdminAccount", new { userID = user.id, userName = user.username }, null)
     </div>
-
-
-    if (Request.IsAuthenticated && userAccess.canAccessData(User.Identity.Name, "TimKiem"))
-    {
-        @*<div class="control_item">
-        <img src="~/Content/images/Action_Printing_Preview_32x32.png" />
-        @Html.ActionLink(" Tìm kiếm duy tu ", "Index", "AdminDuyTu", null, null)
-    </div>
-        }
-        ////////////////////////////////////////////////////////
-
-        if (Request.IsAuthenticated && userAccess.canAccessData(User.Identity.Name, "XuatExcel"))
-        {
-        <div class="control_item">
-            <img src="~/Content/images/Action_Export_ToExcel_32x32.png" />
-            @Html.ActionLink(" Xuất thông tin cống", "exportExcelCong", "AdminExportExcel", null, null)
-        </div>
-        }
-        ////////////////////////////////////////////////////////
-
-
-
-        if (Request.IsAuthenticated && userAccess.canAccessData(User.Identity.Name, "AddFile"))
-        {
-
-        <div class="control_item">
-            <img src="~/Content/images/Action_Export_ToExcel_32x32.png" />
-        </div> *@
-        <div class="control_item">
-            <img src="~/Content/images/video_32_32.png" />
-            @Html.ActionLink(" Quản lý Video", "Index", "AdminVideo", null, null)
-        </div>
-    }
-
-    ////////////////////////////////////////////////////////
-
 
     if (Request.IsAuthenticated && userAccess.canAccessData(User.Identity.Name, "QuanTriNguoiDung"))
     {
@@ -93,13 +57,19 @@
         </div>
     }
 
-    @*if (Request.IsAuthenticated && userAccess.canAccessData(User.Identity.Name, "QuanTriNguoiDung"))
+
+    if (Request.IsAuthenticated && userAccess.canAccessData(User.Identity.Name, "AddFile"))
     {
         <div class="control_item">
-            <img src="~/Content/images/Action_OrganizeDashboard_32x32.png" />
-            @Html.ActionLink(" Thiết lập thông số kết nối", "QuanTri", "AdminHome", null, null)
+            <img src="~/Content/images/video_32_32.png" />
+            @Html.ActionLink(" Quản lý link bản đồ", "Index", "AdminLinkMap", null, null)
         </div>
-    }*@
+    }
+
     ////////////////////////////////////////////////////////
 
+}
+else
+{
+    Response.Redirect("~/AdminAccount/Login");
 }

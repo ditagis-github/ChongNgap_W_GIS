@@ -168,62 +168,74 @@
     <Compile Include="Areas\Admin\Controllers\AdminGroupRoleController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminGroupUserController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminHomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminLinkMapController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminUserInGroupController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminUsersController.cs" />
-    <Compile Include="Areas\Admin\Controllers\AdminVideoController.cs" />
-    <Compile Include="Areas\Admin\Controllers\testController.cs" />
     <Compile Include="Areas\Admin\Models\AdminAccount.cs" />
     <Compile Include="Areas\Admin\Models\AdminGroupUserModel.cs" />
+    <Compile Include="Areas\Admin\Models\AdminLinkMapModel.cs" />
     <Compile Include="Areas\Admin\Models\AdminUsersModel.cs" />
-    <Compile Include="Areas\Admin\Models\AdminVideosModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\EFGroupRoleRepository.cs" />
-    <Compile Include="Models\EFGroupUserRepository.cs" />
-    <Compile Include="Models\EFUserInGroupRepository.cs" />
-    <Compile Include="Models\EFUsersRepository.cs" />
-    <Compile Include="Models\GISDataContext.cs" />
-    <Compile Include="Models\GroupRole.cs" />
-    <Compile Include="Models\GroupUser.cs" />
-    <Compile Include="Models\HANHCHINHHUYEN.cs" />
-    <Compile Include="Models\Helper.cs" />
-    <Compile Include="Models\HIENTRANG_BECHUA.cs" />
-    <Compile Include="Models\HIENTRANG_CONGTHOATNUOC.cs" />
-    <Compile Include="Models\HIENTRANG_GIENG.cs" />
-    <Compile Include="Models\HIENTRANG_HOGA.cs" />
-    <Compile Include="Models\HIENTRANG_KHUVUCNGAP.cs" />
-    <Compile Include="Models\HIENTRANG_LUUVUCTHOATNUOC.cs" />
-    <Compile Include="Models\HIENTRANG_MIENGXA.cs" />
-    <Compile Include="Models\HIENTRANG_MOINOITHOATNUOC.cs" />
-    <Compile Include="Models\HIENTRANG_TRAMBOM.cs" />
-    <Compile Include="Models\HIENTRANG_TRAMXLNT.cs" />
-    <Compile Include="Models\HtmlHelperClass.cs" />
-    <Compile Include="Models\IGroupRoleRepository.cs" />
-    <Compile Include="Models\IGroupUserRepository.cs" />
-    <Compile Include="Models\IUserInGroupRepository.cs" />
-    <Compile Include="Models\IUsersRepository.cs" />
     <Compile Include="Models\LargeJsonResult.cs" />
-    <Compile Include="Models\RANHGIOIHANHCHINH.cs" />
-    <Compile Include="Models\UserAccess.cs" />
-    <Compile Include="Models\UserInGroup.cs" />
-    <Compile Include="Models\Users.cs" />
-    <Compile Include="Models\Videos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resource\Model\Ben_Luc.cs" />
+    <Compile Include="Resource\Model\Bien_Hoa.cs" />
+    <Compile Include="Resource\Model\Binhchanh.cs" />
+    <Compile Include="Resource\Model\Cuchi.cs" />
+    <Compile Include="Resource\Model\datamua.cs" />
+    <Compile Include="Resource\Model\DBContextRainfall.cs" />
+    <Compile Include="Resource\Model\EFGroupRoleRepository.cs" />
+    <Compile Include="Resource\Model\EFGroupUserRepository.cs" />
+    <Compile Include="Resource\Model\EFUserInGroupRepository.cs" />
+    <Compile Include="Resource\Model\EFUsersRepository.cs" />
+    <Compile Include="Resource\Model\EFViewChart.cs" />
+    <Compile Include="Resource\Model\GroupRole.cs" />
+    <Compile Include="Resource\Model\GroupUser.cs" />
+    <Compile Include="Resource\Model\Helper.cs" />
+    <Compile Include="Resource\Model\Hocmon.cs" />
+    <Compile Include="Resource\Model\HtmlHelperClass.cs" />
+    <Compile Include="Resource\Model\IGroupRoleRepository.cs" />
+    <Compile Include="Resource\Model\IGroupUserRepository.cs" />
+    <Compile Include="Resource\Model\IUserInGroupRepository.cs" />
+    <Compile Include="Resource\Model\IUsersRepository.cs" />
+    <Compile Include="Resource\Model\linkMap.cs" />
+    <Compile Include="Resource\Model\Macdinhchi.cs" />
+    <Compile Include="Resource\Model\Nhabe.cs" />
+    <Compile Include="Resource\Model\Nha_Be.cs" />
+    <Compile Include="Resource\Model\Phu_An.cs" />
+    <Compile Include="Resource\Model\Tansonhoa.cs" />
+    <Compile Include="Resource\Model\Tan_An.cs" />
+    <Compile Include="Resource\Model\TD_Mot.cs" />
+    <Compile Include="Resource\Model\thongtinmua.cs" />
+    <Compile Include="Resource\Model\UserAccess.cs" />
+    <Compile Include="Resource\Model\UserInGroup.cs" />
+    <Compile Include="Resource\Model\Users.cs" />
+    <Compile Include="Resource\Model\Vung_Tau.cs" />
+    <Compile Include="Resource\Repository\EFDataRainfallRepository.cs" />
+    <Compile Include="Resource\Repository\NinjectControllerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\css\admin.css" />
-    <Content Include="Content\css\bootstrap.css" />
-    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\bootstrap\config.json" />
     <Content Include="Content\bootstrap\css\bootstrap-theme.css" />
     <Content Include="Content\bootstrap\css\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap\css\bootstrap.css" />
     <Content Include="Content\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\bootstrap\js\bootstrap.js" />
     <Content Include="Content\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\css\admin.css" />
+    <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\default.css" />
+    <Content Include="Content\css\ditagis.css" />
+    <Content Include="Content\css\Site.css" />
     <Content Include="Content\font-awesome-4.7.0\css\font-awesome.css" />
     <Content Include="Content\font-awesome-4.7.0\css\font-awesome.min.css" />
     <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
@@ -268,23 +280,12 @@
     <Content Include="Content\images\chongngap\sl2.jpg" />
     <Content Include="Content\images\chongngap\sl3.jpg" />
     <Content Include="Content\images\chongngap\sl1.jpg" />
-    <Content Include="Content\map.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\css\Site.css" />
-    <Content Include="Scripts\ai.0.22.9-build00167.js" />
-    <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\bootstrap\config.json" />
-    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.woff" />
@@ -350,20 +351,34 @@
     </None>
     <Content Include="DotNet\README.md" />
     <Content Include="DotNet\Web.config" />
+    <None Include="Properties\PublishProfiles\ftp.pubxml" />
     <None Include="Properties\PublishProfiles\TNBD.pubxml" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\_references.js" />
+    <Content Include="Scripts\ditagis\configs.js" />
+    <Content Include="Scripts\ditagis\core\Base.js" />
+    <Content Include="Scripts\ditagis\core\EventListener.js" />
+    <Content Include="Scripts\ditagis\layers\FeatureLayer.js" />
+    <Content Include="Scripts\ditagis\map.js" />
+    <Content Include="Scripts\ditagis\maptools\file.js" />
+    <Content Include="Scripts\ditagis\maptools\SearchLayer.js" />
+    <Content Include="Scripts\ditagis\widgets\Report.js" />
+    <Content Include="Scripts\dojoConfig.js" />
+    <Content Include="Scripts\libs\ai.0.22.9-build00167.js" />
+    <Content Include="Scripts\libs\ai.0.22.9-build00167.min.js" />
+    <Content Include="Scripts\libs\bootstrap.js" />
+    <Content Include="Scripts\libs\bootstrap.min.js" />
+    <None Include="Scripts\libs\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\libs\jquery-1.10.2.js" />
+    <Content Include="Scripts\libs\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\libs\jquery.js" />
+    <None Include="Scripts\libs\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\libs\jquery.validate.js" />
+    <Content Include="Scripts\libs\jquery.validate.min.js" />
+    <Content Include="Scripts\libs\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\libs\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\libs\modernizr-2.6.2.js" />
+    <Content Include="Scripts\libs\respond.js" />
+    <Content Include="Scripts\libs\respond.min.js" />
+    <None Include="Scripts\libs\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -381,6 +396,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Map.cshtml" />
+    <Content Include="Scripts\libs\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -392,7 +408,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -4,44 +4,47 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using WebTNBDGIS.Models;
 
-namespace WebTNBDGIS.Models
+namespace WebTNBDGIS.Resource.Model
 {
 
-    public class userVideo
+
+    public class userlinkMap
     {
-        public IEnumerable<Videos> videos { get; set; }
+        public IEnumerable<linkMap> linkMap { get; set; }
         public PagingInfo PagingInfo { get; set; }
     }
 
 
-    public interface IVideosRepository
+    public interface IlinkMapRepository
     {
-        IQueryable<Videos> Videos { get; }
-        string saveVideo(Videos video);
+        IQueryable<linkMap> linkMap { get; }
+        string saveVideo(linkMap video);
         string deleteVideo(int id);
-        IEnumerable<Videos> getTopNewVideos();
+        IEnumerable<linkMap> getTopNewlinkMap();
     }
-    public class EFVideosRepository : IVideosRepository
+    public class EFlinkMapRepository : IlinkMapRepository
     {
-        private GISDataContext context = new GISDataContext();
+        private DBContextRainfall context = new DBContextRainfall();
 
-        public IQueryable<Videos> Videos
+        public IQueryable<linkMap> linkMap
         {
-            get { return context.Videos; }
+            get { return context.linkMaps; }
         }
-        public string saveVideo(Videos video)
+        public string saveVideo(linkMap video)
         {
             if (video.id == 0)
             {
-                context.Videos.Add(video);
+                context.linkMaps.Add(video);
             }
             else
             {
-                Videos dbEntry = context.Videos.Find(video.id);
+                linkMap dbEntry = context.linkMaps.Find(video.id);
                 if (dbEntry != null)
                 {
                     dbEntry.link = video.link;
+                    dbEntry.typeMap = video.typeMap;
                     dbEntry.mota = video.mota;
                 }
             }
@@ -58,13 +61,13 @@ namespace WebTNBDGIS.Models
 
         public string deleteVideo(int id)
         {
-            Videos Video = context.Videos.Find(id);
+            linkMap Video = context.linkMaps.Find(id);
             string result = "";
             if (Video != null)
             {
                 try
                 {
-                    context.Videos.Remove(Video);
+                    context.linkMaps.Remove(Video);
                     context.SaveChanges();
                 }
                 catch (Exception ex)
@@ -75,21 +78,21 @@ namespace WebTNBDGIS.Models
             return result;
         }
 
-        public IEnumerable<Videos> getTopNewVideos()
+        public IEnumerable<linkMap> getTopNewlinkMap()
         {
             string query;
-            List<Videos> videoResult = null;
-            query = " SELECT id,link,mota ";
-            query += " FROM Videos  ";
+            List<linkMap> videoResult = null;
+            query = " SELECT id,link,mota,typeMap ";
+            query += " FROM linkMap  ";
             query += " ORDER BY id DESC";
 
-            videoResult = context.Database.SqlQuery<Videos>(query).ToList();
+            videoResult = context.Database.SqlQuery<linkMap>(query).ToList();
             return videoResult;
         }
     }
 
-    [Table("Videos")]
-    public class Videos
+    [Table("linkMap")]
+    public class linkMap
     {
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
@@ -97,7 +100,7 @@ namespace WebTNBDGIS.Models
 
         [StringLength(1000, ErrorMessage = "Cột {0} phải có ít nhất {2} kí tự và không lớn hơn {1} kí tự .", MinimumLength = 10)]
         [Required(ErrorMessage = "Vui lòng nhập {0} ")]
-        [Display(Name = "Link youtube")]
+        [Display(Name = "Link bản đồ")]
         public string link { get; set; }// nvarchar(1000) not null ,
 
         [StringLength(1000, ErrorMessage = "Cột {0} phải có ít nhất {2} kí tự và không lớn hơn {1} kí tự .", MinimumLength = 10)]
@@ -105,5 +108,10 @@ namespace WebTNBDGIS.Models
         [DataType(DataType.MultilineText)]
         [Display(Name = "Mô tả")]
         public string mota { get; set; }// nvarchar(1000) not null ,
+
+        [Display(Name = "Loại bản đồ")]
+        public string typeMap { get; set; }
+
     }
+
 }

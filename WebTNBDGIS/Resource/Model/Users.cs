@@ -37,7 +37,7 @@ namespace WebTNBDGIS.Models
         [Required(ErrorMessage = "Vui lòng nhập mật khẩu lần nữa")]
         [Display(Name = "Nhập lại mật khẩu")]
         [DataType(DataType.Password)]
-        [System.Web.Mvc.Compare("pass", ErrorMessage = "Hai mật khẩu không giống nhau")]
+        [System.ComponentModel.DataAnnotations.Compare("pass", ErrorMessage = "Hai mật khẩu không giống nhau")]
         public string c_pass { get; set; }
 
         [StringLength(500, ErrorMessage = "Cột {0} phải có ít nhất {2} kí tự và không lớn hơn {1} kí tự .", MinimumLength = 2)]
@@ -106,7 +106,7 @@ namespace WebTNBDGIS.Models
         [Required(ErrorMessage = "Vui lòng nhập mật khẩu lần nữa")]
         [Display(Name = "Nhập lại mật khẩu mới")]
         [DataType(DataType.Password)]
-        [System.Web.Mvc.Compare("pass", ErrorMessage = "Hai mật khẩu không giống nhau")]
+        [System.ComponentModel.DataAnnotations.Compare("pass", ErrorMessage = "Hai mật khẩu không giống nhau")]
         public string c_pass { get; set; }
 
     }

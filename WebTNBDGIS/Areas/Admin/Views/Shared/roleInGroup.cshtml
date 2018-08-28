@@ -1,0 +1,96 @@
+﻿@model IEnumerable<WebGISRainfall.Models.GroupRole>
+
+@if (Model != null && Model.Count() > 0)
+{
+    List<SelectListItem> list = new List<SelectListItem>();
+    list = (List<SelectListItem>)@ViewBag.ListData;
+
+    <table class="table table-striped">
+        <thead>
+             <tr>
+                    <th>
+                       Tên chức năng
+                    </th>
+                    <th>
+                        Phân quyền
+                    </th>
+                    <th>
+                       Tên chức năng
+                    </th>
+                    <th>
+                        Phân quyền
+                    </th>
+                </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+               <tr>
+                    <td>
+                        @Html.LabelFor(model => item.QuanTriNguoiDung)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => item.QuanTriNguoiDung)
+                        @Html.ValidationMessageFor(model => item.QuanTriNguoiDung)
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => item.TimKiem)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => item.TimKiem)
+                        @Html.ValidationMessageFor(model => item.TimKiem)
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => item.ThongKe)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => item.ThongKe)
+                        @Html.ValidationMessageFor(model => item.ThongKe)
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => item.XuatExcel)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => item.XuatExcel)
+                        @Html.ValidationMessageFor(model => item.XuatExcel)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => item.XuatFileHinh)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => item.XuatFileHinh)
+                        @Html.ValidationMessageFor(model => item.XuatFileHinh)
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => item.XuatBieuDo)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => item.XuatBieuDo)
+                        @Html.ValidationMessageFor(model => item.XuatBieuDo)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td >
+                        @Html.LabelFor(model => item.BaoCaoSuCo)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => item.BaoCaoSuCo)
+                        @Html.ValidationMessageFor(model => item.BaoCaoSuCo)
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

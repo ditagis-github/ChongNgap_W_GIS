@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "TRUNG TÂM ĐIỀU HÀNH CHƯƠNG TRÌNH CHỐNG NGẬP NƯỚC THÀNH PHỐ HỒ CHÍ MINH";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@{
+    WebGISRainfall.Models.UserAccess userAccess = new WebGISRainfall.Models.UserAccess();
+
+    WebGISRainfall.Models.userInfor user = userAccess.getInfor(User.Identity.Name);
+          
+}
+
+@if (user != null)
+{
+    
+    <h3 class="page-header">Thiết lập thông số kết nối đến máy chủ CSDL & cấu hình khoảng thời gian người dùng</h3>
+
+    <fieldset>
+        <legend></legend>
+        <a target="_blank" href="http://112.78.4.175:6080/arcgis/manager/service.html?name=ThoatnuocBasemap.MapServer"> Bản đồ nền </a> <br />
+        <a target="_blank" href="http://112.78.4.175:6080/arcgis/manager/service.html?name=ThoatnuocChuyenDe.MapServer"> Bản đồ chyên đề </a> <br />
+        <a target="_blank" href="http://112.78.4.175:6080/arcgis/manager/service.html?name=ThoatnuocChuyenDeBS.MapServer"> Bản đồ chuyền đề 2 </a> <br />
+        <a target="_blank" href="http://112.78.4.175:6080/arcgis/manager/service.html?name=ThoatnuocGooglemap.MapServer"> Bản đồ sử dụng Google </a> <br />
+
+    </fieldset>
+}
