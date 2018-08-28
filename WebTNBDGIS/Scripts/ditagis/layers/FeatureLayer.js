@@ -59,27 +59,6 @@ define([
                     });
                 }
             }
-            applyEdits(options) {
-                let prm = super.applyEdits(options);
-                prm.then(r => {
-                    function updateOBJECTID(featureResults) {
-                        let optionRst = featureResults == r.addFeatureResults ?
-                            options.addFeatures : featureResults == r.updateFeatureResults ?
-                                options.updateFeatures : options.deleteFeatures;
-                        for (let i = 0; i < featureResults.length; i++) {
-                            const element = featureResults[i], objectId = element.objectId;
-                            if (objectId) {
-                                let element_1 = optionRst[i];
-                                element_1.attributes.OBJECTID = objectId;
-                            }
-                        }
-                    }
-                    updateOBJECTID(r.addFeatureResults);
-                    updateOBJECTID(r.updateFeatureResults);
-                    updateOBJECTID(r.deleteFeatureResults);
-                });
-                return prm;
-            }
             addAttachments(id, attachmentForm) {
                 return new Promise((resolve, reject) => {
                     let url = this.url + "/" + this.layerId + "/" + id + "/addAttachment";

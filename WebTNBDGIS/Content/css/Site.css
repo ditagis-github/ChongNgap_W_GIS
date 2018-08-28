@@ -256,4 +256,6 @@ span.k-window-title.k-dialog-title {
     color: #fff;
 }
 
-
+span.dijit.dijitReset.dijitInline.saveButton.dijitButton {
+    margin: 0 50px;
+}
