@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using WebTNBDGIS.Models;
+using WebTNBDGIS.Resource.Model;
 
 namespace WebTNBDGIS.Areas.Admin.Models
 {
-    public class AdminVideosModel
+    public class AdminLinkMapModel
     {
-        public IEnumerable<Videos> Videos { get; set; }
+        public IEnumerable<linkMap> linkMaps { get; set; }
         public PagingInfo PagingInfo { get; set; }
         public string strSearch { get; set; }
         public int? sort { get; set; }

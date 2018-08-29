@@ -1,11 +1,11 @@
-﻿@model WebTNBDGIS.Areas.Admin.Models.AdminVideosModel
+﻿@model WebGISRainfall.Areas.Admin.Models.AdminLinkMapModel
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h3 class="page-header">Quản lý link youtube</h3>
+<h3 class="page-header">Quản lý link</h3>
 
 <div class="table-responsive">
     @using (Html.BeginForm())
@@ -24,7 +24,7 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.ActionLink("Link youtube", "Index", new
+                        @Html.ActionLink("Link", "Index", new
                        {
                            SearchString = Model.strSearch,
                            sortBy = 1,
@@ -50,7 +50,7 @@
                     </th>
                     <th>
                         @{
-        WebTNBDGIS.Models.UserAccess userAccess = new WebTNBDGIS.Models.UserAccess();
+                            WebGISRainfall.Models.UserAccess userAccess = new WebGISRainfall.Models.UserAccess();
                     }
                     @if (Request.IsAuthenticated && userAccess.canAccessData(User.Identity.Name, "ViewFile"))
                     {
@@ -61,7 +61,7 @@
         </thead>
         <tbody>
 
-            @foreach (var item in Model.Videos)
+            @foreach (var item in Model.linkMaps)
             {
                 <tr>
                     <td>
@@ -88,7 +88,7 @@
 
         <div id="pagination">
             <div id="pager">
-                @if (Model.Videos.Count() > 0)
+                @if (Model.linkMaps.Count() > 0)
                 {
                     <ul>
                         @Html.Paging(Model.PagingInfo, x => Url.Action("Index", new

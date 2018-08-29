@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebTNBDGIS.Models;
+using WebTNBDGIS.Resource.Model;
 
 namespace WebTNBDGIS.Models
 {
     public class EFUsersRepository : IUsersRepository
     {
-        private GISDataContext context = new GISDataContext();
+        private DBContextRainfall context = new DBContextRainfall();
 
         public IQueryable<Users> Users
         {

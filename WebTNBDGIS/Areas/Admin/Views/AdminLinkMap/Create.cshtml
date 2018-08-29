@@ -1,11 +1,11 @@
-﻿@model WebTNBDGIS.Models.Videos
+﻿@model WebGISRainfall.Resource.Model.linkMap
 
 @{
     ViewBag.Title = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h3 class="page-header">Thêm mới link youtube</h3>
+<h3 class="page-header">Thêm mới link</h3>
 
 @using (Html.BeginForm())
 {
@@ -20,6 +20,21 @@
         <div class="editor-field">
             @Html.EditorFor(model => model.link)
             @Html.ValidationMessageFor(model => model.link)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.typeMap)
+        </div>
+        <div class="editor-field">
+            <select name="typeMap" id="typeMap">
+                <option value="maxNgay">Bản đồ mưa lớn nhất ngày</option>
+                <option value="tbThang">Bản đồ mưa trung bình các tháng</option>
+                <option value="minThang">Bản đồ mưa nhỏ nhất các tháng</option>
+                <option value="maxThang">Bản đồ mưa lớn nhất các tháng</option>
+                <option value="tbnam">Bản đồ mưa trung bình các năm</option>
+                <option value="minnam">Bản đồ mưa nhỏ nhất các năm</option>
+                <option value="maxnam">Bản đồ mưa lớn nhất các năm</option>
+            </select>
         </div>
         
         <div class="editor-label">

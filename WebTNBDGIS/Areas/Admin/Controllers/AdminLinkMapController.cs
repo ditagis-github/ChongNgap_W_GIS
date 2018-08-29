@@ -5,14 +5,15 @@ using System.Web;
 using System.Web.Mvc;
 using WebTNBDGIS.Areas.Admin.Models;
 using WebTNBDGIS.Models;
+using WebTNBDGIS.Resource.Model;
 
 namespace WebTNBDGIS.Areas.Admin.Controllers
 {
-    public class AdminVideoController : Controller
+    public class AdminLinkMapController : Controller
     {
-        private IVideosRepository repository;
+        private IlinkMapRepository repository;
         private IUsersRepository userRepository;
-        public AdminVideoController(IVideosRepository repository, IUsersRepository userRepository)
+        public AdminLinkMapController(IlinkMapRepository repository, IUsersRepository userRepository)
         {
             this.repository = repository;
             this.userRepository = userRepository;
@@ -25,18 +26,18 @@ namespace WebTNBDGIS.Areas.Admin.Controllers
         {
             if (!Request.IsAuthenticated || !userRepository.canAccessData(User.Identity.Name, "AddFile"))
             {
-                TempData["message"] = "Bạn không có quyền truy cập vào trang quản lý link youtube";
+                TempData["message"] = "Bạn không có quyền truy cập vào trang quản lý link ";
                 TempData["messageType"] = "error";
                 return RedirectToAction("Index", "AdminHome");
             }
 
-            var item = from ug in repository.Videos select ug;
+            var item = from ug in repository.linkMap select ug;
             if (SearchString != null)
             {
                 item = item.Where(ug => ug.link.Contains(SearchString));
                 page = 1; // set trang hiển thị là 1
             }
-            
+
             switch (sortBy)
             {
                 case 1:
@@ -60,9 +61,9 @@ namespace WebTNBDGIS.Areas.Admin.Controllers
             totalItem = item.Count();
             item = item.Skip((page - 1) * PageSize).Take(PageSize);
 
-            AdminVideosModel items = new AdminVideosModel
+            AdminLinkMapModel items = new AdminLinkMapModel
             {
-                Videos = item,
+                linkMaps = item,
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
@@ -93,7 +94,7 @@ namespace WebTNBDGIS.Areas.Admin.Controllers
         {
             if (!Request.IsAuthenticated || !userRepository.canAccessData(User.Identity.Name, "AddFile"))
             {
-                TempData["message"] = "Bạn không có quyền truy cập vào trang tạo link youtube";
+                TempData["message"] = "Bạn không có quyền truy cập vào trang tạo link";
                 TempData["messageType"] = "error";
                 return RedirectToAction("Index", "AdminHome");
             }
@@ -105,12 +106,12 @@ namespace WebTNBDGIS.Areas.Admin.Controllers
         // POST: /Admin/AdminVideo/Create
 
         [HttpPost]
-        public ActionResult Create(Videos collection)
+        public ActionResult Create(linkMap collection)
         {
 
             if (!Request.IsAuthenticated || !userRepository.canAccessData(User.Identity.Name, "AddFile"))
             {
-                TempData["message"] = "Bạn không có quyền truy cập vào trang tạo link youtube";
+                TempData["message"] = "Bạn không có quyền truy cập vào trang tạo link";
                 TempData["messageType"] = "error";
                 return RedirectToAction("Index", "AdminHome");
             }
@@ -120,7 +121,7 @@ namespace WebTNBDGIS.Areas.Admin.Controllers
                 if (ModelState.IsValid)
                 {
                     repository.saveVideo(collection);
-                    TempData["message"] = "Đã thêm mới link youtube ";
+                    TempData["message"] = "Đã thêm mới link ";
                     TempData["messageType"] = "inf";
                     return RedirectToAction("Index");
                 }
@@ -146,11 +147,11 @@ namespace WebTNBDGIS.Areas.Admin.Controllers
         {
             if (!Request.IsAuthenticated || !userRepository.canAccessData(User.Identity.Name, "AddFile"))
             {
-                TempData["message"] = "Bạn không có quyền truy cập vào trang cập nhật link youtube";
+                TempData["message"] = "Bạn không có quyền truy cập vào trang cập nhật link";
                 TempData["messageType"] = "error";
                 return RedirectToAction("Index", "AdminHome");
             }
-            Videos item = repository.Videos.FirstOrDefault(a => a.id == id);
+            linkMap item = repository.linkMap.FirstOrDefault(a => a.id == id);
 
             if (item != null)
             {
@@ -158,7 +159,7 @@ namespace WebTNBDGIS.Areas.Admin.Controllers
             }
             else
             {
-                TempData["message"] = "Không có link youtube này trong hệ thống";
+                TempData["message"] = "Không có link này trong hệ thống";
                 TempData["messageType"] = "error";
                 return RedirectToAction("Index");
             }
@@ -168,11 +169,11 @@ namespace WebTNBDGIS.Areas.Admin.Controllers
         // POST: /Admin/AdminVideo/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, Videos collection)
+        public ActionResult Edit(int id, linkMap collection)
         {
             if (!Request.IsAuthenticated || !userRepository.canAccessData(User.Identity.Name, "AddFile"))
             {
-                TempData["message"] = "Bạn không có quyền truy cập vào trang cập nhật link youtube";
+                TempData["message"] = "Bạn không có quyền truy cập vào trang cập nhật link";
                 TempData["messageType"] = "error";
                 return RedirectToAction("Index", "AdminHome");
             }
@@ -182,7 +183,7 @@ namespace WebTNBDGIS.Areas.Admin.Controllers
                 if (ModelState.IsValid)
                 {
                     repository.saveVideo(collection);
-                    TempData["message"] = "Đã cập nhật mới link youtube ";
+                    TempData["message"] = "Đã cập nhật mới link ";
                     TempData["messageType"] = "inf";
                     return RedirectToAction("Index");
                 }
@@ -190,14 +191,14 @@ namespace WebTNBDGIS.Areas.Admin.Controllers
                 {
                     TempData["message"] = "Dữ liệu bạn nhập vào không hợp lệ";
                     TempData["messageType"] = "error";
-                   return View(collection);
+                    return View(collection);
                 }
             }
             catch (Exception ex)
             {
                 TempData["message"] = "Có lỗi hệ thống : " + ex.Message;
                 TempData["messageType"] = "error";
-                 return View(collection);
+                return View(collection);
             }
         }
 
@@ -208,11 +209,11 @@ namespace WebTNBDGIS.Areas.Admin.Controllers
         {
             if (!Request.IsAuthenticated || !userRepository.canAccessData(User.Identity.Name, "AddFile"))
             {
-                TempData["message"] = "Bạn không có quyền truy cập vào trang xóa link youtube";
+                TempData["message"] = "Bạn không có quyền truy cập vào trang xóa link";
                 TempData["messageType"] = "error";
                 return RedirectToAction("Index", "AdminHome");
             }
-            Videos item = repository.Videos.FirstOrDefault(a => a.id == id);
+            linkMap item = repository.linkMap.FirstOrDefault(a => a.id == id);
 
             if (item != null)
             {
@@ -220,7 +221,7 @@ namespace WebTNBDGIS.Areas.Admin.Controllers
             }
             else
             {
-                TempData["message"] = "Không có link youtube này trong hệ thống";
+                TempData["message"] = "Không có link này trong hệ thống";
                 TempData["messageType"] = "error";
                 return RedirectToAction("Index");
             }
@@ -234,7 +235,7 @@ namespace WebTNBDGIS.Areas.Admin.Controllers
         {
             if (!Request.IsAuthenticated || !userRepository.canAccessData(User.Identity.Name, "AddFile"))
             {
-                TempData["message"] = "Bạn không có quyền truy cập vào trang xóa link youtube";
+                TempData["message"] = "Bạn không có quyền truy cập vào trang xóa link";
                 TempData["messageType"] = "error";
                 return RedirectToAction("Index", "AdminHome");
             }
@@ -242,7 +243,7 @@ namespace WebTNBDGIS.Areas.Admin.Controllers
             try
             {
                 repository.deleteVideo(id);
-                TempData["message"] = "Đã xóa link youtube";
+                TempData["message"] = "Đã xóa link";
                 TempData["messageType"] = "inf";
                 return RedirectToAction("Index");
             }
