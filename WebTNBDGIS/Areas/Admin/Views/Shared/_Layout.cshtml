@@ -11,8 +11,8 @@
 <body>
    
     <div id="web_head">
-    <img src="~/Content/images/logo.png" style="width: 80px; margin-top: 2px;" />
-    <span>ỦY BAN NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH <br /> TRUNG TÂM ĐIỀU HÀNH CHƯƠNG TRÌNH CHỐNG NGẬP NƯỚC</span>
+    @*<img src="~/Content/images/logo.png" style="width: 80px; margin-top: 2px;" />*@
+    <span>HỆ THỐNG THÔNG TIN ĐỊA LÝ (GIS) PHỤC VỤ CÔNG TÁC PHÒNG CHỐNG NGẬP LỤT</span>
     </div>
   @{
          WebTNBDGIS.Models.UserAccess userAccess = new WebTNBDGIS.Models.UserAccess();
@@ -30,7 +30,7 @@
             }
                 Xin chào : @name >>
             
-           <a href="@Url.Action("Map","Home")" title="Xem bản đồ"> Xem bản đồ </a> |
+           <a href="@Url.Action("Map","Home",new { Area = "" })" title="Xem bản đồ"> Xem bản đồ </a> |
            @Html.ActionLink("Quản trị", "Index", "AdminHome", null, null)
         </div>
     </div>
