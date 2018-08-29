@@ -217,6 +217,9 @@
             navToolbar.deactivate();
             $(".left_panel").hide();
             $(".panel-group").hide();
+            for (const featureLayer of featureLayers) {
+                featureLayer.clearSelection();
+            }
 
         });
 

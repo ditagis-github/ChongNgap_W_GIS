@@ -255,7 +255,12 @@ div#report-objects {
 span.k-window-title.k-dialog-title {
     color: #fff;
 }
-
+.dijitToggleButton, .dijitButton, .dijitDropDownButton, .dijitComboButton{
+    margin: 0;
+}
 span.dijit.dijitReset.dijitInline.saveButton.dijitButton {
-    margin: 0 50px;
+    margin: 0px 10px;
+}
+span.dijit.dijitReset.dijitInline.dijitButton {
+    margin-right: 25px;
 }
