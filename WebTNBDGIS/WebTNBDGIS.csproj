@@ -275,6 +275,7 @@
     <Content Include="Content\images\chongngap\sl3.jpg" />
     <Content Include="Content\images\chongngap\sl1.jpg" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\css\Site.css" />
@@ -322,10 +323,6 @@
     <Content Include="DotNet\proxy.ashx" />
     <Content Include="DotNet\proxy.config" />
     <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Areas\Admin\Views\AdminVideo\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\AdminVideo\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\AdminVideo\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\AdminVideo\Index.cshtml" />
     <Content Include="Areas\Admin\Views\AdminUsers\ChangePass.cshtml" />
     <Content Include="Areas\Admin\Views\AdminUsers\Create.cshtml" />
     <Content Include="Areas\Admin\Views\AdminUsers\Delete.cshtml" />
@@ -355,6 +352,11 @@
     </None>
     <Content Include="DotNet\README.md" />
     <Content Include="DotNet\Web.config" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\TNBD.pubxml" />
     <Content Include="Scripts\ditagis\configs.js" />
@@ -364,6 +366,8 @@
     <Content Include="Scripts\ditagis\map.js" />
     <Content Include="Scripts\ditagis\maptools\file.js" />
     <Content Include="Scripts\ditagis\maptools\SearchLayer.js" />
+    <Content Include="Scripts\ditagis\widgets\BieuDoMua.js" />
+    <Content Include="Scripts\ditagis\widgets\Popup.js" />
     <Content Include="Scripts\ditagis\widgets\Report.js" />
     <Content Include="Scripts\dojoConfig.js" />
     <Content Include="Scripts\libs\ai.0.22.9-build00167.js" />
@@ -404,6 +408,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Views\AdminVideo\" />
     <Folder Include="Areas\Admin\Views\test\" />
   </ItemGroup>
   <ItemGroup>

@@ -38,7 +38,7 @@ namespace WebTNBDGIS.Areas.Admin.Controllers
 
                     if (!String.IsNullOrEmpty(returnUrl))
                     {
-                        return Redirect(returnUrl);
+                        return Redirect(returnUrl.Replace("%2f","/"));
                     }
                     else
                     {
