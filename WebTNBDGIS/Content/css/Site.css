@@ -242,15 +242,14 @@ div#report-objects {
     min-width: 90px;
     min-height: 50px;
     display: block;
-    left: -0.5px;
-    top: 96px;
     z-index: 10003;
     opacity: 1;
     position: absolute;
     width: 574px;
 }
 .k-widget.k-window.k-dialog.k-alert{
-    background-color: #4285F4;
+    background-color: #079309;
+    /* #4285F4; */
 }
 span.k-window-title.k-dialog-title {
     color: #fff;
@@ -263,4 +262,40 @@ span.dijit.dijitReset.dijitInline.saveButton.dijitButton {
 }
 span.dijit.dijitReset.dijitInline.dijitButton {
     margin-right: 25px;
+}
+
+tr.k-state-selected{
+    background-color: #d8faeb !important;
+    color:#333 !important;;
+}
+.k-grid tr.k-state-selected:hover td {
+    background-color: #d8faeb !important;
+    color:#333 !important;;
+}
+.k-grid td {
+    padding: 10px 5px;
+}
+.k-picker-wrap.k-state-default>.k-select {
+    border-color: #079309;
+}
+span.k-select {
+    background-color: #079309;
+    color: #fff;
+}
+input#end,input#start {
+    color: red;
+    border: 1px solid #079309;
+    background-color: #d8faeb;
+    color:#333;
+}
+span.k-select:hover,span.k-select:active:hover {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+span.span-label {
+    margin: 0 7px 0 30px;
+}
+button#btnView {
+    margin-left: 50px;
 }

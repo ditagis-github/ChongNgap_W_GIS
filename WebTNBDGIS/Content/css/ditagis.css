@@ -50,6 +50,26 @@ div#title-search {
     background: #079309;
     border-color: #079309;
 }
+button.k-primary ,.k-header{
+    background: #079309;
+    border-color: #079309;
+}
+.k-primary:hover,.k-primary.k-state-active,.k-primary:active:hover, .k-primary:hover, .k-primary.k-state-focused, .k-primary:active, .k-primary:focus {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+a.k-button.k-button-icontext.k-grid-excel{
+    background: #079309;
+    border-color: #079309;
+}
+.k-grid .k-header .k-button:hover{
+    background: #5cc461;
+    border-color: #5cc461;
+}
+.k-calendar .k-today {
+    background-color: #5cc461;
+}
 .panel-info {
     border-color: #079309;
 }

@@ -322,10 +322,6 @@
     <Content Include="DotNet\proxy.ashx" />
     <Content Include="DotNet\proxy.config" />
     <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Areas\Admin\Views\AdminVideo\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\AdminVideo\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\AdminVideo\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\AdminVideo\Index.cshtml" />
     <Content Include="Areas\Admin\Views\AdminUsers\ChangePass.cshtml" />
     <Content Include="Areas\Admin\Views\AdminUsers\Create.cshtml" />
     <Content Include="Areas\Admin\Views\AdminUsers\Delete.cshtml" />
@@ -404,6 +400,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Views\AdminVideo\" />
     <Folder Include="Areas\Admin\Views\test\" />
   </ItemGroup>
   <ItemGroup>
