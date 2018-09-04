@@ -20,7 +20,7 @@ namespace WebTNBDGIS.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Map");
         }
 
         [Authorize]
