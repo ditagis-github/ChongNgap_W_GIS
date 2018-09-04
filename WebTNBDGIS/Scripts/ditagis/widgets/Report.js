@@ -127,6 +127,10 @@ define(["../core/Base",
                     // width: "100%",
                     title: layer.title,
                     visible: false,
+                    position: {
+                        left: -0.5,
+                        top: 96
+                    },
                     actions: [
                         "Pin",
                         "Minimize",
