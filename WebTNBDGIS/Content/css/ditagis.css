@@ -1,4 +1,7 @@
 /* begin code - 31.7.2018 */
+div#mapDiv {
+    height: 78vh;
+}
 #search-tool>div {
     height: 100%;
 }
@@ -82,13 +85,71 @@ a.k-button.k-button-icontext.k-grid-excel{
 .left_panel1{
     position: absolute;
     right: 5px;
-    top: 130px;
+    top: 158px;
     width: 300px;
 }
-
+div#LayerList_Content {
+    overflow-y: auto;
+    max-height: 60vh !important;
+}
 .esriToggleButton.esri-icon-right {
     margin-right: 6px;
 }
 .esriToggleButton.esri-icon-down {
     margin-right: 6px;
 }
+
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .header-logo{
+    margin: auto;
+  }
+  .logo img {
+    width: 100px;
+    height: auto;
+  }
+  .header-navbar {
+    display: grid;
+    grid-template-columns: 9% auto;
+    padding: 2px;
+    background: #d8faeb;
+  }
+  .header-image > a > img{
+    width: 220px;
+    height: 90px;
+    opacity: 0.7;
+  }
+  .big-title{
+    color: #079309;
+    font-size: 20px;
+    text-transform: uppercase;
+    word-spacing: 5px;
+    padding: 5px 0;
+    font-weight: bold;
+  }
+  .small-title{
+    color: #079309;
+    font-size: 24px;
+    text-transform: uppercase;
+    word-spacing: 5px;
+    font-weight: bolder;
+    text-shadow: 1px 1px #999;
+  }
+  
+  .header-title{
+  padding-top: 10px;
+  padding-left: 10px;
+  }
+  
+  .logo {
+  margin: 20px 0 40px 0;
+  }
+  
+  .logo img {
+  width: 90px;
+  height: auto;
+  }
+  

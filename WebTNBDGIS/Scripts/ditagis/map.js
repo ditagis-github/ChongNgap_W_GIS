@@ -19,7 +19,7 @@
     "dijit/Toolbar",
     "dojo/domReady!"
 ], function (configs, SearchLayer,
-    FeatureLayer,Popup,
+    FeatureLayer, Popup,
     Navigation, registry, on,
     Map, Graphic,
     esriRequest, esriConfig, Color,
@@ -58,18 +58,17 @@
             title: configs.basemap.title
         });
 
-
-        // Get a reference to the ArcGIS Map class
-        var map = new Map("mapDiv", {
-            logo: false,
+        var bounds = new Extent({
+            "xmin": 11792733.316378422,
+            "ymin": 1204787.5044258712,
+            "xmax": 11959366.038040169,
+            "ymax": 1295441.8199721249,
+            "spatialReference": { "wkid": 102100 }
         });
-        // // map.on("layers-add-result", initEditor);
-        map.on('load', loadedMap);
-        function loadedMap() {
-            var centerStart = new esri.geometry.Point(602626.795, 1228203.586, map.spatialReference);
-            map.centerAt(centerStart);
-            map.setScale(500000);
-        }
+
+        var map = new Map("mapDiv", {
+            extent: bounds
+        });
         var printer = new Print({
             map: map,
             url: printUrl
@@ -110,12 +109,13 @@
 
 
         map.addLayer(baseMapServiceLayer);
+        console.log(map);
         var featureLayers = [];
         for (const key in configs.layers) {
             let layercf = configs.layers[key];
             var featureLayer = new FeatureLayer(layercf.url);
             featureLayer.mode = FeatureLayer.MODE_ONEDEMAND;
-            featureLayer._outFields = [ "*" ];
+            featureLayer._outFields = ["*"];
             featureLayer.id = layercf.id;
             featureLayer.searchFields = layercf.searchFields;
             featureLayer.title = layercf.title;
@@ -154,11 +154,11 @@
                     }).appendTo(li);
                 }
             }
-            new SearchLayer(map);  
-            popup.startup(evt);         
+            new SearchLayer(map);
+            popup.startup(evt);
         });
-        
-        
+
+
         var homeButton = new HomeButton({
             theme: "HomeButton",
             map: map,
