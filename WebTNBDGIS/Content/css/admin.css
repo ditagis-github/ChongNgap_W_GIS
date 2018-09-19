@@ -113,10 +113,6 @@ a
     margin-left: 0;
 }
 
-#pager li:last-child
-{
-}
-
 #pager li
 {
     color: #00B9F1;
@@ -288,7 +284,7 @@ select
 
 input[type="submit"], input[type="button"]
 {
-    background-color: #D42B1E;
+    background-color: #47a3da;
     border: 0px solid #CDCDCD;
     color: white;
     padding: 7px 20px;
@@ -300,7 +296,7 @@ input[type="submit"], input[type="button"]
 
     input[type="submit"]:hover, input[type="button"]:hover
     {
-        background-color: #FF3333;
+        background-color: #47a3da;
     }
 
 
@@ -388,14 +384,12 @@ input[type="submit"], input[type="button"]
     color: #000080;
 }
 
-.inner
-{
-    width: 320px;
-    margin: 50px auto;
-}
-
 .cover-heading
 {
+    text-transform: uppercase;
     text-align: center;
     color: #000080;
+}
+.col_full {
+    margin-top: 22px;
 }

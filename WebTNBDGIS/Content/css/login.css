@@ -1,0 +1,58 @@
+body{
+    background-image: url(/Content/images/chongngap/gserver02.jpg)
+}
+
+ul
+{
+    list-style:none;
+}
+#web_head
+{
+height: 85px;
+color: #AFDEFA;
+font-size: 1.8em;
+position: relative;
+margin: 0px;
+font-weight: 300;
+background: #47a3da none repeat scroll 0% 0%;
+text-align: center;
+}
+
+#web_head img
+{
+    margin-left: 10px;
+    float:left;
+    border-radius: 25px;
+    -moz-border-radius: 25px;
+    -webkit-border-radius: 25px;
+    -ms-border-radius: 25px;
+    -o-border-radius: 25px;
+    border: 1px solid #4C9ED9;
+}
+
+#web_head img, #web_head span
+{
+    top: 50%;
+    vertical-align: middle;
+}
+#web_head span
+{
+    font-size:22px;
+    font-family: 'Times New Roman';
+    color: #b90505;
+}
+
+.inner
+{
+    width:370px;
+    margin:0 auto;
+    margin-top: 100px;
+}
+form {
+    background: #ffffff;
+}
+label {
+    font-style: italic;
+    font-weight: bolder;
+    font-size: 14px;
+}

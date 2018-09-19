@@ -19,7 +19,7 @@ namespace WebTNBDGIS.Areas.Admin.Models
         [DataType(DataType.Password)]
         public string pass { get; set; }
 
-        [Display(Name = "Giữ đăng nhập ")]
+        [Display(Name = "Lưu mật khẩu ")]
         public Boolean isRemember { get; set; }
     }
 }

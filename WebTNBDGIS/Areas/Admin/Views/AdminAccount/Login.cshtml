@@ -1,61 +1,14 @@
 ﻿@model WebTNBDGIS.Areas.Admin.Models.AdminAccount
-
-<script src="~/Scripts/jquery-1.7.1.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-<link href="~/Content/admin.css" rel="stylesheet" />
-<link href="~/Content/cover.css" rel="stylesheet" />
+<script src="~/Scripts/libs/jquery-1.10.2.js"></script>
+<script src="~/Scripts/libs/jquery.validate.min.js"></script>
+<script src="~/Scripts/libs/jquery.validate.unobtrusive.min.js"></script>
+<link href="~/Content/css/admin.css" rel="stylesheet" />
+<link href="~/Content/css/login.css" rel="stylesheet" />
 <script type="text/javascript">
     window.history.forward();
 </script> 
 <style>
-    ul
-    {
-        list-style:none;
-    }
-    
 
-#web_head
-{
-    height: 85px;
-    color: #AFDEFA;
-    font-size: 1.8em;
-    position: relative;
-    margin: 0px;
-    font-weight: 300;
-    background: #47a3da none repeat scroll 0% 0%;
-    text-align: center;
-}
-
-    #web_head img
-    {
-        margin-left: 10px;
-        float:left;
-        border-radius: 25px;
-        -moz-border-radius: 25px;
-        -webkit-border-radius: 25px;
-        -ms-border-radius: 25px;
-        -o-border-radius: 25px;
-        border: 1px solid #4C9ED9;
-    }
-
-    #web_head img, #web_head span
-    {
-        top: 50%;
-        vertical-align: middle;
-    }
-    #web_head span
-    {
-        font-size:22px;
-        font-family: 'Times New Roman';
-        color: #b90505;
-    }
-
-    .inner
-    {
-        width:300px;
-        margin:0 auto;
-    }
 
 </style>
     <div id="web_head">
@@ -63,47 +16,44 @@
     <span> <br /> HỆ THỐNG THÔNG TIN ĐỊA LÝ (GIS) PHỤC VỤ CÔNG TÁC PHÒNG CHỐNG NGẬP LỤT</span>
     </div>
 <div class="site-wrapper">
-
     <div class="site-wrapper-inner">
-
         <div class="cover-container">
-
             <div class="inner cover">
-                <h2 class="cover-heading">Đăng nhập vào hệ thống</h2>
-
                 @using (Html.BeginForm())
                 {
-
-                    <fieldset>
+                    <fieldset class="field-login">
                         <legend></legend>
-
+                        <h3 class="cover-heading">Đăng nhập vào hệ thống</h3>
                         @Html.ValidationSummary(true)
-                        <div class="editor-label">
-                            @Html.LabelFor(model => model.username)
+                        <div class="col_full">
+                            <div class="editor-label">
+                                @Html.LabelFor(model => model.username)
+                            </div>
+                            <div class="editor-field">
+                                @Html.TextBoxFor(model => model.username, new { @autocomplete="off", @autocorrect="off", @autocapitalize="off" ,@spellcheck="false"  })
+                                <br />
+                                @Html.ValidationMessageFor(model => model.username)
+                            </div>
                         </div>
-                        <div class="editor-field">
-                            @Html.TextBoxFor(model => model.username, new { @autocomplete="off", @autocorrect="off", @autocapitalize="off" ,@spellcheck="false"  })
-                            <br />
-                            @Html.ValidationMessageFor(model => model.username)
-                        </div>
-
-                        <div class="editor-label">
+                        
+                        <div class="col_full">
+                            <div class="editor-label">
                             @Html.LabelFor(model => model.pass)
+                            </div>
+                            <div class="editor-field">
+                                @Html.EditorFor(model => model.pass)<br />
+                                @Html.ValidationMessageFor(model => model.pass)
+                            </div>
                         </div>
-                        <div class="editor-field">
-                            @Html.EditorFor(model => model.pass)<br />
-                            @Html.ValidationMessageFor(model => model.pass)
+                       
+                        <div class="col_full">
+                            <div class="editor-field">
+                                @Html.EditorFor(model => model.isRemember)
+                                @Html.LabelFor(model => model.isRemember)
+                                @Html.ValidationMessageFor(model => model.isRemember)
+                            </div>
                         </div>
-
-                        <div class="editor-label">
-                            @Html.LabelFor(model => model.isRemember)
-                        </div>
-                        <div class="editor-field">
-                            @Html.EditorFor(model => model.isRemember)<br />
-                            @Html.ValidationMessageFor(model => model.isRemember)
-                        </div>
-
-                        <span>
+                        <span class="col_full">
                             <input type="submit" value="Đăng nhập" />
                         </span>
                     </fieldset>
