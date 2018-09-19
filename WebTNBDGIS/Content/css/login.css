@@ -1,5 +1,9 @@
 body{
-    background-image: url(/Content/images/chongngap/gserver02.jpg)
+    background-image: url(/Content/images/chongngap/gserver02.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: "Segoe UI","Helvetica Neue","Lucida Grande","Roboto","Ebrima","Nirmala UI","Gadugi","Segoe Xbox Symbol","Segoe UI Symbol","Meiryo UI","Khmer UI","Tunga","Lao UI","Raavi","Iskoola Pota","Latha","Leelawadee","Microsoft YaHei UI","Microsoft JhengHei UI","Malgun Gothic","Estrangelo Edessa","Microsoft Himalaya","Microsoft New Tai Lue","Microsoft PhagsPa","Microsoft Tai Le","Microsoft Yi Baiti","Mongolian Baiti","MV Boli","Myanmar Text","Cambria Math"
 }
 
 ul
@@ -46,13 +50,23 @@ text-align: center;
 {
     width:370px;
     margin:0 auto;
-    margin-top: 100px;
 }
 form {
     background: #ffffff;
+    box-shadow: 3px 3px 5px 6px #888888a8;
+    -webkit-box-shadow: 3px 3px 5px 6px #888888a8; 
+  -moz-box-shadow:    3px 3px 5px 6px #888888a8; 
 }
 label {
-    font-style: italic;
     font-weight: bolder;
     font-size: 14px;
+}
+.site-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30em;
+    height: 18em;
+    margin-top: -9em;
+    margin-left: -15em;
 }
