@@ -282,9 +282,8 @@ select
 }
 
 
-input[type="submit"], input[type="button"]
-{
-    background-color: #47a3da;
+input[type="submit"], input[type="button"] {
+    background-color: #0f8110;
     border: 0px solid #CDCDCD;
     color: white;
     padding: 7px 20px;
@@ -296,9 +295,9 @@ input[type="submit"], input[type="button"]
     max-width: 300px;
 }
 
-    input[type="submit"]:hover, input[type="button"]:hover
-    {
-        background-color: #47a3da;
+    input[type="submit"]:hover, input[type="button"]:hover {
+        background-color: #0f8110;
+        ;
     }
 
 
@@ -386,11 +385,10 @@ input[type="submit"], input[type="button"]
     color: #000080;
 }
 
-.cover-heading
-{
+.cover-heading {
     text-transform: uppercase;
     text-align: center;
-    color: #000080;
+    color: #0f8110;
 }
 .col_full {
     margin-top: 22px;
