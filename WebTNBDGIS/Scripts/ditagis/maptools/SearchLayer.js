@@ -23,26 +23,6 @@ define([
                     outFields: ["*"]
                 });
             this.dsHuyen = [], this.dsXa = [];
-            $("#btSearch").click((evt) => {
-                $("#result_SearchData_Content").html("");
-                var cbb_DVQuanLy = $("#cbb_DVQuanLy").val();
-                var cbb_QuanHuyen = $("#cbb_QuanHuyen").val();
-                var cbb_PhuongXa = $("#cbb_PhuongXa").val();
-                $("#loading").removeClass("undisplay");
-                $("#loading").removeClass("undisplay");
-                $(".loading-label").addClass("display");
-                let where = '1=1';
-                if (cbb_DVQuanLy && cbb_DVQuanLy != '') {
-                    where += ` and DonViQuanLy = ${cbb_DVQuanLy}`;
-                }
-                if (cbb_QuanHuyen && cbb_QuanHuyen != '') {
-                    where += ` and MaQuanHuyen = ${cbb_QuanHuyen}`;
-                }
-                if (cbb_PhuongXa && cbb_PhuongXa != '') {
-                    where += ` and MaPhuongXa = ${cbb_PhuongXa}`;
-                }
-                this.features(where);
-            });
            
             $(".searchData").click((evt) => {
                 $(".panel-group").hide();

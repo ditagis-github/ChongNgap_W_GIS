@@ -109,7 +109,6 @@
 
 
         map.addLayer(baseMapServiceLayer);
-        console.log(map);
         var featureLayers = [];
         for (const key in configs.layers) {
             let layercf = configs.layers[key];
@@ -119,6 +118,7 @@
             featureLayer.id = layercf.id;
             featureLayer.searchFields = layercf.searchFields;
             featureLayer.title = layercf.title;
+            featureLayer.visible = false;
             featureLayers.push(featureLayer);
             featureLayer.on('load', (result) => {
                 const layer = result.layer;
@@ -144,6 +144,17 @@
                 }, "legendDiv");
                 legendDijit.startup();
                 var ul = $("#search-layers");
+                var ul_download_kml = $("#download-kml-layers");
+                
+                for (const key in configs.kmls) {
+                    let layercf = configs.kmls[key];
+                    $('<a/>', {
+                        class: "download-kml-Data",
+                        text: layercf.title,
+                        href: layercf.url
+                    }).appendTo($('<li/>').appendTo(ul_download_kml));
+                }
+
                 for (const layerInfo of layerInfos) {
                     let li = $('<li/>').appendTo(ul);
                     $('<a/>', {
@@ -152,9 +163,23 @@
                         text: layerInfo.layer.title
 
                     }).appendTo(li);
+                    var url = layerInfo.layer.url.replace("FeatureServer/", `MapServer/generatekml?docName=${layerInfo.layer.id}&layers=`);
+                    $('<a/>', {
+                        class: "download-kml-Data",
+                        text: layerInfo.layer.title,
+                        href: url
+                    }).appendTo($('<li/>').appendTo(ul_download_kml));
                 }
             }
             new SearchLayer(map);
+            // $(".download-kml-Data").click((evt) => {
+            //     let layerID = evt.target.id;
+            //     var layer = map.getLayer(layerID);
+            //     if (layer) {
+            //         var url = layer.url.replace("FeatureServer/", "MapServer/kml/mapImage.kmz?layers=");
+            //         console.log(url);
+            //     }
+            // });
             popup.startup(evt);
         });
 
@@ -243,6 +268,7 @@
         $("#locationButton").click(function (evt) {
             initFunc(map);
         });
+
 
         function initFunc(map) {
             if (navigator.geolocation) {

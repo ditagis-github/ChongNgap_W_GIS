@@ -46,6 +46,14 @@
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-download"></i>&nbsp;Xuất định dạng KML
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" id="download-kml-layers">
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-edge"></i>&nbsp;Website liên kết
                         <span class="caret"></span>
                     </a>
@@ -77,20 +85,32 @@
 
                     </ul>
                 </li>
-
-                <li>
-                    <a href="#" id="locationButton">
-                        <i class="fa fa-street-view"></i>&nbsp;Định vị
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-wrench"></i>&nbsp;Công cụ
+                        <span class="caret"></span>
                     </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                             <a href="#" id="locationButton">
+                                <i class="fa fa-street-view"></i>&nbsp;Định vị
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" id="printButton">
+                                <i class="fa fa-print"></i>&nbsp;In ấn
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" id="distanceButton">
+                                <i class="fa fa-magic"></i>&nbsp;Đo đạc
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
-                    <a href="#" id="printButton">
-                        <i class="fa fa-print"></i>&nbsp;In ấn
-                    </a>
-                </li>
-                <li>
-                    <a href="#" id="distanceButton">
-                        <i class="fa fa-magic"></i>&nbsp;Đo đạc
+                    <a href="@Url.Action("Index","Videos")" target="_blank">
+                        <i class="fa fa-video"></i>&nbsp;Xem video
                     </a>
                 </li>
                 <li>

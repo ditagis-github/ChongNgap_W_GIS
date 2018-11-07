@@ -32,17 +32,7 @@ body, html
     background-image: url(../img/1024X100pixcel.jpg);
 }
 
-    #web_head img
-    {
-        margin-left: 10px;
-        float: left;
-        border-radius: 25px;
-        -moz-border-radius: 25px;
-        -webkit-border-radius: 25px;
-        -ms-border-radius: 25px;
-        -o-border-radius: 25px;
-        border: 1px solid #7fc5ef ;
-    }
+   
 
     #web_head img, #web_head span
     {
@@ -59,10 +49,10 @@ body, html
 
 #web_bot
 {
-    color: #AFDEFA;
+    color: #ffffff;
     bottom: 0;
     font-weight: 300;
-    background: #0D77B6 none repeat scroll 0% 0%;
+    background: #079309 none repeat scroll 0% 0%;
     overflow: hidden;
 }
 

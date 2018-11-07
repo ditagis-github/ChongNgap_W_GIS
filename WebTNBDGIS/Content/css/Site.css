@@ -8,11 +8,13 @@
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
-select,
-textarea {
+select {
     max-width: 280px;
 }
 
+input.form-control,textarea.form-control {
+    max-width: 700px;
+}
 #header {
     text-align: center;
     color: #cf0606;
@@ -294,7 +296,7 @@ span.k-select:hover,span.k-select:active:hover {
     border-color: #2e6da4;
 }
 span.span-label {
-    margin: 0 7px 0 30px;
+    margin: 0 7px 0 0;
 }
 button#btnView {
     margin-left: 50px;

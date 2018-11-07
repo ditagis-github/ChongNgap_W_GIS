@@ -7,12 +7,25 @@
     <link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/css/default.css" rel="stylesheet" />
     <link href="~/Content/css/admin.css" rel="stylesheet" />
+    @RenderSection("css", required: false)
+    @Styles.Render("~/Content/css/styles")
+    @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
    
     <div id="web_head">
-    @*<img src="~/Content/images/logo.png" style="width: 80px; margin-top: 2px;" />*@
-    <span>HỆ THỐNG THÔNG TIN ĐỊA LÝ (GIS) PHỤC VỤ CÔNG TÁC PHÒNG CHỐNG NGẬP LỤT</span>
+    <div class="header-navbar">
+            <div class="header-logo">
+                <a class="logo" href="http://s//">
+                    <img src="/Content/images/logo.png" alt="logoBD">
+                </a>
+            </div>
+            <div class="header-title">
+                <div class="big-title"> HỆ THỐNG THÔNG TIN ĐỊA LÝ (GIS)</div>
+                <div class="small-title">
+                    <br class="moblie" style="display: none;">PHỤC VỤ CÔNG TÁC PHÒNG CHỐNG NGẬP LỤT TỈNH BÌNH DƯƠNG</div>
+            </div>
+    </div>
     </div>
   @{
          WebTNBDGIS.Models.UserAccess userAccess = new WebTNBDGIS.Models.UserAccess();
@@ -23,7 +36,7 @@
     }
     
     <div id="web_bot">
-        <div class="has" style="padding:10px;"> 
+        <div class="has" style="padding: 15px 7px 7px;"> 
             @if( user != null)
             {
                 name = user.NameDisplay;

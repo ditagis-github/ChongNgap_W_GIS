@@ -176,10 +176,36 @@
     <Compile Include="Areas\Admin\Models\AdminLinkMapModel.cs" />
     <Compile Include="Areas\Admin\Models\AdminUsersModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminVideosController.cs" />
+    <Compile Include="Controllers\VideoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DBVideoModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DBVideoModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBVideoModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DBVideoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBVideoModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DBVideoModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\LargeJsonResult.cs" />
+    <Compile Include="Models\Video.cs">
+      <DependentUpon>DBVideoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="obj\Release\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Release\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Release\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource\Model\Ben_Luc.cs" />
     <Compile Include="Resource\Model\Bien_Hoa.cs" />
@@ -218,6 +244,8 @@
     <Compile Include="Resource\Repository\NinjectControllerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\WebTNBDGIS.dll" />
+    <Content Include="bin\WebTNBDGIS.pdb" />
     <Content Include="Content\css\admin.css" />
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
@@ -230,10 +258,22 @@
     <Content Include="Content\bootstrap\js\bootstrap.min.js" />
     <Content Include="Content\css\default.css" />
     <Content Include="Content\css\ditagis.css" />
+    <Content Include="Content\css\login.css" />
     <Content Include="Content\font-awesome-4.7.0\css\font-awesome.css" />
     <Content Include="Content\font-awesome-4.7.0\css\font-awesome.min.css" />
+    <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\font-awesome-4.7.0\fonts\FontAwesome.otf" />
     <Content Include="Content\font-awesome-4.7.0\HELP-US-OUT.txt" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
     <Content Include="Content\images\Action_Delete.png" />
     <Content Include="Content\images\Action_Deny_32x32.png" />
     <Content Include="Content\images\Action_Edit.png" />
@@ -258,6 +298,7 @@
     <Content Include="Content\images\BO_Position_32x32.png" />
     <Content Include="Content\images\BO_Role.png" />
     <Content Include="Content\images\BO_User.png" />
+    <Content Include="Content\images\chongngap\gserver02.jpg" />
     <Content Include="Content\images\cross.png" />
     <Content Include="Content\images\home.png" />
     <Content Include="Content\images\locate.png" />
@@ -287,11 +328,6 @@
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.eot" />
-    <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.woff" />
-    <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Content\font-awesome-4.7.0\fonts\FontAwesome.otf" />
     <Content Include="Content\font-awesome-4.7.0\less\animated.less" />
     <Content Include="Content\font-awesome-4.7.0\less\bordered-pulled.less" />
     <Content Include="Content\font-awesome-4.7.0\less\core.less" />
@@ -347,6 +383,7 @@
     <Content Include="Areas\Admin\Views\AdminLinkMap\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\AdminLinkMap\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\AdminLinkMap\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminHome\QuanTri.cshtml" />
     <None Include="DotNet\proxy.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -357,8 +394,25 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
+    <EntityDeploy Include="Models\DBVideoModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DBVideoModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\DBVideoModel.edmx.diagram">
+      <DependentUpon>DBVideoModel.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\TNBD.pubxml" />
+    <Content Include="Models\DBVideoModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DBVideoModel.edmx</DependentUpon>
+      <LastGenOutput>DBVideoModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\DBVideoModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DBVideoModel.edmx</DependentUpon>
+      <LastGenOutput>DBVideoModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\ditagis\configs.js" />
     <Content Include="Scripts\ditagis\core\Base.js" />
     <Content Include="Scripts\ditagis\core\EventListener.js" />
@@ -366,7 +420,9 @@
     <Content Include="Scripts\ditagis\map.js" />
     <Content Include="Scripts\ditagis\maptools\file.js" />
     <Content Include="Scripts\ditagis\maptools\SearchLayer.js" />
+    <Content Include="Scripts\ditagis\widgets\BieuDoDanSo.js" />
     <Content Include="Scripts\ditagis\widgets\BieuDoMua.js" />
+    <Content Include="Scripts\ditagis\widgets\BieuDoTrieu.js" />
     <Content Include="Scripts\ditagis\widgets\Popup.js" />
     <Content Include="Scripts\ditagis\widgets\Report.js" />
     <Content Include="Scripts\dojoConfig.js" />
@@ -405,6 +461,12 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Map.cshtml" />
     <Content Include="Scripts\libs\jquery-1.10.2.min.map" />
+    <Content Include="Areas\Admin\Views\AdminVideos\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminVideos\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminVideos\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminVideos\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminVideos\Index.cshtml" />
+    <Content Include="Views\Videos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -417,6 +479,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

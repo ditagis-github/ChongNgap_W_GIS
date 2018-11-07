@@ -1,0 +1,97 @@
+﻿@model IEnumerable<WebTNBDGIS.Models.Video>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                    aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!-- <a class="navbar-brand" href="@Url.Action(" Index ")">Trang chủ</a> -->
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+               <li>
+                    <a href="/Home/Map" id="home">
+                        <i class="fa fa-home"></i>&nbsp;Trang chủ
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-edge"></i>&nbsp;Website liên kết
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="http://www.binhduong.gov.vn/" target="_blank">UBND Tỉnh Bình Dương</a>
+                        </li>
+                        <li>
+                            <a href="http://stnmt.binhduong.gov.vn/3cms/" target="_blank">Sở Tài nguyên và Môi trường Bình Dương</a>
+                        </li>
+                        <li>
+                            <a href="http://sgtvt.binhduong.gov.vn/ " target="_blank">Sở Giao thông vận tải Bình Dương</a>
+                        </li>
+                        <li>
+                            <a href="http://sonongnghiep.binhduong.gov.vn/" target="_blank">Sở Nông nghiệp và phát triển nông thôn Bình Dương</a>
+                        </li>
+                        <li>
+                            <a href="http://binhduongsmartcity.vn/" target="_blank">Bình Dương SmartCity</a>
+                        </li>
+                        <li>
+                            <a href="http://atlas.binhduong.gov.vn/MAP/BDT/Atlas/index.php" target="_blank">Atlas Bình Dương</a>
+                        </li>
+                        <li>
+                            <a href="http://sokhcn.binhduong.gov.vn/" target="_blank">Sở Khoa học và Công nghệ Bình Dương</a>
+                        </li>
+                        <li>
+                            <a href="http://lhhkhktbinhduong.vn/" target="_blank">Liên hiệp các hội Khoa học và Kỹ thuật Bình Dương</a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index","AdminHome",new { area="admin" })">
+                        Quản trị
+                    </a>
+                </li>
+                <li class="dropdown">
+                    @{
+                        string user = User.Identity.Name;
+                    }
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@user <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a style="color:#1c046f;" href="@Url.Action("Logout","Home")">Đăng xuất</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <div class="container">
+        <div class="video-group">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-6 col-sm-6">
+                    <div class="video">
+                        <iframe width="500" height="315" src="@item.Link" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <div style="font-weight:bold;">@item.Mota </div>
+                    </div>
+                
+                </div>
+                
+            }
+        </div>
+        
+    </div>
+   
+

@@ -1,0 +1,26 @@
+﻿@model WebTNBDGIS.Models.Video
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="content">
+    <div class="page-header">Xem chi tiết</div>
+    <table class="table table-striped table-bordered table-sm">
+        <tbody>
+            <tr>
+                <th>Link</th>
+                <td>@Html.DisplayFor(model => model.Link)</td>
+            </tr>
+            <tr>
+                <th>Mô tả</th>
+                <td>@Html.DisplayFor(model => model.Mota)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>
+        <input type="submit" value="Chỉnh sửa" class="btn btn-custom" onclick="location.href='@Url.Action("Edit", new { id = Model.ID })'" />
+        <input type="button" class="btn btn-custom-default" value="Trở về" onclick="location.href='@Url.Action("Index")'" />
+    </p>
+</div>

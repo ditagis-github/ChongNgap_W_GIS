@@ -1,0 +1,53 @@
+﻿@model WebTNBDGIS.Models.Video
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="content">
+    <div class="page-header">Thêm mới</div>
+    @using (Html.BeginForm()) 
+    {
+        @Html.AntiForgeryToken()
+        
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <label class="control-label col-md-2">
+                Link youtube
+                </label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Link, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Link, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">
+                Mô tả
+                </label>
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Mota, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Mota, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-actions">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-10">
+                    <input type="submit" value="Thêm" class="btn btn-custom" />
+                    <input type="button" class="btn btn-custom-default" value="Trở về" onclick="location.href='@Url.Action("Index")'" />
+                </div>
+               
+            
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

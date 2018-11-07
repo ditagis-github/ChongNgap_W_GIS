@@ -1,33 +1,326 @@
 
 define([
+    "ditagis/configs",
+    "dojo/dom", "dojo/on",
+    "esri/tasks/query", "esri/tasks/QueryTask",
     "dojo/dom-construct",
 ],
-    function (domConstruct) {
+    function (configs, dom, on, Query, QueryTask,
+        domConstruct) {
         class BieuDoMua {
             constructor() {
+                this.initWindow();
+                this.initDataSourceKendo();
+                this.initTypeSelection();
+                this.initChart();
+                this.initQueryTask();
+            }
+            initQueryTask() {
+                var url = configs.tables["Mua"].url;
+                this.queryTask = new QueryTask(url);
+                this.query = new Query();
+                this.query.returnGeometry = false;
+                this.query.outFields = ["*"];
+            }
+            show(selectFeature) {
+                this.select_input.select(-1);
+                $(".date-frame").hide();
+                $("#content").hide();
+                $("#select-type-query").show();
+                this.chart_window.data("kendoWindow").open();
+                this.selectFeature = selectFeature;
+            }
+            queryFeatureTable_Month(month, year) {
+                let dk1 = "MaTram = '" + this.selectFeature.attributes["MaTram"] + "'";
+                let dk2 = "Nam = " + year;
+                var where = dk1 + " and " + dk2;
+                this.query.where = where;
+                this.queryTask.execute(this.query, (results) => {
+                    var features = results.features;
+                    if (features.length > 0) {
+                        var datas = features.map(m => ({ Time: m.attributes.Ngay, Value: m.attributes['Thang' + month] }))
+                        this.showChart(datas);
+                    }
+
+                });
+            }
+
+            queryFeatureTable_Months(month_start, month_end, year) {
+                let dk1 = "MaTram = '" + this.selectFeature.attributes["MaTram"] + "'";
+                let dk2 = "Nam = " + year;
+                this.query.where = dk1 + " and " + dk2;
+                this.queryTask.execute(this.query, (results) => {
+                    var features = results.features;
+                    if (features.length > 0) {
+                        var datas = [];
+                        for (var thang = month_start; thang <= month_end; thang++) {
+                            var rs = features.map(m => (parseFloat(m.attributes['Thang' + thang]) | 0));
+                            let sum = rs.reduce((a, b) => a + b, 0);
+                            let data = {
+                                Time: "Tháng " + thang,
+                                Value: sum
+                            }
+                            datas.push(data);
+                        }
+                        this.showChart(datas);
+                    }
+
+                });
+            }
+            queryFeatureTable_Years(yStart, yEnd) {
+                let dk1 = "MaTram = '" + this.selectFeature.attributes["MaTram"] + "'";
+                let dk2 = "Nam >= " + yStart + " and Nam <= " + yEnd;
+                this.query.where = dk1 + " and " + dk2;
+                this.queryTask.execute(this.query, (results) => {
+                    var features = results.features;
+                    if (features.length > 0) {
+                        var datas = [];
+                        for (var nam = yStart; nam <= yEnd; nam++) {
+                            let fs = features.filter(m => m.attributes["Nam"] == nam);
+                            let sumNam = [];
+                            for (var thang = 1; thang <= 12; thang++) {
+                                var rs = fs.map(m => (parseFloat(m.attributes['Thang' + thang]) | 0));
+                                let sum = rs.reduce((a, b) => a + b, 0);
+                                sumNam.push(sum);
+                            }
+                            let data = {
+                                Time: "Năm " + nam,
+                                Value: sumNam.reduce((a, b) => a + b, 0)
+                            }
+                            datas.push(data);
+
+                        }
+                        this.showChart(datas);
+                    }
+
+                });
+            }
+            showChart(dataSource) {
+                $("#content").show();
+                $("#content").kendoChart({
+                    legend: {
+                        position: "bottom",
+                    },
+                    "dataSource": {
+                        data: dataSource,
+                    },
+                    series: [{
+                        field: "Value",
+                        type: "column",
+                        categoryField: "Time",
+                        labels: {
+                            visible: false
+                        },
+                    }],
+                    seriesColors: ['#1a237e', '#ff8d00', '#5cc461'],
+                    tooltip: {
+                        visible: true
+                    }
+                });
+            }
+            initWindow() {
                 this.chart_window = $('<div/>', {
                     id: "chart-content"
                 }).appendTo(document.body);
-                this.chart_window.append(domConstruct.create('span', {
-                    class: "span-label",
-                    innerHTML: "Từ"
-                }));
-                this.chart_window.append(domConstruct.create('input', {
-                    id: "start",
-                }));
-                this.chart_window.append(domConstruct.create('span', {
-                    class: "span-label",
-                    innerHTML: "Đến"
-                }));
-                this.chart_window.append(domConstruct.create('input', {
-                    id: "end",
-                }));
-                this.chart_window.append(domConstruct.create('button', {
-                    type: "button",
-                    id: "btnView",
-                    innerHTML: "Xem biểu đồ",
+                this.chart_window.kendoWindow({
+                    width: 900,
+                    title: "Biểu đồ lưu lượng mưa",
+                    visible: false,
+                    position: {
+                        left: -0.5,
+                        top: 96
+                    },
+                    actions: [
+                        "Pin",
+                        "Minimize",
+                        "Maximize",
+                        "Close"
+                    ],
+                });
+            }
+            initDataSourceKendo() {
+                this.data_months = [];
+                this.data_years = [];
+                for (var i = 1; i <= 12; i++) {
+                    this.data_months.push({ text: i, value: i });
+                }
+                for (var i = 1980; i <= 2030; i++) {
+                    this.data_years.push({ text: i, value: i });
+                }
+            }
+            initTypeSelection() {
+                var selectTypeQuery = [
+                    {
+                        type: "select_of_month",
+                        text: "Lượng mưa theo ngày"
+                    },
+                    {
+                        type: "select_of_months",
+                        text: "Tổng lượng mưa tháng"
+                    },
+                    {
+                        type: "select_of_years",
+                        text: "Tổng lượng mưa năm"
+                    }
+                ]
+                var group = $('<div/>', {
+                    id: "select-type-query",
+                }).appendTo(this.chart_window);
+                var input = $('<input/>', {
+                    class: 'input-field',
+                    style: 'width:50%',
+                }).appendTo(group);
+                input.kendoDropDownList({
+                    optionLabel: "Chọn...",
+                    dataTextField: "text",
+                    dataValueField: "type",
+                    dataSource: selectTypeQuery,
+                    change: (e) => {
+                        let type = e.sender._old;
+                        $(".date-frame").hide();
+                        if (type == "select_of_month") {
+                            $("#select_of_month_group").show();
+                        }
+                        else if (type == 'select_of_months') {
+                            $("#select_of_months_group").show();
+                        }
+                        else $("#select_of_year_group").show();
+                    }
+                });
+                this.select_input = input.data("kendoDropDownList");
+                this.initSelectOfMonth();
+                this.initSelectOfMonths();
+                this.initSelectOfYears();
+                $(".date-frame").hide();
+            }
+            initSelectOfYears() {
+                var group = $('<div/>', {
+                    id: "select_of_year_group",
+                    class: 'date-frame'
+                }).appendTo(this.chart_window);
+                var year_start = this.getInputYear(group);
+                year_start.data("kendoDropDownList").setOptions({
+                    optionLabel: "Từ năm",
+                });
+                var year_end = this.getInputYear(group);
+                year_end.data("kendoDropDownList").setOptions({
+                    optionLabel: "Đến năm",
+                });
+                var btnView = this.getBtnView(group);
+                btnView.kendoButton({
+                    click: () => {
+                        let yStartValue = year_start.val();
+                        let yEndValue = year_end.val();
+                        if (!yStartValue || !yEndValue) {
+                            kendo.alert("Vui lòng nhập đẩy đủ thông tin");
+                        }
+                        this.queryFeatureTable_Years(parseInt(yStartValue), parseInt(yEndValue));
+                    }
+                });
+
+            }
+            initSelectOfMonths() {
+                var group = $('<div/>', {
+                    id: "select_of_months_group",
+                    class: 'date-frame'
+                }).appendTo(this.chart_window);
+                var month_start = this.getInputMonth(group);
+                month_start.data("kendoDropDownList").setOptions({
+                    optionLabel: "Từ tháng",
+                });
+                var month_end = this.getInputMonth(group);
+                month_end.data("kendoDropDownList").setOptions({
+                    optionLabel: "Đến tháng",
+                });
+                var year = this.getInputYear(group);
+                var btnView = this.getBtnView(group);
+                btnView.kendoButton({
+                    click: () => {
+                        let mstart = month_start.val() | 1;
+                        let mend = month_end.val() | 12;
+                        let yearValue = year.val();
+                        if (!yearValue) {
+                            kendo.alert("Vui lòng nhập đẩy đủ thông tin");
+                        }
+                        else
+                            this.queryFeatureTable_Months(parseInt(mstart), parseInt(mend), parseInt(yearValue));
+                    }
+                });
+            }
+            initSelectOfMonth() {
+                var group = $('<div/>', {
+                    id: "select_of_month_group",
+                    class: 'date-frame'
+                }).appendTo(this.chart_window);
+                var month = this.getInputMonth(group);
+                var year = this.getInputYear(group);
+                var btnView = this.getBtnView(group);
+                btnView.kendoButton({
+                    click: () => {
+                        let monthValue = month.val();
+                        let yearValue = year.val();
+                        if (!monthValue || !yearValue) {
+                            kendo.alert("Vui lòng nhập đẩy đủ thông tin");
+                        }
+                        else
+                            this.queryFeatureTable_Month(parseInt(monthValue), parseInt(yearValue));
+                    }
+                });
+            }
+            getBtnView(group) {
+                let btnView = $('<button/>', {
+                    text: "Xem biểu đồ",
                     class: 'k-primary'
-                }));
+                }).appendTo(group);
+                // create DropDownList from input HTML element
+                btnView.kendoButton();
+                return btnView;
+            }
+            getInputMonth(group) {
+                let month = $('<input/>', {
+                    class: "input-control"
+                }).appendTo(group);
+                month.kendoDropDownList({
+                    optionLabel: "Chọn tháng",
+                    dataTextField: "text",
+                    dataValueField: "value",
+                    dataSource: this.data_months,
+                });
+                return month;
+            }
+            getInputYear(group) {
+                let year = $('<input/>', {
+                    class: "input-control"
+                }).appendTo(group);
+                year.kendoDropDownList({
+                    optionLabel: "Chọn năm",
+                    dataTextField: "text",
+                    dataValueField: "value",
+                    dataSource: this.data_years,
+                });
+                return year;
+            }
+            initChart() {
+                var group = $('<div/>', {
+                    id: "luong-mua-quan-trac",
+                    class: 'date-frame'
+                }).appendTo(this.chart_window);
+                $('<span/>', {
+                    text: "Từ",
+                    class: "span-label",
+                }).appendTo(group);
+                $('<input/>', {
+                    id: "start"
+                }).appendTo(group);
+                $('<span/>', {
+                    text: "Đến",
+                    class: "span-label",
+                }).appendTo(group);
+                $('<input/>', {
+                    id: "end"
+                }).appendTo(group);
+                var btnView = this.getBtnView(group);
+
                 var end_date = kendo.toString(kendo.parseDate(new Date()), 'dd/MM/yyyy');
                 var startDate = new Date();
                 startDate.setDate(startDate.getDate() - 2);
@@ -56,36 +349,23 @@ define([
                 this.end_datePicker.min(this.startDatePicker.value());
                 this.startDatePicker.max(end_date);
                 this.end_datePicker.max(end_date);
-                $("#btnView").kendoButton({
+                btnView.kendoButton({
                     click: () => {
                         var start_date = this.startDatePicker.value();
                         var end_date = this.end_datePicker.value();
-                        this.startup(start_date, end_date);
+                        this.getLuongMuaQuanTrac(start_date, end_date);
 
                     }
                 });
-                var content = domConstruct.create('div', {
-                    id: 'content'
-                });
-                this.chart_window.append(content);
-                this.chart_window.kendoWindow({
-                    width: 900,
-                    title: "Biểu đồ lưu lượng mưa",
-                    visible: false,
-                    position: {
-                        left: -0.5,
-                        top: 96
-                    },
-                    actions: [
-                        "Pin",
-                        "Minimize",
-                        "Maximize",
-                        "Close"
-                    ],
-                });
+                var group = $('<div/>', {
+                    id: "content",
+                }).appendTo(this.chart_window);
             }
-
-            startup(start_date, end_date) {
+            getLuongMuaQuanTrac(start_date, end_date) {
+                $(".date-frame").hide();
+                $("#content").show();
+                $("#luong-mua-quan-trac").show();
+                $("#select-type-query").hide();
                 this.interval = 60;
                 this.chart_window.data("kendoWindow").open();
                 Number.prototype.padLeft = function (base, chr) {
@@ -157,16 +437,11 @@ define([
                                     item_data.time = datetime[0].substr(0, 2);
                                     seriesData.push(item_data);
                                 }
-                                else{
+                                else {
                                     item_data.date = datetime[0].substr(6, 4);
                                     item_data.time = datetime[0].substr(3, 2);
                                     seriesData.push(item_data);
                                 }
-
-
-
-
-
                             }
                             $("#content").kendoChart({
                                 legend: {
@@ -181,7 +456,7 @@ define([
                                 valueAxis: { min: 800, max: 1200 },
                                 series: [{
                                     field: "FLOW",
-                                    type: "line",
+                                    type: "column",
                                     categoryField: "time",
                                     labels: {
                                         visible: false
@@ -208,6 +483,10 @@ define([
                             });
                         }
 
+                    },
+                    error: function () {
+                        $("#content").hide();
+                        kendo.alert("Lỗi không phản hồi dữ liệu")
                     }
                 });
             }

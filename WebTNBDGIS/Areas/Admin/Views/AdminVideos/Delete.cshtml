@@ -1,0 +1,30 @@
+﻿@model WebTNBDGIS.Models.Video
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="content">
+    <div class="page-header">Xóa link youtube</div>
+    <table class="table table-striped table-bordered table-sm">
+        <tbody>
+            <tr>
+                <th>Link</th>
+                <td>@Html.DisplayFor(model => model.Link)</td>
+            </tr>
+            <tr>
+                <th>Mô tả</th>
+                <td>@Html.DisplayFor(model => model.Mota)</td>
+            </tr>
+        </tbody>
+    </table>
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xóa" class="btn btn-custom" />
+            <input type="button" class="btn btn-custom-default" value="Trở về" onclick="location.href='@Url.Action("Index")'" />
+        </div>
+    }
+    
+</div>
