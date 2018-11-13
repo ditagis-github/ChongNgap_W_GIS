@@ -224,3 +224,8 @@ span.k-widget.k-datepicker.k-header {
 }
 
   
+
+/* Bản đồ ngập */
+div#viewDiv {
+    height: 78vh;
+  }
