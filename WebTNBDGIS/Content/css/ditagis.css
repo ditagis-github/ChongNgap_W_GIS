@@ -1,4 +1,7 @@
 /* begin code - 31.7.2018 */
+html,body{
+    height: 100%;
+}
 * {
     margin: 0;
     padding: 0;
@@ -55,7 +58,7 @@
   }
 
 div#mapDiv {
-    height: 78vh;
+    height: 83vh;
 }
 #search-tool>div {
     height: 100%;
@@ -227,7 +230,7 @@ span.k-widget.k-datepicker.k-header {
 
 /* Bản đồ ngập */
 div#viewDiv {
-    height: 78vh;
+    height: 83vh;
   }
 
 
@@ -280,7 +283,6 @@ table {
     height: 100px;
     margin: 0 auto;
     position: absolute;
-    right: 10px;
     bottom: 0;
     z-index: 999;
     max-height: 420px;
