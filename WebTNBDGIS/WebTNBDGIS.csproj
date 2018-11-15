@@ -414,6 +414,7 @@
       <DependentUpon>DBVideoModel.edmx</DependentUpon>
       <LastGenOutput>DBVideoModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\ditagis\bandongap.js" />
     <Content Include="Scripts\ditagis\configs.js" />
     <Content Include="Scripts\ditagis\core\Base.js" />
     <Content Include="Scripts\ditagis\core\EventListener.js" />

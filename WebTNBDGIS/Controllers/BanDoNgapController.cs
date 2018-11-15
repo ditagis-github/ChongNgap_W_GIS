@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace WebTNBDGIS.Controllers
 {
+    [Authorize]
     public class BanDoNgapController : Controller
     {
         // GET: BanDoNgap

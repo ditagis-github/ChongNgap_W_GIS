@@ -6,6 +6,8 @@
 }
 @section css {
     <link rel="stylesheet" href="https://js.arcgis.com/4.9/esri/css/main.css">
+    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 }
 <nav class="navbar navbar-default">
     <div class="container-fluid">
@@ -80,12 +82,25 @@
         </div>
     </div>
 </nav>
-<input type="text" id="definition" />
-<button id="submit">click</button>
 <div id="viewDiv"></div>
+
+<div id="timelineContainer" class="timeline-container">
+     
+        <div id="timelineWrapper">
+            <div id="timeline">
+                <ol id="ticks">
+                </ol>
+                <ol id="eventList">
+                </ol>
+            </div>
+        </div>
+        
+</div>
 
 
 @section scripts {
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
     <script src="https://js.arcgis.com/4.9/"></script>
     <script src="~/Scripts/ditagis/bandongap.js"></script> }
 
