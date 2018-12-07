@@ -7,8 +7,14 @@ html,body{
     padding: 0;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   }
+
+  body.flex{
+      display: flex;
+      flex-direction: column;
+  }
   
   .header-logo{
+      width: 100px;
     margin: auto;
   }
   .logo img {
@@ -16,8 +22,7 @@ html,body{
     height: auto;
   }
   .header-navbar {
-    display: grid;
-    grid-template-columns: 9% auto;
+    display: flex;
     padding: 2px;
     background: #d8faeb;
   }
@@ -28,15 +33,35 @@ html,body{
   }
   .big-title{
     color: #079309;
-    font-size: 20px;
+
     text-transform: uppercase;
     word-spacing: 5px;
     padding: 5px 0;
     font-weight: bold;
   }
+  @media only screen and (max-width: 635px){
+    .header-navbar {
+        display: none !important;
+    }
+  }
+  @media only screen and (max-width: 954px) and (min-width: 775px){
+    .big-title{
+        font-size: 14px;
+    }
+    .small-title{
+        font-size: 18px;
+    }
+  }
+  @media only screen and (min-width: 955px){
+    .big-title{
+        font-size: 20px;
+    }
+    .small-title{
+        font-size: 24px;
+    }
+  }
   .small-title{
     color: #079309;
-    font-size: 24px;
     text-transform: uppercase;
     word-spacing: 5px;
     font-weight: bolder;
@@ -44,6 +69,7 @@ html,body{
   }
   
   .header-title{
+      flex-grow: 1;
   padding-top: 10px;
   padding-left: 10px;
   }
@@ -58,7 +84,7 @@ html,body{
   }
 
 div#mapDiv {
-    height: 83vh;
+    flex-grow: 1;
 }
 #search-tool>div {
     height: 100%;
@@ -229,10 +255,15 @@ span.k-widget.k-datepicker.k-header {
   
 
 /* Bản đồ ngập */
-div#viewDiv {
-    height: 83vh;
-  }
+.esri-component.esri-legend.esri-widget{
+background-color: transparent;
+width: fit-content;
+max-height: none;
 
+}
+.esri-legend__layer-caption{
+display: none;
+}
 
   html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,

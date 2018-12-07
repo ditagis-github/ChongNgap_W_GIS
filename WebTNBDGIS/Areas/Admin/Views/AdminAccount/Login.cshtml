@@ -1,18 +1,27 @@
 ﻿@model WebTNBDGIS.Areas.Admin.Models.AdminAccount
-<script src="~/Scripts/libs/jquery-1.10.2.js"></script>
-<script src="~/Scripts/libs/jquery.validate.min.js"></script>
-<script src="~/Scripts/libs/jquery.validate.unobtrusive.min.js"></script>
-<link href="~/Content/css/admin.css" rel="stylesheet" />
-<link href="~/Content/css/login.css" rel="stylesheet" />
-<script type="text/javascript">
-    window.history.forward();
-</script> 
-<div class="site-wrapper">
-    <div class="site-wrapper-inner">
-        <div class="cover-container">
-            <div class="inner cover">
-                @using (Html.BeginForm())
-                {
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng nhập</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="~/Scripts/libs/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/libs/jquery.validate.min.js"></script>
+    <script src="~/Scripts/libs/jquery.validate.unobtrusive.min.js"></script>
+    <link href="~/Content/css/admin.css" rel="stylesheet" />
+    <link href="~/Content/css/login.css" rel="stylesheet" />
+    <script type="text/javascript">
+        window.history.forward();
+    </script>
+</head>
+
+<body>
+    <div class="site-wrapper">
+        <div class="site-wrapper-inner">
+            <div class="cover-container">
+                <div class="inner cover">
+                    @using (Html.BeginForm()) {
                     <fieldset class="field-login">
                         <legend></legend>
                         <h3 class="cover-heading">Đăng nhập vào hệ thống</h3>
@@ -22,37 +31,38 @@
                                 @Html.LabelFor(model => model.username)
                             </div>
                             <div class="editor-field">
-                                @Html.TextBoxFor(model => model.username, new { @autocomplete="off", @autocorrect="off", @autocapitalize="off" ,@spellcheck="false"  })
-                                <br />
-                                @Html.ValidationMessageFor(model => model.username)
+                                @Html.TextBoxFor(model => model.username, new { @autocomplete="off", @autocorrect="off", @autocapitalize="off" ,@spellcheck="false"
+                                })
+                                <br /> @Html.ValidationMessageFor(model => model.username)
                             </div>
                         </div>
-                        
+
                         <div class="col_full">
                             <div class="editor-label">
-                            @Html.LabelFor(model => model.pass)
+                                @Html.LabelFor(model => model.pass)
                             </div>
                             <div class="editor-field">
-                                @Html.EditorFor(model => model.pass)<br />
-                                @Html.ValidationMessageFor(model => model.pass)
+                                @Html.EditorFor(model => model.pass)
+                                <br /> @Html.ValidationMessageFor(model => model.pass)
                             </div>
                         </div>
-                       
+
                         <div class="col_full">
                             <div class="editor-field">
-                                @Html.EditorFor(model => model.isRemember)
-                                @Html.LabelFor(model => model.isRemember)
-                                @Html.ValidationMessageFor(model => model.isRemember)
+                                @Html.EditorFor(model => model.isRemember) @Html.LabelFor(model => model.isRemember) @Html.ValidationMessageFor(model =>
+                                model.isRemember)
                             </div>
                         </div>
                         <span class="col_full">
                             <input type="submit" value="Đăng nhập" />
                         </span>
                     </fieldset>
-                }
+                    }
 
+                </div>
             </div>
         </div>
     </div>
-</div>
+</body>
 
+</html>
