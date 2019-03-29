@@ -53,7 +53,7 @@ define([
                 var layerInfos = [{
                     'featureLayer': layer,
                     'isEditable': true,
-                    'showDeleteButton': true,
+                    'showDeleteButton': false,
                 }];
 
                 var attInspector = new esri.dijit.AttributeInspector({
@@ -69,7 +69,7 @@ define([
                 layer.on("selection-complete", (evt) => {
                     if (layer.id == 'TramDoMua' && layer.getSelectedFeatures()[0].attributes['MaTram'] == "TDM") {
                         $.ajax({
-                            url: "http://luuluongmua.quantraconline.com/api/Values/GetData?user_id=3&station_id=2&page_num=1&page_size=1&interval=0.API",
+                            url: "http://luuluongmua.quantraconline.com/api/Values/GetData?user_id=3&station_id=4&page_num=1&page_size=1&interval=0.API",
                             success: (result) => {
                                 if (result) {
                                     layer.getSelectedFeatures()[0].attributes['LuongMua'] = result.data[0].ValueDict.FLOW;

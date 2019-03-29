@@ -19,18 +19,6 @@ define(["../core/Base",
             constructor(map) {
                 super();
                 this.map = map;
-                this.displayFields = {
-                    // CongThoatNuoc: [
-                    //     { width: 60, title: "STT", field: "STT" },
-                    //     { width: 60, title: "ChieuDai", field: "ChieuDai" },
-                    //     { width: 60, title: "DoDoc", field: "DoDoc" },
-                    // ],
-                    BeChua: [
-                        { width: 60, title: "STT", field: "STT" },
-                        { width: 60, title: "DienTich", field: "DienTich" },
-                        { width: 60, title: "CongSuat", field: "CongSuat" },
-                    ],
-                };
                 this.initWindowKendo();
 
             }
@@ -42,31 +30,69 @@ define(["../core/Base",
                     id: 'table-report'
                 });
                 this.report_content.append(this.table);
+                this.report_content.kendoWindow({
+                    title: "Title",
+                    visible: false,
+                    position: {
+                        left: -0.5,
+                        top: 96
+                    },
+                    actions: [
+                        "Pin",
+                        "Minimize",
+                        "Maximize",
+                        "Close"
+                    ],
+                }).data("kendoWindow");
             }
             convertAttributes(fields, lstAttributes) {
-                if (fields && fields.length > 0) {
-                    fields.forEach(field => {
-                        if (field.type === "date") {
-                            lstAttributes.forEach(attributes => {
-                                if (attributes[field.name])
+                var attributesList = [];
+                if (fields && fields.length > 0 && lstAttributes.length > 0) {
+                    for (let index = lstAttributes.length - 1; index >= 0; index--) {
+                        var attributes = lstAttributes[index];
+                        fields.forEach(field => {
+                            let value = attributes[field.name];
+                            if (value) {
+                                if (field.type === "date") {
                                     attributes[field.name] = kendo.toString(new Date(attributes[field.name]), "HH:mm:ss dd-MM-yyyy");
-                            });
-                        }
-                    });
+                                }
+                                else if (field.domain) {
+                                    let codedValues = field.domain.codedValues;
+                                    attributes[field.name] = this.getValueDomain(attributes[field.name], codedValues);
+                                }
+                            }
+                        });
+                        attributesList.push(attributes);
+                    }
                 }
-                return lstAttributes;
+                return attributesList;
+            }
+            getValueDomain(code, codedValues) {
+                let valueDomain = null;
+                codedValues.forEach(codedValue => {
+                    if (codedValue["code"] == code)
+                        valueDomain = codedValue["name"];
+                });
+                return valueDomain;
             }
             showTable(layer, attributes) {
-                let columns = this.displayFields[layer.id] || [];
+                var displayFields = layer.displayFields;
                 var fields = layer.fields;
-                if (columns.length > 0) {
-                    columns.forEach(c => {
-                        if (!c.title) {
-                            let field = layer.fields.find(f => f.name === c.field);
-                            if (field)
-                                c.title = field.alias;
+                var columns = [];
+                var export_columns = [];
+                for (const field of layer.fields) {
+                    if (field.name != "SHAPE" && field.name != "SHAPE.STArea()" && field.name != "SHAPE.STLength()")
+                        export_columns.push({ title: field.alias, field: field.name });
+                }
+                if (displayFields) {
+                    for (const displayField of displayFields) {
+                        for (const field of layer.fields) {
+                            if (displayField == field.name) {
+                                columns.push({ title: field.alias, field: field.name });
+                            }
                         }
-                    });
+
+                    }
                 }
                 else {
                     for (const field of layer.fields) {
@@ -74,10 +100,9 @@ define(["../core/Base",
                             columns.push({ title: field.alias, field: field.name });
                     }
                 }
-
-                let kendoData = this.convertAttributes(fields, attributes);
+                let kendoAttributes = this.convertAttributes(fields, attributes);
                 this.kendoGrid = $('#table-report').empty().kendoGrid({
-                    toolbar: [{ name: "excel", text: "Xuất báo cáo" }],
+                    toolbar: [{ name: "custom", text: "Xuất báo cáo" }],
                     resizable: true,
                     excel: {
                         allPages: true,
@@ -89,7 +114,7 @@ define(["../core/Base",
                     dataSource: {
                         transport: {
                             read: function (e) {
-                                e.success(kendoData);
+                                e.success(kendoAttributes);
                             },
                             error: function (e) {
                                 alert("Status: " + e.status + "; Error message: " + e.errorThrown);
@@ -123,21 +148,62 @@ define(["../core/Base",
                         }
                     }
                 });
-                this.report_content.kendoWindow({
-                    // width: "100%",
-                    title: layer.title,
-                    visible: false,
-                    position: {
-                        left: -0.5,
-                        top: 96
-                    },
-                    actions: [
-                        "Pin",
-                        "Minimize",
-                        "Maximize",
-                        "Close"
-                    ],
+                var window = this.report_content.kendoWindow({
                 }).data("kendoWindow").open();
+                window.title(layer.title);
+                this.kendoGrid.find(".k-grid-toolbar").on("click", ".k-grid-custom", (e) => {
+                    this.exportExcel(kendoAttributes, export_columns);
+                });
+            }
+            exportExcel(attributes, columns) {
+                var cells = [];
+                var hidden_columns = ["DoSau", "LuuLuong", "VanToc", "tenTuyen1", "tenTuyen2", "tenTuyen3"];
+                var export_columns = [];
+                for (const column of columns) {
+                    let isHiddenColumn = false;
+                    for (let hidden_column of hidden_columns) {
+                        if (hidden_column == column.field)
+                            isHiddenColumn = true;
+                    }
+                    if (!isHiddenColumn) {
+                        export_columns.push(column);
+                    }
+                }
+                for (const column of export_columns) {
+                    var cell = {
+                        value: column.title
+                    }
+                    cells.push(cell);
+                }
+                var rows = [{
+                    cells: cells
+                }];
+                for (const attribute of attributes) {
+                    let cells = [];
+                    for (const column of export_columns) {
+                        var cell = {
+                            value: attribute[column.field]
+                        }
+                        cells.push(cell);
+                    }
+                    rows.push({
+                        cells: cells
+                    })
+                }
+                //using fetch, so we can process the data when the request is successfully completed
+                var workbook = new kendo.ooxml.Workbook({
+                    sheets: [
+                        {
+                            columns: [
+                                // Column settings (width)
+                                { autoWidth: true },
+                                { autoWidth: true },
+                            ],
+                            rows: rows
+                        }
+                    ]
+                });
+                kendo.saveAs({ dataURI: workbook.toDataURL(), fileName: "Thống kê dữ liệu.xlsx" });
             }
             zoomRowPoint(id, layerClass) {
                 this.map.graphics.clear();

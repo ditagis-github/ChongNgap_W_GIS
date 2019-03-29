@@ -15,8 +15,7 @@ namespace WebTNBDGIS.Models
     
     public partial class ChongNgapBDModels : DbContext
     {
-        public ChongNgapBDModels()
-            : base("name=ChongNgapBDModels")
+        public ChongNgapBDModels(): base("name=ChongNgapBDModels")
         {
         }
     

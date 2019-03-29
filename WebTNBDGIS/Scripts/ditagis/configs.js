@@ -4,7 +4,7 @@ define(["require", "exports"], function (require, exports) {
         basemap: {
             title: 'Dữ liệu nền Bình Dương',
             id: 'dulieunen',
-            url: 'https://ditagis.com:6443/arcgis/rest/services/BD_ChongNgap/BaseMap/MapServer',
+            url: 'https://ditagis.com/arcgis/rest/services/BD_ChongNgap/BaseMap/MapServer',
             copyright: 'Bản đồ biên tập bởi Trung tâm DITAGIS',
             sublayers: [{
                 id: 6,
@@ -33,12 +33,12 @@ define(["require", "exports"], function (require, exports) {
             ]
         },
         kmls: {
-            BaseMap:{
+            BaseMap: {
                 title: 'Dữ liệu nền',
                 id: 'dulieunen',
-                url: 'https://ditagis.com:6443/arcgis/rest/services/BD_ChongNgap/BaseMap/MapServer/kml/mapImage.kmz',
+                url: 'https://ditagis.com/arcgis/rest/services/BD_ChongNgap/BaseMap/MapServer/kml/mapImage.kmz',
             },
-            ChuyenDe:{
+            ChuyenDe: {
                 title: 'Dữ liệu chuyên đề',
                 id: 'dulieuchuyende',
                 url: 'https://ditagis.com/arcgis/rest/services/BD_ChongNgap/ChuyenDe/MapServer/kml/mapImage.kmz',
@@ -49,88 +49,84 @@ define(["require", "exports"], function (require, exports) {
                 url: "https://ditagis.com/arcgis/rest/services/BD_ChongNgap/QuanLy/FeatureServer/0",
                 id: "DanSo",
                 searchFields: ["OBJECTID"],
+                displayFields:["OBJECTID","TenHuyen","MaHuyenTP","ORIG_FID"],
                 title: "Dân số"
             },
             TramDoMua: {
-                url: "https://ditagis.com:6443/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/1",
+                url: "https://ditagis.com/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/1",
                 id: "TramDoMua",
                 searchFields: ["OBJECTID"],
+                displayFields:["OBJECTID","TenTram","ViTriHanhChinh","MaPhuongXa","MaQuanHuyen","KinhDo","ViDo","GhiChu"],
                 title: "Trạm đo mưa"
             }, TramBom: {
-                url: "https://ditagis.com:6443/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/2",
+                url: "https://ditagis.com/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/2",
                 id: "TramBom",
                 searchFields: [],
+                displayFields:["OBJECTID","TenTram","CongSuat","ToaDoX","ToaDoY","MaPhuongXa","MaQuanHuyen"],
                 title: "Trạm bơm"
-            }, MuaVeTinh: {
-                url: "https://ditagis.com:6443/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/3",
-                id: "MuaVeTinh",
-                searchFields: [],
-                title: "Mưa vệ tinh"
             }, HoGa: {
-                url: "https://ditagis.com:6443/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/4",
+                url: "https://ditagis.com/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/4",
                 id: "HoGa",
                 searchFields: [],
+                displayFields:["OBJECTID","MaDoiTuong","ToaDoX","ToaDoY","MaPhuongXa","MaQuanHuyen"],
                 title: "Hố ga"
             }, CuaXa: {
-                url: "https://ditagis.com:6443/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/5",
+                url: "https://ditagis.com/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/5",
                 id: "CuaXa",
                 searchFields: [],
+                displayFields:["OBJECTID","MaDoiTuong","ToaDoX","ToaDoY","MaPhuongXa","MaQuanHuyen"],
                 title: "Cửa xả"
             }, BeChua: {
-                url: "https://ditagis.com:6443/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/6",
+                url: "https://ditagis.com/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/6",
                 id: "BeChua",
                 searchFields: [],
+                displayFields:["OBJECTID","TenBeChua","DienTich","CongSuat","MaPhuongXa","MaQuanHuyen"],
                 title: "Bể chứa"
-            }, TuyenDuongNgap: {
-                url: "https://ditagis.com:6443/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/7",
-                id: "TuyenDuongNgap",
-                searchFields: [],
-                title: "Tuyến đường ngập"
             }, CongThoatNuoc: {
-                url: "https://ditagis.com:6443/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/8",
+                url: "https://ditagis.com/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/8",
                 id: "CongThoatNuoc",
                 searchFields: [],
+                displayFields:["OBJECTID","MaDoiTuong","ChieuDai","VatLieu","DoDoc","LoaiCongThoatNuoc","ten","ChieuDai","MaPhuongXa","MaQuanHuyen"],
                 title: "Cống thoát nước"
-            },
-            VungNgap: {
-                url: "https://ditagis.com:6443/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/9",
-                id: "VungNgap",
-                searchFields: [],
-                title: "Vùng ngập"
             }, TramXLNT: {
-                url: "https://ditagis.com:6443/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/10",
+                url: "https://ditagis.com/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/10",
                 id: "TramXLNT",
                 searchFields: [],
+                displayFields:["OBJECTID","TenNhaMay","DienTich","GiaiDoanQuyHoach","MaPhuongXa","MaQuanHuyen"],
                 title: "Trạm XLNT"
             }, Muong: {
-                url: "https://ditagis.com:6443/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/11",
+                url: "https://ditagis.com/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/11",
                 id: "Muong",
                 searchFields: [],
+                displayFields:["OBJECTID","maDoiTuong","ngayThuNhan","loaiTrangThaiNuocMat","danhTuChung","ChieuDai"],
                 title: "Mương"
             }, LuuVucThoatNuoc: {
-                url: "https://ditagis.com:6443/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/12",
+                url: "https://ditagis.com/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/12",
                 id: "LuuVucThoatNuoc",
                 searchFields: [],
+                displayFields:["OBJECTID","MaDoiTuong","TenLuuVuc","NgayCapNhat","DienTich","MaPhuongXa","MaQuanHuyen"],
                 title: "Lưu vực thoát nước"
             }, KhuVucMua: {
-                url: "https://ditagis.com:6443/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/13",
+                url: "https://ditagis.com/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/13",
                 id: "KhuVucMua",
                 searchFields: [],
                 title: "Khu vực mưa"
             }, Kenh: {
-                url: "https://ditagis.com:6443/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/14",
+                url: "https://ditagis.com/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/14",
                 id: "Kenh",
                 searchFields: [],
                 title: ""
             }, HoChua: {
-                url: "https://ditagis.com:6443/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/15",
+                url: "https://ditagis.com/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/15",
                 id: "HoChua",
                 searchFields: [],
+                displayFields:["OBJECTID","maNhanDang","ngayThuNhan","maDoiTuong","MaPhuongXa","MaQuanHuyen"],
                 title: "Hồ chứa"
             }, TramDoTrieu: {
-                url: "https://ditagis.com:6443/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/0",
+                url: "https://ditagis.com/arcgis/rest/services/BD_ChongNgap/ChuyenDe/FeatureServer/0",
                 id: "TramDoTrieu",
                 searchFields: [],
+                displayFields:["OBJECTID","MaDoiTuong","TenTram","ViTri","Song","Tinh"],
                 title: "Trạm đo triều"
             }
         },

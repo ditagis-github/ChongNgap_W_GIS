@@ -9,9 +9,10 @@
     "esri/widgets/Legend",
     "esri/widgets/LayerList",
     "esri/widgets/Expand",
+    "esri/widgets/Print",
     "dojo/domReady!"
 ], function (Map, MapView, FeatureLayer, MapImageLayer, ImageryLayer,
-    RasterFunction, watchUtils, Legend, LayerList,Expand
+    RasterFunction, watchUtils, Legend, LayerList, Expand, Print
 
 
 ) {
@@ -108,11 +109,20 @@
             var layerList = new LayerList({
                 view: view
             });
-            var expand = new Expand({
+            var layerListExpand = new Expand({
                 view: view,
                 content: layerList
             });
-            view.ui.add(expand, "top-left");
+            view.ui.add(layerListExpand, "top-left");
+            var print = new Print({
+                view: view,
+                printServiceUrl: "https://ditagis.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+            });
+            var printExpand = new Expand({
+                view: view,
+                content: print
+            });
+            view.ui.add(printExpand, "top-left");
         });
         mucDoVungNgap_IL.on("layerview-create", (event) => {
             // The LayerView for the layer that emitted this event

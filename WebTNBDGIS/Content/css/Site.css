@@ -52,6 +52,7 @@ input.form-control,textarea.form-control {
 
 .navbar-default .navbar-nav > li > a {
     color: #fff;
+    font-size: 13px;
 }
 
 .navbar-default {

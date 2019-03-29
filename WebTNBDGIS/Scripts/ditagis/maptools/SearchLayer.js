@@ -11,13 +11,13 @@ define([
             this.searchLayer = null;
             this.displayFields = {
             }
-            this.hanhChinhHuyenLayer = new FeatureLayer("http://112.78.4.175:6080/arcgis/rest/services/BaseMap_ChongNgapBD/MapServer/5",
+            this.hanhChinhHuyenLayer = new FeatureLayer("https://ditagis.com/arcgis/rest/services/BD_ChongNgap/BaseMap/MapServer/6",
                 {
                     mode: FeatureLayer.MODE_ONEDEMAND,
                     outFields: ["*"],
                 });
-
-            this.hanhChinhXaLayer = new FeatureLayer("http://112.78.4.175:6080/arcgis/rest/services/BaseMap_ChongNgapBD/MapServer/4",
+                
+            this.hanhChinhXaLayer = new FeatureLayer("https://ditagis.com/arcgis/rest/services/BD_ChongNgap/BaseMap/MapServer/5",
                 {
                     mode: FeatureLayer.MODE_ONEDEMAND,
                     outFields: ["*"]
@@ -86,7 +86,7 @@ define([
                                 if (inputXaPhuong) {
                                     inputXaPhuong.data('kendoDropDownList').select(0);
                                     inputXaPhuong.data('kendoDropDownList').dataSource.filter({
-                                        field: "MaHuyenTP",
+                                        field: "MaQuanHuyen",
                                         operator: "eq",
                                         value: maHuyenTP
                                     })
@@ -102,7 +102,7 @@ define([
                             dataSource: this.dsXa,
                         })
                         input.data("kendoDropDownList").dataSource.filter({
-                            field: "MaHuyenTP",
+                            field: "MaQuanHuyen",
                             operator: "eq",
                             value: "null"
                         })
@@ -227,7 +227,7 @@ define([
                         var xa = {
                             value: attr["MaPhuongXa"],
                             text: attr["TenXa"],
-                            MaHuyenTP: attr["MaHuyenTP"]
+                            MaQuanHuyen: attr["MaQuanHuyen"]
                         }
                         this.dsXa.push(xa);
                     }

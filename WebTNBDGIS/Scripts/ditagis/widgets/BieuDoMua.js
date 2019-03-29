@@ -236,8 +236,8 @@ define([
                 var btnView = this.getBtnView(group);
                 btnView.kendoButton({
                     click: () => {
-                        let mstart = month_start.val() | 1;
-                        let mend = month_end.val() | 12;
+                        let mstart = month_start.val() || 1;
+                        let mend = month_end.val() || 12;
                         let yearValue = year.val();
                         if (!yearValue) {
                             kendo.alert("Vui lòng nhập đẩy đủ thông tin");
@@ -407,7 +407,7 @@ define([
                     [start_date.getHours().padLeft(),
                     start_date.getMinutes().padLeft(),
                     start_date.getSeconds().padLeft()].join(':');
-                var url = `http://luuluongmua.quantraconline.com/api/Values/GetData?user_id=3&station_id=2&page_num=1&page_size=10000&interval=${this.interval}&start_time=${startTime}&end_time=${endTime}`;
+                var url = `http://luuluongmua.quantraconline.com/api/Values/GetData?user_id=3&station_id=4&page_num=1&page_size=10000&interval=${this.interval}&start_time=${startTime}&end_time=${endTime}`;
                 $.ajax({
                     url: url,
                     success: (result) => {
@@ -453,7 +453,7 @@ define([
                                         field: "date"
                                     }
                                 },
-                                valueAxis: { min: 800, max: 1200 },
+                                // valueAxis: { min: 800, max: 1200 },
                                 series: [{
                                     field: "FLOW",
                                     type: "column",
@@ -474,7 +474,8 @@ define([
                                 ],
                                 dataBound: function (e) {
                                     var axis = e.sender.options.categoryAxis;
-                                    axis.categories = axis.categories.sort();
+                                    if (axis.categories)
+                                        axis.categories = axis.categories.sort();
                                 },
                                 seriesColors: ['#b71c1c', '#1a237e', '#ff8d00', '#5cc461'],
                                 tooltip: {

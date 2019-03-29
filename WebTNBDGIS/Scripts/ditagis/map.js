@@ -38,15 +38,14 @@
 
 
         parser.parse();
-        esriConfig.defaults.geometryService = new GeometryService("http://112.78.4.175:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+        var geoMetryLink = "https://ditagis.com/arcgis/rest/services/Utilities/Geometry/GeometryServer";
+        esriConfig.defaults.geometryService = new GeometryService(geoMetryLink);
         esriConfig.defaults.io.corsEnabledServers.push({
             host: "sampleserver6.arcgisonline.com",
             withCredentials: true
         })
         var imageParameters = new ImageParameters();
         imageParameters.format = "jpeg";
-
-        var geoMetryLink = "http://112.78.4.175:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer";
         var printUrl = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task";
 
 
@@ -117,6 +116,7 @@
             featureLayer._outFields = ["*"];
             featureLayer.id = layercf.id;
             featureLayer.searchFields = layercf.searchFields;
+            featureLayer.displayFields = layercf.displayFields;
             featureLayer.title = layercf.title;
             featureLayer.visible = false;
             featureLayers.push(featureLayer);
