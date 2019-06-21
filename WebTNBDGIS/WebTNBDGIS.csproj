@@ -175,6 +175,7 @@
     <Compile Include="Areas\Admin\Models\AdminGroupUserModel.cs" />
     <Compile Include="Areas\Admin\Models\AdminLinkMapModel.cs" />
     <Compile Include="Areas\Admin\Models\AdminUsersModel.cs" />
+    <Compile Include="Controllers\CapNhatThongTinNgapController.cs" />
     <Compile Include="Controllers\BanDoNgapController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminVideosController.cs" />
@@ -472,6 +473,7 @@
     <Content Include="Areas\Admin\Views\AdminVideos\Index.cshtml" />
     <Content Include="Views\Videos\Index.cshtml" />
     <Content Include="Views\BanDoNgap\Index.cshtml" />
+    <Content Include="Views\CapNhatThongTinNgap\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,13 +1,11 @@
-/* begin code - 31.7.2018 */
-html,body{
-    height: 100%;
+html,
+body,
+#map {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
 }
-* {
-    margin: 0;
-    padding: 0;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  }
-
   body.flex{
       display: flex;
       flex-direction: column;
@@ -290,10 +288,6 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
-body {
-    line-height: 1;
-    font-family: 'Helvetica', 'Arial', sans-serif;
-}
 ol, ul {
 	list-style: none;
 }
@@ -421,11 +415,9 @@ table {
 }
 .selected-event {
     width: 60%;
-    font-family: 'Helvetica', 'Arial', sans-serif;
     font-size: 12px;
 }
 .event-title {
-    font-family: 'Georgia', serif;
     font-size: 20px;
 }
 .event-date-range {
@@ -442,4 +434,80 @@ table {
 }
 .event-notes {
     margin-top: 10px;
+}
+.ditagis-widget-layer-editor {
+    max-height: 550px;
+    width: 300px;
+    max-height: 420px;
+    overflow: hidden;
+    overflow-y: auto;
+    transition: max-height 250ms ease-in-out;
+}
+.ditagis-widget-layer-editor ul {
+    margin: 0;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 0px;
+    padding-bottom: 20px;
+}
+.ditagis-widget-layer-editor .title {
+    text-align: center;
+    font-weight: bold;
+    padding: 7px;
+    background-color: #079309;
+    color: #fff;
+}
+.ditagis-widget-layer-editor .list-item {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex: 1;
+    cursor: pointer;
+}
+.ditagis-widget-layer-editor .list-item .item-container {
+    width: 100%;
+    text-align: center;
+    display: table-row;
+    justify-content: flex-start;
+    padding: 9px 15px 9px 20px;
+    background-color: #fff;
+    border-bottom: 1px solid rgba(50, 50, 50, 0.25);
+    transition: padding 250ms ease-in-out 0ms;
+}
+.esri-popup__main-container.esri-widget{
+    font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+}
+.esri-popup__main-container {
+    background-color: white;
+    color: black;
+}
+.esri-popup__header,.esri-popup__feature-buttons {
+    background-color: #079309;
+    color: #fff;
+}
+.esri-popup__footer {
+    background-color: #079309;
+    color: #fff;
+}
+.esri-popup__button {
+    color: #fff;
+}
+.esri-widget table {
+    font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    width: 100%;
+}
+.esri-widget table tr td:first-child {
+    font-weight: bold;
+}
+.esri-widget table tr td {
+    padding: 10px 0 10px 5px;
+}
+.esri-popup__header-title {
+    font-weight: 600;
+}
+
+.esri-widget table tr:nth-child(odd) {
+    background-color: rgba(76,76,76,0.1);
 }
