@@ -416,6 +416,9 @@
       <LastGenOutput>DBVideoModel.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\ditagis\bandongap.js" />
+    <Content Include="Scripts\ditagis\capnhatthongtinngap.js" />
+    <Content Include="Scripts\ditagis\capnhatthongtin\Popup.js" />
+    <Content Include="Scripts\ditagis\capnhatthongtin\PopupEditing.js" />
     <Content Include="Scripts\ditagis\configs.js" />
     <Content Include="Scripts\ditagis\core\Base.js" />
     <Content Include="Scripts\ditagis\core\EventListener.js" />
@@ -489,6 +492,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

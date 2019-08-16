@@ -39,8 +39,9 @@ define(["dojo/on", "dojo/dom-construct",
             }
             startup() {
                 this.view.map.layers.forEach((layer) => {
-                    if (layer.type == 'feature') {
+                    if (layer.type === 'feature') {
                         let actions = [];
+               
                         let permission = layer.permission;
                         if (permission.edit) {
                             actions.push({
@@ -163,7 +164,7 @@ define(["dojo/on", "dojo/dom-construct",
                                 let date = this.attributes[name];
                                 if (date && !Number.isInteger(date)) {
                                     let splitDate = date.split('-');
-                                    if (splitDate.length == 3) {
+                                    if (splitDate.length === 3) {
                                         let day = splitDate[2], month = splitDate[1], year = splitDate[0];
                                         var dayString = new Date(`${month}/${day}/${year}`);
                                         const timestamp = dayString.getTime();
@@ -264,12 +265,13 @@ define(["dojo/on", "dojo/dom-construct",
                                 }).then((res) => __awaiter(this, void 0, void 0, function* () {
                                     return yield res;
                                 }));
-                                value = field.name == 'MaPhuongXa' ? location['TenPhuong'] : location['TenHuyen'];
+                                value = field.name === 'MaPhuongXa' ? location['TenPhuong'] : location['TenHuyen'];
                             }
                             else {
                                 if (field.type === "small-integer" ||
                                     (field.type === "integer") ||
                                     (field.type === "double")) {
+                                    //sdfjsvkf
                                 }
                                 else if (field.type === 'date') {
                                     formatString = 'DateFormat';
@@ -299,9 +301,14 @@ define(["dojo/on", "dojo/dom-construct",
                             domConstruct.place(tdValue, row);
                             domConstruct.place(row, table);
                         }
-                        if (layer.hasAttachments) {
-                            layer.getAttachments(attributes['OBJECTID']).then(res => {
-                                if (res && res.attachmentInfos && res.attachmentInfos.length > 0) {
+
+                        if (layer.capabilities.data.supportsAttachment) {
+                       
+                            layer.queryAttachments({ objectIds: [attributes['OBJECTID']] }).then(res => {
+                                console.log(res);
+                                let attachments = res[attributes['OBJECTID']];
+                                if (attachments.length > 0) {
+                               
                                     let div = domConstruct.create('div', {
                                         class: 'attachment-container'
                                     }, document.getElementById('popup-content'));
@@ -309,13 +316,14 @@ define(["dojo/on", "dojo/dom-construct",
                                         innerHTML: 'Hình ảnh'
                                     }, div);
                                     let url = `${layer.url}/${layer.layerId}/${attributes['OBJECTID']}`;
-                                    for (let item of res.attachmentInfos) {
+                                    for (let item of attachments) {
                                         let itemDiv = domConstruct.create('div', {
                                             class: 'col-lg-3 col-md-4 col-xs-6 thumb'
                                         }, div);
                                         let itemA = domConstruct.create('a', {
                                             class: "thumbnail",
-                                            href: "javascript:void(0)",
+                                            target:"_blank",
+                                            href: `${url}/attachments/${item.id}`
                                         }, itemDiv);
                                         let img = domConstruct.create('img', {
                                             class: 'img-responsive',
@@ -323,13 +331,10 @@ define(["dojo/on", "dojo/dom-construct",
                                             src: `${url}/attachments/${item.id}`,
                                             alt: `${url}/attachments/${item.name}`,
                                         }, itemA);
-                                        on(itemA, 'click', () => {
-                                            let modal = bootstrap.modal(`attachments-${item.id}`, item.name, img.cloneNode(true));
-                                            if (modal)
-                                                modal.modal();
-                                        });
+                 
                                     }
                                 }
+
                             });
                         }
                         return div.outerHTML;
