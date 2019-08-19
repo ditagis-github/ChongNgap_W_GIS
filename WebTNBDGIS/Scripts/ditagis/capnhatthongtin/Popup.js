@@ -15,7 +15,7 @@ define(["dojo/on", "dojo/dom-construct",
             constructor(view) {
                 this.view = view;
                 this.options = {
-                    hightLength: 100
+                    hightLength: 500
                 };
                 this.hightlightGraphic = new HightlightGraphic(view, {
                     symbolMarker: new SimpleMarkerSymbol({
