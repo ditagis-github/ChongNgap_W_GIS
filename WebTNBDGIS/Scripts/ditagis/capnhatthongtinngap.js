@@ -9,6 +9,7 @@
     "esri/widgets/Expand",
     "esri/widgets/Print",
     "esri/widgets/Locate",
+    "esri/widgets/BasemapToggle",
     "ditagis/widgets/LayerEditor",
     "ditagis/capnhatthongtin/Popup",
     "ditagis/tools/LocationPoint",
@@ -59,7 +60,7 @@
          ************************/
 
         var map = new Map({
-            basemap: "gray",
+            basemap: "hybrid",
             layers: [baseMap_MIL, diemNgap_FL, mucDoVungNgap_IL]
         });
 
@@ -71,7 +72,6 @@
             zoom: 10
         });
         view.when(function () {
-            map.basemap = "osm";
             var popup = new Popup(view);
             popup.startup();
             var legend = new Legend({
@@ -109,6 +109,7 @@
                 view: view
             })
             view.ui.add(locate, "top-left");
+            view.ui.add(new BasemapToggle({ view, nextBasemap:'streets-night-vector' }), "bottom-left");
             view.ui.add(layerListExpand, "top-left");
             view.ui.add(legendExpand, "top-left");
             view.ui.add(printExpand, "top-left");

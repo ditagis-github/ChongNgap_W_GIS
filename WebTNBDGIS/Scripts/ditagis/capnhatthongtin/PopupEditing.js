@@ -74,6 +74,7 @@ define([
                 return input;
             }
             showEdit() {
+                console.log(this.layer);
                 this.inputElement = {};
                 let div = domConstruct.create('div', {
                     id: 'show-edit-container',
@@ -92,6 +93,7 @@ define([
                     if (field.domain) {
                         input = this.renderDomain(field.domain, field.name);
                     }
+                
                     else {
                         let inputType, value;
                         if (field.type === "small-integer" ||
@@ -127,7 +129,7 @@ define([
                             });
                         }
                     }
-                    if (input != null) {
+                    if (input !== null) {
                         input.name = field.name;
                         domConstruct.place(input, tdValue);
                         domConstruct.place(tdName, row);
@@ -137,11 +139,22 @@ define([
                         this.registerChangeEvent(input);
                     }
                 }
-                if (this.layer.hasAttachments) {
-                    this.layer.getAttachments(this.objectId).then(res => {
+
+
+                console.log(this);
+                console.log(this.layer);
+           
+
+                if (this.layer.capabilities.data.supportsAttachment) {
+                
+                    this.layer.queryAttachments({ objectIds: [this.objectId]}).then(res => {
+                        let attachments = res[this.objectId];
+                        console.log(attachments);
+                        console.log(this.layer.id);
+
                         let div = domConstruct.create('div', {
                             class: 'attachment-header',
-                            id: `attachment-${this.layer.id}-${this.attributes['OBJECTID']}`
+                            id: `attachment-${this.layer.id}-${this.objectId}`
                         }, document.getElementById('show-edit-container'));
                         div.innerText = "Hình ảnh";
                         let form = document.createElement('form');
@@ -159,6 +172,7 @@ define([
                         hideField.value = 'json';
                         form.appendChild(hideField);
                         div.appendChild(form);
+                       
                         $(form).change(_ => {
                             var notify = $.notify({
                                 message: 'Đang cập nhật hình ảnh...'
@@ -178,7 +192,7 @@ define([
                             request.open("POST", url);
                             request.onload = (e) => {
                                 var json = JSON.parse(request.responseText);
-                                if (json.addAttachmentResult.success == true) {
+                                if (json.addAttachmentResult.success === true) {
                                     notify.update('type', 'success');
                                     notify.update('message', 'Cập nhật thành công');
                                     notify.update('progress', 90);
@@ -199,15 +213,20 @@ define([
                             };
                             request.send(formData);
                         });
-                        if (res && res.attachmentInfos && res.attachmentInfos.length > 0) {
-                            for (let item of res.attachmentInfos) {
+                   
+                        if (attachments.length > 0) {
+                        
+                            for (let item of attachments) {
                                 this.renderAttachmentEditPopup(item, {
                                     container: div,
                                 });
+                                
                             }
                         }
+                   
                     });
                 }
+
                 for (let key in this.inputElement) {
                     this.inputChangeHandler(this.inputElement[key]);
                 }
@@ -235,8 +254,10 @@ define([
                 watchUtils.once(this.view.popup, 'visible').then(watchFunc);
             }
             renderAttachmentEditPopup(item, props) {
+              
                 const container = props.container || document.getElementById(`attachment-${this.layer.id}-${this.attributes['OBJECTID']}`);
                 let url = `${this.layer.url}/${this.layer.layerId}/${this.attributes['OBJECTID']}`;
+        
                 let itemDiv = domConstruct.create('div', {
                     class: 'attachment-item'
                 }, container);
@@ -248,9 +269,11 @@ define([
                     target: '_blank'
                 }, itemName);
                 aItemName.innerText = item.name;
+
                 let itemDelete = domConstruct.create('div', {
                     class: 'delete-attachment esri-icon-trash'
                 }, itemDiv);
+         
                 on(itemDelete, 'click', () => {
                     let deleteUrl = `${url}/deleteAttachments?f=json&attachmentIds=${item.id}`;
                     var notify = $.notify({
@@ -279,7 +302,7 @@ define([
                 const name = inputDOM.name, value = inputDOM.value;
                 if (!value)
                     return;
-                if (value == -1) {
+                if (value === -1) {
                     this.attributes[name] = null;
                     return;
                 }
@@ -359,7 +382,7 @@ define([
                                 let date = this.attributes[name];
                                 if (date && !Number.isInteger(date)) {
                                     let splitDate = date.split('-');
-                                    if (splitDate.length == 3) {
+                                    if (splitDate.length === 3) {
                                         let day = splitDate[2], month = splitDate[1], year = splitDate[0];
                                         var dayString = new Date(`${month}/${day}/${year}`);
                                         const timestamp = dayString.getTime();
