@@ -271,7 +271,7 @@ define(["dojo/on", "dojo/dom-construct",
                                 if (field.type === "small-integer" ||
                                     (field.type === "integer") ||
                                     (field.type === "double")) {
-                                    //sdfjsvkf
+                                    //sdfjsv
                                 }
                                 else if (field.type === 'date') {
                                     formatString = 'DateFormat';
