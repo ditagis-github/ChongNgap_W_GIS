@@ -265,11 +265,7 @@ define(["dojo/on", "dojo/dom-construct",
                                 }).then((res) => __awaiter(this, void 0, void 0, function* () {
                                     return yield res;
                                 }));
-<<<<<<< HEAD
-                                value = field.name == 'MaPhuongXa' ? location['TenXa'] : location['TenHuyen'];
-=======
                                 value = field.name === 'MaPhuongXa' ? location['TenPhuong'] : location['TenHuyen'];
->>>>>>> c9e8389bbd4a8c14e0e35fd2bfa89120b662e3a9
                             }
                             else {
                                 if (field.type === "small-integer" ||
