@@ -3,7 +3,7 @@ define([
     "dojo/dom-construct", "esri/request", "esri/core/watchUtils",
     "esri/widgets/Locate/LocateViewModel",
     "../tools/SimpleDraw",
-    "../editing/Editing",],
+    "../editing/Editing"],
     function (on, domConstruct, esriRequest, watchUtils, LocateViewModel, SimpleDraw, Editing) {
         "use strict";
         class PopupEdit {
@@ -503,6 +503,8 @@ define([
                 else if (this.layer.geometryType === 'point') {
                     let handle = this.view.on('click', (e) => {
                         e.stopPropagation();
+                        attributes['ToaDoX'] =  e.mapPoint.latitude;
+                        attributes['ToaDoY'] = e.mapPoint.longitude;
                         this.updateFeature(e.mapPoint, attributes, notify);
                         handle.remove();
                     });

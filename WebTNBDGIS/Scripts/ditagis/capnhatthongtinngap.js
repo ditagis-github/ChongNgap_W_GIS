@@ -11,11 +11,12 @@
     "esri/widgets/Locate",
     "ditagis/widgets/LayerEditor",
     "ditagis/capnhatthongtin/Popup",
+    "ditagis/tools/LocationPoint",
     "dojo/domReady!"
 ], function (Map, MapView, FeatureLayer, MapImageLayer,
     watchUtils,
     Legend, LayerList, Expand, Print, Locate,
-    LayerEditor,Popup
+    LayerEditor,Popup,LocationPoint
 
 
 ) {
@@ -114,7 +115,9 @@
             var layerEditor = new LayerEditor(view);
             layerEditor.startup();
             layerEditor.on("draw-finish", function (e) {
-            })
+            });
+            var locationPoint = new LocationPoint(view);
+            locationPoint.start();
         });
         mucDoVungNgap_IL.on("layerview-create", (event) => {
             // The LayerView for the layer that emitted this event

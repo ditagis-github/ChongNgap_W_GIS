@@ -14,8 +14,8 @@ define(["require", "exports", "dojo/dom-construct", "dojo/dom-style"], function 
         }
         show(screencoor, string) {
             domStyle.set(this.container, {
-                left: `${screencoor[0] + 30}px`,
-                top: `${screencoor[1]}px`
+                left: `${screencoor[0]}px`,
+                top: `${screencoor[1] + 90}px`
             });
             this.container.innerHTML = string;
             if (!document.body.contains(this.container))

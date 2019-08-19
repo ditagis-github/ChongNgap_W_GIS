@@ -386,6 +386,7 @@
     <Content Include="Areas\Admin\Views\AdminLinkMap\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\AdminLinkMap\Index.cshtml" />
     <Content Include="Areas\Admin\Views\AdminHome\QuanTri.cshtml" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <None Include="DotNet\proxy.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -416,21 +417,34 @@
       <LastGenOutput>DBVideoModel.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\ditagis\bandongap.js" />
+    <Content Include="Scripts\ditagis\capnhatthongtinngap.js" />
+    <Content Include="Scripts\ditagis\capnhatthongtin\Popup.js" />
+    <Content Include="Scripts\ditagis\capnhatthongtin\PopupEditing.js" />
+    <Content Include="Scripts\ditagis\classes\EventListener.js" />
     <Content Include="Scripts\ditagis\configs.js" />
     <Content Include="Scripts\ditagis\core\Base.js" />
     <Content Include="Scripts\ditagis\core\EventListener.js" />
+    <Content Include="Scripts\ditagis\editing\Editing.js" />
     <Content Include="Scripts\ditagis\layers\FeatureLayer.js" />
     <Content Include="Scripts\ditagis\map.js" />
     <Content Include="Scripts\ditagis\maptools\file.js" />
     <Content Include="Scripts\ditagis\maptools\SearchLayer.js" />
+    <Content Include="Scripts\ditagis\support\HightlightGraphic.js" />
+    <Content Include="Scripts\ditagis\tools\DrawingToolManager.js" />
+    <Content Include="Scripts\ditagis\tools\LocationPoint.js" />
+    <Content Include="Scripts\ditagis\tools\SimpleDraw.js" />
+    <Content Include="Scripts\ditagis\toolview\bootstrap.js" />
+    <Content Include="Scripts\ditagis\toolview\Tooltip.js" />
     <Content Include="Scripts\ditagis\widgets\BieuDoDanSo.js" />
     <Content Include="Scripts\ditagis\widgets\BieuDoMua.js" />
     <Content Include="Scripts\ditagis\widgets\BieuDoTrieu.js" />
+    <Content Include="Scripts\ditagis\widgets\LayerEditor.js" />
     <Content Include="Scripts\ditagis\widgets\Popup.js" />
     <Content Include="Scripts\ditagis\widgets\Report.js" />
     <Content Include="Scripts\dojoConfig.js" />
     <Content Include="Scripts\libs\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\libs\ai.0.22.9-build00167.min.js" />
+    <Content Include="Scripts\libs\bootstrap-notify.min.js" />
     <Content Include="Scripts\libs\bootstrap.js" />
     <Content Include="Scripts\libs\bootstrap.min.js" />
     <None Include="Scripts\libs\jquery-1.10.2.intellisense.js" />
@@ -438,6 +452,7 @@
     <Content Include="Scripts\libs\jquery-1.10.2.min.js" />
     <Content Include="Scripts\libs\jquery.js" />
     <None Include="Scripts\libs\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\libs\jquery.min.js" />
     <Content Include="Scripts\libs\jquery.validate.js" />
     <Content Include="Scripts\libs\jquery.validate.min.js" />
     <Content Include="Scripts\libs\jquery.validate.unobtrusive.js" />
@@ -446,6 +461,7 @@
     <Content Include="Scripts\libs\respond.js" />
     <Content Include="Scripts\libs\respond.min.js" />
     <None Include="Scripts\libs\_references.js" />
+    <Content Include="Views\CapNhatThongTinNgap\Index.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -473,7 +489,6 @@
     <Content Include="Areas\Admin\Views\AdminVideos\Index.cshtml" />
     <Content Include="Views\Videos\Index.cshtml" />
     <Content Include="Views\BanDoNgap\Index.cshtml" />
-    <Content Include="Views\CapNhatThongTinNgap\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

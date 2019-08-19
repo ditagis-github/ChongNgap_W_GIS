@@ -257,14 +257,14 @@ define(["dojo/on", "dojo/dom-construct",
                                 if (codeValue)
                                     value = codeValue.name;
                             }
-                            else if ((field.name === 'MaPhuongXa' || field.name === 'MaHuyenTP') && attributes[field.name]) {
+                            else if ((field.name === 'MaPhuongXa' || field.name === 'MaQuanHuyen') && attributes[field.name]) {
                                 let location = yield this.editing.getLocationName(this.view, {
                                     PhuongXa: attributes['MaPhuongXa'],
-                                    HuyenTP: attributes['MaHuyenTP']
+                                    HuyenTP: attributes['MaQuanHuyen']
                                 }).then((res) => __awaiter(this, void 0, void 0, function* () {
                                     return yield res;
                                 }));
-                                value = field.name == 'MaPhuongXa' ? location['TenPhuong'] : location['TenHuyen'];
+                                value = field.name == 'MaPhuongXa' ? location['TenXa'] : location['TenHuyen'];
                             }
                             else {
                                 if (field.type === "small-integer" ||

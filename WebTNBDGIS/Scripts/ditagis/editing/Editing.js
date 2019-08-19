@@ -103,7 +103,7 @@ define(["esri/tasks/QueryTask"], function (QueryTask) {
                 notify.update('type', 'info');
                 notify.update('message', 'Đang lấy thông tin người cập nhật...');
                 notify.update('progress', 10);
-                
+
                 const createdInfo = yield this.getCreatedInfo(this.view);
                 for (let i in createdInfo) {
                     attributes[i] = createdInfo[i];
@@ -127,6 +127,10 @@ define(["esri/tasks/QueryTask"], function (QueryTask) {
                     notify.update('progress', 80);
                     for (let i in locationInfo) {
                         attributes[i] = locationInfo[i];
+                    }
+                    if (graphic.geometry) {
+                        attributes['ToaDoX'] = graphic.geometry.latitude;
+                        attributes['ToaDoY'] = graphic.geometry.longitude;
                     }
                     graphic.attributes = attributes;
                     let edits = {

@@ -511,3 +511,31 @@ table {
 .esri-widget table tr:nth-child(odd) {
     background-color: rgba(76,76,76,0.1);
 }
+.dtg-tooltip-map{
+    background-color: rgb(255, 255, 255);
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(164, 162, 162);
+    font-size: 12px;
+    margin: 1px;
+    padding: 3px 5px;
+}
+.toado-group-widget.input-group.add-on.esri-component {
+    display: inherit;
+}
+input#toado-x,input#toado-y{
+    width: 150px;
+    border-color: #6e6e6e;
+}
+input#zoom-map{
+    width: 100px;
+    border-color: #6e6e6e;
+}
+button.btn.btn-marker {
+    color: #6e6e6e;
+    background-color: #fff;
+    border-color: #6e6e6e;
+}
+.esri-popup__main-container {
+    max-height: 450px !important;
+}
