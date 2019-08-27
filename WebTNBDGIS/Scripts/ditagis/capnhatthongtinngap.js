@@ -16,7 +16,7 @@
     "dojo/domReady!"
 ], function (Map, MapView, FeatureLayer, MapImageLayer,
     watchUtils,
-    Legend, LayerList, Expand, Print, Locate,
+        Legend, LayerList, Expand, Print, Locate, BasemapToggle,
     LayerEditor,Popup,LocationPoint
 
 
